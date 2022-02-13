@@ -1,8 +1,9 @@
 import { gql, useQuery } from "@apollo/client";
 import type { NextPage } from "next";
-import { useSession, signIn, signOut } from "next-auth/react";
 import Head from "next/head";
-import Image from "next/image";
+import Header from "../components/Header";
+import AnimalCard from "../components/AnimalCard";
+import { useSession } from "next-auth/react";
 
 const FETCH_ALL_ANIMALS = gql`
   query {
@@ -16,15 +17,14 @@ const FETCH_ALL_ANIMALS = gql`
       dob
       imageUrl
       breed
+      description
     }
   }
 `;
 
 const Home: NextPage = () => {
-  const { data: session } = useSession();
-  console.log(session);
   const { data, loading, error } = useQuery(FETCH_ALL_ANIMALS);
-
+  const { data: session } = useSession();
   if (loading) return <p>loading</p>;
   if (error)
     return (
@@ -32,7 +32,6 @@ const Home: NextPage = () => {
         <p>ooops there is a problem</p> <p>{error.message}</p>
       </div>
     );
-  console.log(data?.fetchAllAnimals);
   const animals = data?.fetchAllAnimals;
   return (
     <div className="flex flex-col min-h-screen bg-gray-50">
@@ -43,64 +42,30 @@ const Home: NextPage = () => {
       </Head>
       <div className="container flex flex-col mx-auto my-10">
         <h1 className="text-3xl font-medium">Pet Connect</h1>
+        <p className="self-end">Hi, {session?.user.name}!</p>
 
-        <div>
-          {!session ? (
-            <div>
-              <button
-                className=" bg-blue-600 rounded px-2 py-1 text-white"
-                onClick={() => signIn()}
-              >
-                Sign In
-              </button>
-            </div>
-          ) : (
-            <div className="flex items-center">
-              <div>
-                <Image
-                  src={`${session?.user.image}`}
-                  alt={`${session?.user.name}`}
-                  width={45}
-                  height={45}
-                  className="rounded-full"
-                />
-              </div>{" "}
-              <p className="mx-2">Hi, {session?.user.name}</p>
-              <div>
-                <button
-                  className=" flex bg-blue-600 rounded px-2 py-1 text-white"
-                  onClick={() => signOut()}
-                >
-                  Sign Out
-                </button>
-              </div>
-            </div>
-          )}
-        </div>
-        <div>
+        <Header />
+        <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
           {animals &&
-            animals.map((animal: any) => (
-              <div className="flex flex-col bg-purple-50 max-w-md my-2 shadow rounded h-auto">
-                <div className="flex w-full justify-center object-cover">
-                  <Image
-                    src={animal.imageUrl}
-                    alt={`${animal.name}`}
-                    width={400}
-                    height={350}
-                    className="object-contain"
-                  />
-                </div>
-                <div className="flex flex-col p-2">
-                  <p>{animal.species}</p>
-                  <p>{animal.name}</p>
-                  <p>{animal.dob}</p>
-                  <p>{animal.weight} lbs</p>
-                  <p>Color: {animal.color}</p>
-                  <p>Breed: {animal.breed}</p>
-                </div>
-              </div>
+            animals.map((animal: any, key: any) => (
+              <li
+                key={key}
+                className="flex flex-col bg-purple-50 max-w-md my-2 shadow rounded h-auto"
+              >
+                <AnimalCard
+                  image={animal.imageUrl}
+                  species={animal.species}
+                  name={animal.name}
+                  dob={animal.dob}
+                  weight={animal.weight}
+                  breed={animal.breed}
+                  color={animal.color}
+                  id={animal.id}
+                  description={animal.description}
+                />
+              </li>
             ))}
-        </div>
+        </ul>
       </div>
     </div>
   );
