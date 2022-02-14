@@ -3,12 +3,12 @@ import Image from "next/image";
 import React from "react";
 import { Home } from "@styled-icons/boxicons-regular/Home";
 import { AdminPanelSettings } from "@styled-icons/material-outlined/AdminPanelSettings";
-import { Router, useRouter } from "next/router";
+import { useRouter } from "next/router";
 const Header = () => {
   const { data: session } = useSession();
   const router = useRouter();
   return (
-    <div className="flex bg-gray-100 w-full justify-between items-center h-12">
+    <div className="flex shadow rounded-full px-3 bg-gray-200 w-full justify-between items-center h-12 my-2">
       <div className="bg-blue-400 rounded-full p-1 hover:cursor-pointer">
         <div className="w-7" onClick={() => router.push("/")}>
           <Home />
@@ -33,13 +33,15 @@ const Header = () => {
         ) : (
           <div className="flex items-center">
             <div className="flex items-center">
+              <p className="px-2">Hi, {session?.user.name}!</p>
+
               <Image
                 src={`${session?.user.image}`}
                 alt={`${session?.user.name}`}
-                width={45}
-                height={45}
+                width={42}
+                height={42}
                 className="rounded-full hover:cursor-pointer"
-                onClick={() => signOut()}
+                onClick={() => router.push(`/users/${session.id}`)}
               />
             </div>
           </div>

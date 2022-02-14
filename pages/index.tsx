@@ -42,7 +42,6 @@ const Home: NextPage = () => {
       </Head>
       <div className="container flex flex-col mx-auto my-10">
         <h1 className="text-3xl font-medium">Pet Connect</h1>
-        <p className="self-end">Hi, {session?.user.name}!</p>
 
         <Header />
         <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">

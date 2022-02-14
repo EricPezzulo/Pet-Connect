@@ -1,7 +1,8 @@
 import Image from "next/image";
 import { ArrowRight } from "@styled-icons/bootstrap/ArrowRight";
 import { useRouter } from "next/router";
-
+import { SuitHeart } from "@styled-icons/bootstrap/SuitHeart";
+import { SuitHeartFill } from "@styled-icons/bootstrap/SuitHeartFill";
 interface AnimalProps {
   image: string;
   breed: string;
@@ -13,6 +14,12 @@ interface AnimalProps {
   weight: string;
   description: string;
 }
+
+// const ADD_TO_FAVS = gql`
+//   mutation AddToFavs{
+
+//   }
+// `
 
 const AnimalCard = ({
   image,
@@ -26,6 +33,8 @@ const AnimalCard = ({
   description,
 }: AnimalProps) => {
   const router = useRouter();
+
+  const addToFavorites = () => {};
   return (
     <div>
       <div className="max-w-md shadow rounded-b-md bg-gradient-to-tr from-orange-300 via-red-300 to-pink-300 block">
@@ -58,7 +67,15 @@ const AnimalCard = ({
               DOB: <span className="font-normal pl-3">{dob}</span>
             </p>
           </div>
+
           <button
+            type="button"
+            className="opacity-0 group-hover:opacity-100 hover:shadow absolute top-2 right-2 bg-gray-100 hover:bg-gray-300 rounded-full p-2 hover:cursor-pointer duration-200 ease-in-out"
+          >
+            <SuitHeart className="h-7 w-7 text-gray-500 hover:text-pink-500 duration-200" />
+          </button>
+          <button
+            type="button"
             onClick={() => router.push(`/animals/${id}`)}
             className="opacity-0 group-hover:opacity-100 hover:shadow absolute bottom-2 right-2 bg-gray-200 hover:bg-gray-300 rounded-full p-1 hover:cursor-pointer duration-200 ease-in-out"
           >
