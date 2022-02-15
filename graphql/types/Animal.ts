@@ -6,25 +6,38 @@ import {
   objectType,
   stringArg,
 } from "nexus";
+import { User } from "./User";
 
 export const Animal = objectType({
   name: "Animal",
   definition(t) {
-    t.string("id");
-    t.string("species");
-    t.string("name");
-    t.string("dob");
-    t.string("breed");
-    t.string("color");
-    t.string("gender");
-    t.string("weight");
-    t.boolean("childFriendly");
-    t.boolean("dogFriendly");
-    t.boolean("catFriendly");
-    t.boolean("vaccinationsUptoDate");
-    t.string("description");
-    t.string("additionalInfo");
-    t.string("imageUrl");
+    t.string("id"),
+      t.string("species"),
+      t.string("name"),
+      t.string("dob"),
+      t.string("breed"),
+      t.string("color"),
+      t.string("gender"),
+      t.string("weight"),
+      t.boolean("childFriendly"),
+      t.boolean("dogFriendly"),
+      t.boolean("catFriendly"),
+      t.boolean("vaccinationsUptoDate"),
+      t.string("description"),
+      t.string("additionalInfo"),
+      t.string("imageUrl"),
+      t.list.field("favoritedBy", {
+        type: User,
+        async resolve(parent: any, _args: any, context: any) {
+          return await context.prisma.animal
+            .findUnique({
+              where: {
+                id: parent.id,
+              },
+            })
+            .favoritedBy();
+        },
+      });
   },
 });
 

@@ -6,11 +6,11 @@ import { SessionProvider } from "next-auth/react";
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   return (
-    <ApolloProvider client={apolloClient}>
-      <SessionProvider session={session}>
+    <SessionProvider session={session}>
+      <ApolloProvider client={apolloClient}>
         <Component {...pageProps} />
-      </SessionProvider>{" "}
-    </ApolloProvider>
+      </ApolloProvider>
+    </SessionProvider>
   );
 }
 
