@@ -73,11 +73,11 @@ const index = () => {
       <p className="text-xl font-light"> {user.name} </p>
       <div>
         <h3 className="text-2xl">Favorited Animals</h3>
-        <ul className="container flex flex-wrap justify-center md:grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+        <ul className=" flex flex-wrap justify-center md:grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
           {user &&
             user.favoriteAnimals.map((pet: any, key: any) => (
               <li key={key} className="m-2">
-                <div className="max-w-md shadow rounded-b-md bg-gradient-to-tr from-orange-300 via-red-300 to-pink-300 block">
+                <div className="max-w-md h-auto shadow rounded-b-md bg-gradient-to-tr from-orange-300 via-red-300 to-pink-300 block">
                   <Image
                     src={pet.imageUrl}
                     alt={`${pet.name}'s avatar picture`}

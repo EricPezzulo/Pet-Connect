@@ -44,12 +44,12 @@ const Home: NextPage = () => {
         <h1 className="text-3xl font-medium">Pet Connect</h1>
 
         <Header />
-        <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        <ul className="flex flex-wrap justify-center grid-cols-1 md:grid md:grid-cols-2 lg:grid-cols-3 gap-5">
           {animals &&
             animals.map((animal: any, key: any) => (
               <li
                 key={key}
-                className="flex flex-col bg-purple-50 max-w-md my-2 shadow rounded h-auto"
+                className="flex flex-col max-w-md my-2 shadow rounded h-auto"
               >
                 <AnimalCard
                   image={animal.imageUrl}
