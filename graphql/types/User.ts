@@ -54,6 +54,30 @@ export const FetchUser = extendType({
   },
 });
 
+export const UserFavorites = extendType({
+  type: "Query",
+  definition(t: any) {
+    t.list.field("favoriteAnimals", {
+      type: "Animal",
+      args: {
+        email: nonNull(stringArg()),
+      },
+      async resolve(_root: any, _args: any, context: any) {
+        const user = await context.prisma.user.findUnique({
+          where: {
+            email: _args.email,
+          },
+          include: {
+            favoriteAnimals: true,
+          },
+        });
+        if (!user) throw new Error("invalid user");
+        return user.favoriteAnimals;
+      },
+    });
+  },
+});
+
 export const AddToFavorites = extendType({
   type: "Mutation",
   definition(t: any) {
@@ -61,14 +85,16 @@ export const AddToFavorites = extendType({
       type: "Animal",
       args: {
         id: stringArg(),
+        email: stringArg(),
       },
-      async resolve(_root: any, args: any, context: any) {
+      async resolve(_: any, args: any, context: any) {
         const animal = await context.prisma.animal.findUnique({
           where: { id: args.id },
         });
+
         await context.prisma.user.update({
           where: {
-            email: context.user.email,
+            email: args.email,
           },
           data: {
             favoriteAnimals: {
@@ -83,3 +109,35 @@ export const AddToFavorites = extendType({
     });
   },
 });
+
+// export const DeleteFromFavorites = extendType({
+//   type: "Mutation",
+//   definition(t: any) {
+//     t.field("deleteFromFavorites", {
+//       type: "Animal",
+//       args: {
+//         id: nonNull(stringArg()),
+//         email: nonNull(stringArg()),
+//       },
+//       async resolve(_: any, args: any, context: any) {
+//         const animal = await context.prisma.animal.findUnique({
+//           where: { id: args.id },
+//         });
+
+//         await context.prisma.user.delete({
+//           where: {
+//             email: args.email,
+//           },
+//           data: {
+//             favoriteAnimals: {
+//               connect: {
+//                 id: animal.id,
+//               },
+//             },
+//           },
+//         });
+//         return animal;
+//       },
+//     });
+//   },
+// });

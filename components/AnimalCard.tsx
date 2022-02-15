@@ -3,6 +3,9 @@ import { ArrowRight } from "@styled-icons/bootstrap/ArrowRight";
 import { useRouter } from "next/router";
 import { SuitHeart } from "@styled-icons/bootstrap/SuitHeart";
 import { SuitHeartFill } from "@styled-icons/bootstrap/SuitHeartFill";
+import { useSession } from "next-auth/react";
+import { useMutation } from "@apollo/client";
+import { gql } from "apollo-server-micro";
 interface AnimalProps {
   image: string;
   breed: string;
@@ -15,11 +18,34 @@ interface AnimalProps {
   description: string;
 }
 
-// const ADD_TO_FAVS = gql`
-//   mutation AddToFavs{
-
-//   }
-// `
+const ADD_TO_FAVS = gql`
+  mutation AddToFavorites($email: String!, $id: String!) {
+    addToFavorites(email: $email, id: $id) {
+      name
+    }
+  }
+`;
+const FETCH_USER = gql`
+  query FetchUser($userId: String!) {
+    fetchUser(id: $userId) {
+      name
+      id
+      image
+      favoriteAnimals {
+        name
+        imageUrl
+        description
+        dob
+        weight
+        dob
+        breed
+        color
+        species
+        id
+      }
+    }
+  }
+`;
 
 const AnimalCard = ({
   image,
@@ -33,8 +59,19 @@ const AnimalCard = ({
   description,
 }: AnimalProps) => {
   const router = useRouter();
-
-  const addToFavorites = () => {};
+  const { data: session } = useSession();
+  let userId = session?.id;
+  let userEmail = session?.user?.email;
+  const [mutateFavorites] = useMutation(ADD_TO_FAVS);
+  const addToFavs = (e: any) => {
+    mutateFavorites({
+      variables: {
+        email: userEmail,
+        id: id,
+      },
+      refetchQueries: [{ query: FETCH_USER, variables: { userId: userId } }],
+    });
+  };
   return (
     <div>
       <div className="max-w-md shadow rounded-b-md bg-gradient-to-tr from-orange-300 via-red-300 to-pink-300 block">
@@ -71,6 +108,7 @@ const AnimalCard = ({
           <button
             type="button"
             className="opacity-0 group-hover:opacity-100 hover:shadow absolute top-2 right-2 bg-gray-100 hover:bg-gray-300 rounded-full p-2 hover:cursor-pointer duration-200 ease-in-out"
+            onClick={addToFavs}
           >
             <SuitHeart className="h-7 w-7 text-gray-500 hover:text-pink-500 duration-200" />
           </button>

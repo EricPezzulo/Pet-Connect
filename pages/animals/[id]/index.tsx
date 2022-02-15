@@ -32,11 +32,13 @@ const index = () => {
   if (loading) return <p>loading</p>;
   if (error) return <p>oh no ... {error.message}</p>;
   return (
-    <div className="flex flex-col mx-auto items-center justify-center md:max-w-5xl md:container md:justify-start md:items-start my-20">
+    <div className="flex flex-col mx-auto items-center justify-center md:max-w-5xl md:container md:justify-start md:items-start my-10">
       <Head>
         <title>{`${animal.name}`}</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
+      <h1 className="text-3xl font-medium">Pet Connect</h1>
+
       <Header />
       <div className="bg-gray-200">
         <div className="block items-center justify-center max-w-sm rounded-lg">

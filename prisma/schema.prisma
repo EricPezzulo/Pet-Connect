@@ -29,7 +29,7 @@ model Animal {
   vaccinationsUptoDate  Boolean
   description           String
   additionalInfo        String?
-  favoritedBy           User[]   @relation(references:[id])
+  favoritedBy           User[]   // @relation(references:[id])
   // userId                String?
 
 }
@@ -71,7 +71,7 @@ model User {
   image           String?
   accounts        Account[]
   sessions        Session[]
-  favoriteAnimals Animal[] @relation(references: [id])
+  favoriteAnimals Animal[] // @relation(references: [id])
   // animalId        String?
 }
 
