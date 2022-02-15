@@ -16,6 +16,10 @@ export const animals = [
     additionalInfo: "",
     imageUrl:
       "https://post.medicalnewstoday.com/wp-content/uploads/sites/3/2020/02/322868_1100-800x825.jpg",
+    streetAddress: "707 Washington Blvd",
+    city: "Stamford",
+    state: "CT",
+    zipCode: "06901",
   },
   {
     name: "Daisey",
@@ -34,6 +38,10 @@ export const animals = [
     additionalInfo: "",
     imageUrl:
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRy-rjRO4reDCYkdHGLEnoDPacstC_3Zc-KXw&usqp=CAU",
+    streetAddress: "3101 Wisconsin Ave NW",
+    city: "Washington",
+    state: "DC",
+    zipCode: "20016",
   },
   {
     name: "Rose",
@@ -52,6 +60,11 @@ export const animals = [
     additionalInfo: "",
     imageUrl:
       "https://th-thumbnailer.cdn-si-edu.com/zYumlXI3CHb3RIo4LKwcezF78nQ=/1000x750/filters:no_upscale()/https://tf-cmsv2-smithsonianmag-media.s3.amazonaws.com/filer/ad/7b/ad7b3860-ad5f-43dc-800e-af57830cd1d3/labrador.jpg",
+
+    streetAddress: "1 Pleasant Valley Dr",
+    city: "Little Rock",
+    state: "AR",
+    zipCode: "72212",
   },
   {
     name: "Winnie",
@@ -70,5 +83,9 @@ export const animals = [
     additionalInfo: "",
     imageUrl:
       "https://www.akc.org/wp-content/uploads/2017/11/Treeing-Walker-Coonhound.jpg",
+    streetAddress: "3900 S Las Vegas Blvd",
+    city: "Las Vegas",
+    state: "NV",
+    zipCode: "89119",
   },
 ];

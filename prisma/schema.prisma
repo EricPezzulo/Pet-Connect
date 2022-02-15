@@ -29,9 +29,11 @@ model Animal {
   vaccinationsUptoDate  Boolean
   description           String
   additionalInfo        String?
-  favoritedBy           User[]   // @relation(references:[id])
-  // userId                String?
-
+  favoritedBy           User[]   
+  streetAddress         String
+  city                  String
+  zipCode               String
+  state                 String
 }
 
 model Account {

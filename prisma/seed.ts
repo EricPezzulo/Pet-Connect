@@ -21,6 +21,10 @@ async function main() {
       additionalInfo: "",
       imageUrl:
         "https://upload.wikimedia.org/wikipedia/commons/b/bd/Havana_Brown_-_choco.jpg",
+      city: "Thornwood",
+      state: "NY",
+      streetAddress: "454 Swanson Dr",
+      zipCode: "10594",
     },
   });
 

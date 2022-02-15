@@ -60,12 +60,11 @@ const index = () => {
   return (
     <div className="container mx-auto mt-10">
       <Head>
-        <title>{`${session?.user.name}'s Profile`}</title>
+        <title>{`${user.name}'s Profile`}</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
       <h1 className="text-3xl font-medium">Pet Connect</h1>
-
       <Header />
-
       <Image
         src={user.image}
         alt={`${user.name}'s avatar`}
