@@ -1,4 +1,5 @@
 import { extendType, objectType, nonNull, stringArg } from "nexus";
+import { userInfo } from "os";
 import { Animal } from "./Animal";
 
 export const User = objectType({
@@ -110,34 +111,34 @@ export const AddToFavorites = extendType({
   },
 });
 
-// export const DeleteFromFavorites = extendType({
-//   type: "Mutation",
-//   definition(t: any) {
-//     t.field("deleteFromFavorites", {
-//       type: "Animal",
-//       args: {
-//         id: nonNull(stringArg()),
-//         email: nonNull(stringArg()),
-//       },
-//       async resolve(_: any, args: any, context: any) {
-//         const animal = await context.prisma.animal.findUnique({
-//           where: { id: args.id },
-//         });
+export const DeleteFromFavorites = extendType({
+  type: "Mutation",
+  definition(t: any) {
+    t.field("deleteFromFavorites", {
+      type: "Animal",
+      args: {
+        id: stringArg(),
+        email: stringArg(),
+      },
+      async resolve(_: any, args: any, context: any) {
+        const animal = await context.prisma.animal.findUnique({
+          where: { id: args.id },
+        });
 
-//         await context.prisma.user.delete({
-//           where: {
-//             email: args.email,
-//           },
-//           data: {
-//             favoriteAnimals: {
-//               connect: {
-//                 id: animal.id,
-//               },
-//             },
-//           },
-//         });
-//         return animal;
-//       },
-//     });
-//   },
-// });
+        await context.prisma.user.update({
+          where: {
+            email: args.email,
+          },
+          data: {
+            favoriteAnimals: {
+              disconnect: {
+                id: animal.id,
+              },
+            },
+          },
+        });
+        return animal;
+      },
+    });
+  },
+});

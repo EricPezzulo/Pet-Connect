@@ -25,6 +25,7 @@ type Mutation {
   addToFavorites(email: String, id: String): Animal
   createNewAnimalListing(additionalInfo: String, breed: String!, catFriendly: Boolean!, childFriendly: Boolean!, color: String!, description: String!, dob: String!, dogFriendly: Boolean!, gender: String!, imageUrl: String!, name: String!, species: String!, vaccinationsUptoDate: Boolean!, weight: String!): Animal
   deleteAnimal(id: String!): Animal!
+  deleteFromFavorites(email: String, id: String): Animal
 }
 
 type Query {
