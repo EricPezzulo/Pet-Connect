@@ -3,8 +3,6 @@ import { gql, useMutation, useQuery } from "@apollo/client";
 import Image from "next/image";
 import Header from "../../../components/Header";
 import { useSession } from "next-auth/react";
-import { ArrowRight, SuitHeart } from "styled-icons/bootstrap";
-import { useState } from "react";
 import { HeartDislike } from "styled-icons/ionicons-outline";
 import Head from "next/head";
 
