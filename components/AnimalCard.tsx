@@ -73,7 +73,7 @@ const AnimalCard = ({
     });
   };
   return (
-    <div className="block bg-white rounded-b-md">
+    <div className="block rounded-b-md">
       <div className="max-w-md">
         <Image
           src={image}
@@ -84,25 +84,37 @@ const AnimalCard = ({
           className="object-cover"
         />
 
-        <div className="group flex h-full p-3 relative rounded-b-md">
-          <div className="flex flex-col p-2">
-            <p className="text-2xl font-medium">{name}</p>
+        <div className="group flex h-full relative rounded-b-md">
+          <div className="flex flex-col">
+            <p className="text-2xl font-medium pt-4 pl-4">{name}</p>
 
-            <div className="p-2">
+            <div className="flex p-4 border-b border-gray-100">
               <em className="line-clamp-3">"{description}"</em>
             </div>
-            <p className="font-semibold">
-              Weight: <span className="font-normal pl-3">{weight} lbs</span>
-            </p>
-            <p className="font-semibold">
-              Color: <span className="font-normal pl-3">{color}</span>
-            </p>
-            <p className="font-semibold">
-              Breed: <span className="font-normal pl-3">{breed}</span>
-            </p>
-            <p className="font-semibold">
-              DOB: <span className="font-normal pl-3">{dob}</span>
-            </p>
+            <div className="flex flex-col  px-4 py-2">
+            <div className='flex'>
+              <p className="font-semibold w-16">
+                Weight:
+              </p>
+              <p className="font-normal pl-3">{weight} lbs</p>
+            </div>
+            <div className='flex'>
+              <p className="font-semibold w-16">
+                Color:
+              </p>
+              <p className="font-normal pl-3">{color}</p>
+            </div>
+            <div className="flex  ">
+              <p className="font-semibold w-16">
+                Breed:
+              </p><p className="font-normal pl-3">{breed}</p>
+            </div>
+            <div className='flex'>
+              <p className="font-semibold w-16">
+                DOB:
+              </p><p className="font-normal pl-3">{dob}</p>
+            </div>
+            </div>
           </div>
 
           <button

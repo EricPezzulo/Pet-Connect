@@ -49,7 +49,7 @@ const Home: NextPage = () => {
             animals.map((animal: any, key: any) => (
               <li
                 key={key}
-                className="flex flex-col max-w-md my-2 shadow rounded h-auto"
+                className="flex flex-col max-w-md my-2 shadow bg-white rounded h-auto"
               >
                 <AnimalCard
                   image={animal.imageUrl}
