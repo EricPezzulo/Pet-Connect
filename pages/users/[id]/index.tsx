@@ -5,6 +5,7 @@ import Header from "../../../components/Header";
 import { useSession } from "next-auth/react";
 import { HeartDislike } from "styled-icons/ionicons-outline";
 import Head from "next/head";
+import { ArrowRight } from "styled-icons/bootstrap";
 
 const FETCH_USER = gql`
   query FetchUser($userId: String!) {
@@ -58,8 +59,8 @@ const index = () => {
   let user = data.fetchUser[0];
   return (
     <div className="container mx-auto mt-10">
-      <Head> 
-      <title>{`${session?.user.name}'s Profile`}</title>
+      <Head>
+        <title>{`${session?.user.name}'s Profile`}</title>
       </Head>
       <h1 className="text-3xl font-medium">Pet Connect</h1>
 
