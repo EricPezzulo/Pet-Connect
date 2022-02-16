@@ -4,7 +4,7 @@ import Head from "next/head";
 import Image from "next/image";
 import Header from "../../../components/Header";
 import { useEffect, useState } from "react";
-import ReactMapboxGl, { Marker } from "react-mapbox-gl";
+import ReactMapboxGl, { Feature, Layer, Marker } from "react-mapbox-gl";
 import { LocationPin } from "@styled-icons/entypo/LocationPin";
 import { Location } from "@styled-icons/evil/Location";
 const FETCH_ANIMAL = gql`
@@ -36,8 +36,8 @@ const Map = ReactMapboxGl({
 const index = () => {
   const router = useRouter();
   let animalId = router.query.id;
-  const [lat, setLat] = useState(41.128733);
-  const [lng, setLng] = useState(-73.781535);
+  const [lat, setLat] = useState(41.114538);
+  const [lng, setLng] = useState(-73.428362);
   const { data, loading, error } = useQuery(FETCH_ANIMAL, {
     variables: { animalId },
   });
@@ -59,7 +59,7 @@ const index = () => {
   if (error) return <p>oh no ... {error.message}</p>;
 
   return (
-    <div className="container mx-auto my-10">
+    <div className="container items-center flex flex-col mx-auto my-10">
       <Head>
         <title>{`${animal.name}`}</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
@@ -70,17 +70,17 @@ const index = () => {
       </Head>
       <h1 className="text-3xl font-medium">Pet Connect</h1>
       <Header />
-      <div className="block items-center justify-center max-w-sm rounded-lg">
-        <div>
+      <div className="flex  mt-10 flex-col w-full justify-center max-w-lg rounded-lg">
+        <div className="flex">
           <Image
             src={animal.imageUrl}
             alt={`${animal.name}'s avatar`}
-            width={450}
-            height={400}
+            width={600}
+            height={600}
             className="object-cover"
           />
         </div>
-        <div className="flex flex-col p-4">
+        <div className="flex flex-col p-4 text-left">
           <p className="text-lg font-light">
             <span className="text-blue-500 font-medium text-lg">Name: </span>
             {animal.name}
@@ -128,23 +128,32 @@ const index = () => {
           {animal.zipCode}
         </p>
       </div>
-
-      <Map
-        style="mapbox://styles/mapbox/streets-v11"
-        center={[lng, lat]}
-        containerStyle={{
-          height: "400px",
-          width: "600px",
-        }}
-        zoom={[15]}
-      >
-        <Marker coordinates={[lng, lat]} anchor="bottom">
-          <div className="w-12 text-red-500">
-            <LocationPin />
-            <p className="flex w-16">{`${animal.name}'s location`}</p>
-          </div>
-        </Marker>
-      </Map>
+      {lng && lat && (
+        <Map
+          className="rounded"
+          style="mapbox://styles/mapbox/streets-v11"
+          center={[lng, lat]}
+          containerStyle={{
+            height: "400px",
+            width: "600px",
+          }}
+          zoom={[15]}
+        >
+          <Layer
+            type="symbol"
+            id="marker"
+            layout={{ "icon-image": "marker-15" }}
+          >
+            <Feature coordinates={[lng, lat]} />
+          </Layer>
+          <Marker coordinates={[lng, lat]} anchor="bottom">
+            <div className="w-12 text-red-500">
+              <LocationPin />
+              <p className="flex w-16">{`${animal.name}'s location`}</p>
+            </div>
+          </Marker>
+        </Map>
+      )}
     </div>
   );
 };
