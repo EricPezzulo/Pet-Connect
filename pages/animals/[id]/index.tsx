@@ -9,8 +9,9 @@ import { LocationPin } from "@styled-icons/entypo/LocationPin";
 import { Location } from "@styled-icons/evil/Location";
 import { SuitHeart } from "styled-icons/bootstrap";
 import { HeartDislike } from "styled-icons/ionicons-outline";
-
 import { useSession } from "next-auth/react";
+import ReCAPTCHA from "react-google-recaptcha";
+
 const FETCH_ANIMAL = gql`
   query FetchAnimal($animalId: String!) {
     fetchAnimal(id: $animalId) {
@@ -130,10 +131,29 @@ const index = () => {
   const favoriteAnimals = userData?.fetchUser[0].favoriteAnimals.map(
     (fav: any) => fav.id
   );
+  const [contactUsMsg, setContactUsMsg] = useState();
+  const [captchaValue, setCaptchaValue] = useState();
+  const captchaChange = (value: any) => {
+    setCaptchaValue(value);
+    console.log(value);
+  };
+  const submitMessage = () => {
+    if (captchaValue) {
+      // send contactUsMsg somwhere
+      if (!contactUsMsg) {
+        return alert("please type a message");
+      }
+
+      alert(`${captchaValue} \n \n Messge: ${contactUsMsg}`);
+      setContactUsMsg("");
+    } else {
+      alert("complete captcha");
+      return null;
+    }
+  };
 
   if (loading) return <p>loading</p>;
   if (error) return <p>oh no ... {error.message}</p>;
-  console.log(favoriteAnimals);
   return (
     <div className="items-center flex flex-col min-h-screen">
       <div className="container flex flex-col flex-2 pb-4">
@@ -148,7 +168,7 @@ const index = () => {
             rel="stylesheet"
           />
         </Head>
-
+        <h2 className="text-3xl self-center py-5">PetConnect</h2>
         <Header />
         <div className="flex mt-10 min-h-fit max-w-5xl  w-full">
           <div className="flex relative">
@@ -237,13 +257,13 @@ const index = () => {
                 Where is {animal.name}?
               </p>
               <div className="flex -ml-2 items-center self-start">
-                <p className="text-lg flex font-light pr-2">
+                <div className="text-lg flex font-light pr-2">
                   <div className="text-blue-500 w-8">
                     <Location />
                   </div>
                   {animal.streetAddress}, {animal.city}, {animal.state},{" "}
                   {animal.zipCode}
-                </p>
+                </div>
               </div>
             </div>
             {lng && lat && (
@@ -282,17 +302,24 @@ const index = () => {
         <div className="flex flex-col w-full justify-center">
           <div className="flex justify-center">
             <textarea
-              className="rounded bg-purple-200 outline-none p-2 placeholder:text-purple-600"
-              style={{ resize: "none" }}
-              name=""
-              id=""
+              className="rounded bg-purple-200 outline-none p-2 resize-none placeholder:text-purple-600"
               cols={50}
               rows={5}
-              placeholder="Write your message here"
+              onChange={(e: any) => setContactUsMsg(e.target.value)}
+              // value={contactUsMsg}
+              placeholder={`Write your message here 
+               \n Don't forget to include your contact information`}
             ></textarea>
           </div>
           <div className="flex items-center justify-center py-4">
-            <button className="rounded-md text-white bg-purple-700 px-2 py-1">
+            <ReCAPTCHA
+              sitekey="6LfVC4MeAAAAAPiHQZwX4e8tD39IAOLVdeantXd9"
+              onChange={captchaChange}
+            />
+            <button
+              onClick={submitMessage}
+              className="rounded-md text-white bg-purple-700 px-2 py-1"
+            >
               Sumbit
             </button>
           </div>
