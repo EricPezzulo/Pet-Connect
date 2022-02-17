@@ -8,13 +8,13 @@ const Header = () => {
   const { data: session } = useSession();
   const router = useRouter();
   return (
-    <div className="flex shadow rounded-full px-3 bg-gray-200 w-full justify-between items-center h-12 my-2">
-      <div className="bg-blue-400 rounded-full p-1 hover:cursor-pointer">
+    <div className="flex shadow rounded-full px-3 bg-purple-100 w-full justify-between items-center h-12 my-2">
+      <div className="bg-purple-300 rounded-full p-1 hover:cursor-pointer">
         <div className="w-7" onClick={() => router.push("/")}>
           <Home />
         </div>
       </div>
-      <div className="bg-blue-400 rounded-full p-1 hover:cursor-pointer">
+      <div className="bg-purple-300 rounded-full p-1 hover:cursor-pointer">
         <div className="w-7">
           <AdminPanelSettings />
         </div>
@@ -24,7 +24,7 @@ const Header = () => {
         {!session ? (
           <div>
             <button
-              className=" bg-blue-600 rounded px-2 py-1 text-white"
+              className=" bg-purple-600 rounded px-2 py-1 text-white"
               onClick={() => signIn()}
             >
               Sign In

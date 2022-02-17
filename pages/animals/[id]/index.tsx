@@ -1,4 +1,4 @@
-import { gql, useQuery } from "@apollo/client";
+import { gql, useMutation, useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
 import Head from "next/head";
 import Image from "next/image";
@@ -7,6 +7,10 @@ import { useEffect, useState } from "react";
 import ReactMapboxGl, { Feature, Layer, Marker } from "react-mapbox-gl";
 import { LocationPin } from "@styled-icons/entypo/LocationPin";
 import { Location } from "@styled-icons/evil/Location";
+import { SuitHeart } from "styled-icons/bootstrap";
+import { HeartDislike } from "styled-icons/ionicons-outline";
+
+import { useSession } from "next-auth/react";
 const FETCH_ANIMAL = gql`
   query FetchAnimal($animalId: String!) {
     fetchAnimal(id: $animalId) {
@@ -15,6 +19,7 @@ const FETCH_ANIMAL = gql`
       name
       breed
       gender
+      description
       imageUrl
       city
       state
@@ -28,6 +33,41 @@ const FETCH_ANIMAL = gql`
     }
   }
 `;
+const FETCH_USER = gql`
+  query FetchUser($userId: String!) {
+    fetchUser(id: $userId) {
+      name
+      id
+      image
+      favoriteAnimals {
+        name
+        imageUrl
+        description
+        dob
+        weight
+        dob
+        breed
+        color
+        species
+        id
+      }
+    }
+  }
+`;
+const DEL_FROM_FAVS = gql`
+  mutation DeleteFromFavorites($email: String!, $id: String!) {
+    deleteFromFavorites(email: $email, id: $id) {
+      name
+    }
+  }
+`;
+const ADD_TO_FAVS = gql`
+  mutation AddToFavorites($email: String!, $id: String!) {
+    addToFavorites(email: $email, id: $id) {
+      name
+    }
+  }
+`;
 const Map = ReactMapboxGl({
   accessToken:
     "pk.eyJ1IjoiZXJpY3Blenp1bG8iLCJhIjoiY2twdHhibm9tMHNpaTJubzZ2eGd6MzVxbSJ9.SXICSGjcz4EMd3z_c1QJtA",
@@ -35,9 +75,37 @@ const Map = ReactMapboxGl({
 
 const index = () => {
   const router = useRouter();
+  const { data: session } = useSession();
+  let userId = session?.id;
   let animalId = router.query.id;
   const [lat, setLat] = useState(41.114538);
   const [lng, setLng] = useState(-73.428362);
+  const [deleteFavorites] = useMutation(DEL_FROM_FAVS);
+  const deleteFromFavs = async (id: any) => {
+    await deleteFavorites({
+      variables: {
+        email: userEmail,
+        id: animalId,
+      },
+      refetchQueries: [{ query: FETCH_USER, variables: { userId: userId } }],
+    });
+    alert(`You UNFAVORITED ${animal.name}!`);
+  };
+  const addToFavs = (e: any) => {
+    if (!session) {
+      return alert("you need to be loggin in to use this feature");
+    }
+    mutateFavorites({
+      variables: {
+        email: userEmail,
+        id: animal.id,
+      },
+      refetchQueries: [{ query: FETCH_USER, variables: { userId: userId } }],
+    });
+    alert(`You just favorited ${animal.name} :)`);
+  };
+  let userEmail = session?.user?.email;
+  const [mutateFavorites] = useMutation(ADD_TO_FAVS);
   const { data, loading, error } = useQuery(FETCH_ANIMAL, {
     variables: { animalId },
   });
@@ -54,59 +122,101 @@ const index = () => {
     };
     getCoordinates();
   });
+  const { data: userData } = useQuery(FETCH_USER, {
+    variables: {
+      userId,
+    },
+  });
+  const favoriteAnimals = userData?.fetchUser[0].favoriteAnimals.map(
+    (fav: any) => fav.id
+  );
 
   if (loading) return <p>loading</p>;
   if (error) return <p>oh no ... {error.message}</p>;
-
+  console.log(favoriteAnimals);
   return (
-    <div className="container items-center flex flex-col mx-auto my-10">
-      <Head>
-        <title>{`${animal.name}`}</title>
-        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-        <link
-          href="https://api.mapbox.com/mapbox-gl-js/v1.10.1/mapbox-gl.css"
-          rel="stylesheet"
-        />
-      </Head>
-      <h1 className="text-3xl font-medium">Pet Connect</h1>
-      <Header />
-      <div className="flex  mt-10 flex-col w-full justify-center max-w-lg rounded-lg">
-        <div className="flex">
-          <Image
-            src={animal.imageUrl}
-            alt={`${animal.name}'s avatar`}
-            width={600}
-            height={600}
-            className="object-cover"
+    <div className="items-center flex flex-col min-h-screen">
+      <div className="container flex flex-col flex-2 pb-4">
+        <Head>
+          <title>{`${animal.name}`}</title>
+          <meta
+            name="viewport"
+            content="initial-scale=1.0, width=device-width"
           />
-        </div>
-        <div className="flex flex-col p-4 text-left">
-          <p className="text-lg font-light">
-            <span className="text-blue-500 font-medium text-lg">Name: </span>
-            {animal.name}
-          </p>
-          <p className="text-lg font-light">
-            <span className="text-blue-500 font-medium text-lg">Breed: </span>
-            {animal.breed}
-          </p>
-          <p className="text-lg font-light">
-            <span className="text-blue-500 font-medium text-lg">ID: </span>
-            {animal.id}
-          </p>
-          <p
-            className={
-              animal.gender === "Male"
-                ? `text-lg font-medium text-blue-500`
-                : `text-pink-500`
-            }
-          >
-            <span className="text-red-700 font-medium text-lg">Gender: </span>
-            {animal.gender}
-          </p>
+          <link
+            href="https://api.mapbox.com/mapbox-gl-js/v1.10.1/mapbox-gl.css"
+            rel="stylesheet"
+          />
+        </Head>
+
+        <Header />
+        <div className="flex mt-10 min-h-fit max-w-5xl  w-full">
+          <div className="flex relative">
+            <Image
+              src={animal.imageUrl}
+              alt={`${animal.name}'s avatar`}
+              width={600}
+              height={500}
+              className="object-cover"
+            />
+            {/* <div className="absolute top-2 right-2 w-10 h-10 p-2 bg-gray-200 flex rounded-full opacity-40 text-gray-400 hover:opacity-100 duration-150 hover:cursor-pointer items-center justify-center">
+              <SuitHeart />
+            </div> */}
+
+            {!favoriteAnimals?.includes(animal.id) ? (
+              <button
+                type="button"
+                className="opacity-50 hover:shadow absolute top-2 right-2 bg-gray-200 hover:bg-gray-300 rounded-full p-2 hover:cursor-pointer duration-200 ease-in-out hover:placeholder-opacity-100"
+                onClick={addToFavs}
+                title={`Add ${animal.name} to Favorites`}
+              >
+                {" "}
+                <SuitHeart className="h-7 w-7 text-gray-500 hover:text-pink-500 duration-200" />
+              </button>
+            ) : (
+              <button
+                type="button"
+                className="opacity-50 hover:opacity-100 hover:shadow absolute top-2 right-2 bg-gray-200 hover:bg-gray-300 rounded-full p-2 hover:cursor-pointer duration-200 ease-in-out"
+                onClick={() => deleteFromFavs(animal)}
+                title={`Remove ${animal.name} from Favorites`}
+              >
+                <HeartDislike className="h-7 w-7 text-gray-500 hover:text-pink-500 duration-200" />
+              </button>
+            )}
+          </div>
+          <div className="flex flex-col p-4 text-left items-start justify-center">
+            <p className="text-2xl font-light">
+              <span className="text-blue-500 text-2xl font-medium">Name: </span>
+              {animal.name}
+            </p>
+            <p className="text-2xl font-light">
+              <span className="text-blue-500 font-medium text-2xl">
+                Breed:{" "}
+              </span>
+              {animal.breed}
+            </p>
+            <p className="text-2xl font-light">
+              <span className="text-blue-500 font-medium text-2xl">ID: </span>
+              {animal.id}
+            </p>
+            <p
+              className={
+                animal.gender === "Male"
+                  ? `text-2xl font-medium text-blue-500`
+                  : `text-pink-500 text-2xl`
+              }
+            >
+              <span className="text-red-700 font-medium text-2xl">
+                Gender:{" "}
+              </span>
+              {animal.gender}
+            </p>
+            <p className=" text-2xl font-light w-96">{animal.description}</p>
+          </div>
         </div>
       </div>
 
-      {animal.favoritedBy.length > 0 && (
+      {/* {animal.favoritedBy.length > 0 && (
         <div className="flex items-center ">
           <h3 className="text-2xl">Favorited By:</h3>
           <Image
@@ -117,43 +227,80 @@ const index = () => {
             className="object-cover rounded-full"
           />
         </div>
-      )}
-      <p className="text-xl font-light">Where is {animal.name}?</p>
-      <div className="flex items-center">
-        <div className="text-blue-500 w-8">
-          <Location />
-        </div>
-        <p className="text-lg font-light">
-          {animal.streetAddress}, {animal.city}, {animal.state},{" "}
-          {animal.zipCode}
-        </p>
-      </div>
-      {lng && lat && (
-        <Map
-          className="rounded"
-          style="mapbox://styles/mapbox/streets-v11"
-          center={[lng, lat]}
-          containerStyle={{
-            height: "400px",
-            width: "600px",
-          }}
-          zoom={[15]}
-        >
-          <Layer
-            type="symbol"
-            id="marker"
-            layout={{ "icon-image": "marker-15" }}
-          >
-            <Feature coordinates={[lng, lat]} />
-          </Layer>
-          <Marker coordinates={[lng, lat]} anchor="bottom">
-            <div className="w-12 text-red-500">
-              <LocationPin />
-              <p className="flex w-16">{`${animal.name}'s location`}</p>
+      )} */}
+
+      <div className="flex flex-2 items-center  justify-center w-full bg-purple-100 py-5">
+        <div className="2xl:container flex max-w-5xl">
+          <div className="flex h-auto 2xl:w-full justify-center 2xl:pr-5 2xl:justify-between">
+            <div>
+              <p className="text-2xl self-start font-light mt-4">
+                Where is {animal.name}?
+              </p>
+              <div className="flex -ml-2 items-center self-start">
+                <p className="text-lg flex font-light pr-2">
+                  <div className="text-blue-500 w-8">
+                    <Location />
+                  </div>
+                  {animal.streetAddress}, {animal.city}, {animal.state},{" "}
+                  {animal.zipCode}
+                </p>
+              </div>
             </div>
-          </Marker>
-        </Map>
-      )}
+            {lng && lat && (
+              <Map
+                className="rounded self-start"
+                style="mapbox://styles/mapbox/streets-v11"
+                center={[lng, lat]}
+                containerStyle={{
+                  height: "400px",
+                  width: "600px",
+                }}
+                zoom={[15]}
+              >
+                <Layer
+                  type="symbol"
+                  id="marker"
+                  layout={{ "icon-image": "marker-15" }}
+                >
+                  <Feature coordinates={[lng, lat]} />
+                </Layer>
+                <Marker coordinates={[lng, lat]} anchor="bottom">
+                  <div className="w-12 text-red-500">
+                    <LocationPin />
+                    <p className="flex w-16">{`${animal.name}'s location`}</p>
+                  </div>
+                </Marker>
+              </Map>
+            )}
+          </div>
+        </div>
+      </div>
+      <div className="flex w-full flex-1 flex-col bg-purple-400 items-center">
+        <h3 className="text-white font-;light text-3xl py-5">
+          Contact Us about {animal.name}
+        </h3>
+        <div className="flex flex-col w-full justify-center">
+          <div className="flex justify-center">
+            <textarea
+              className="rounded bg-purple-200 outline-none p-2 placeholder:text-purple-600"
+              style={{ resize: "none" }}
+              name=""
+              id=""
+              cols={50}
+              rows={5}
+              placeholder="Write your message here"
+            ></textarea>
+          </div>
+          <div className="flex items-center justify-center py-4">
+            <button className="rounded-md text-white bg-purple-700 px-2 py-1">
+              Sumbit
+            </button>
+          </div>
+        </div>
+      </div>
+      <footer className="flex items-center justify-center w-full border-t-2 border-purple-800 h-14 bg-purple-600">
+        <p className="text-lg font-medium text-white">PetConnect &reg;</p>
+      </footer>
     </div>
   );
 };
