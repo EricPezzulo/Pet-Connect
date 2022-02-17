@@ -77,6 +77,13 @@ model User {
   // animalId        String?
 }
 
+model Email {
+  id              String    @id @default(cuid())
+  emailContent    String    
+  subject         String
+  recipient       String
+}
+
 model VerificationToken {
   identifier String
   token      String   @unique

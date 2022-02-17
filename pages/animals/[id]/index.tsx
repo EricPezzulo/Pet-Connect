@@ -34,6 +34,23 @@ const FETCH_ANIMAL = gql`
     }
   }
 `;
+const SEND_EMAIL = gql`
+  mutation SendEmail(
+    $recipient: String!
+    $emailContent: String!
+    $subject: String!
+  ) {
+    sendEmail(
+      recipient: $recipient
+      emailContent: $emailContent
+      subject: $subject
+    ) {
+      subject
+      emailContent
+      recipient
+    }
+  }
+`;
 const FETCH_USER = gql`
   query FetchUser($userId: String!) {
     fetchUser(id: $userId) {
@@ -81,7 +98,9 @@ const index = () => {
   let animalId = router.query.id;
   const [lat, setLat] = useState(41.114538);
   const [lng, setLng] = useState(-73.428362);
+
   const [deleteFavorites] = useMutation(DEL_FROM_FAVS);
+  const [sendMail] = useMutation(SEND_EMAIL);
   const deleteFromFavs = async (id: any) => {
     await deleteFavorites({
       variables: {
@@ -111,6 +130,11 @@ const index = () => {
     variables: { animalId },
   });
   let animal = data?.fetchAnimal[0];
+  const [newEmail, setNewEmail] = useState({
+    recipient: "",
+    emailContent: "",
+    subject: "",
+  });
   let address = animal?.streetAddress;
   let newAddr = address ? address.replace(/[^A-Z0-9]/gi, "%20") : address;
   useEffect(() => {
@@ -131,21 +155,27 @@ const index = () => {
   const favoriteAnimals = userData?.fetchUser[0].favoriteAnimals.map(
     (fav: any) => fav.id
   );
-  const [contactUsMsg, setContactUsMsg] = useState();
-  const [captchaValue, setCaptchaValue] = useState();
+  const [captchaValue, setCaptchaValue] = useState("");
   const captchaChange = (value: any) => {
     setCaptchaValue(value);
     console.log(value);
   };
-  const submitMessage = () => {
+
+  const submitMessage = (e: any) => {
+    e.preventDefault();
     if (captchaValue) {
-      // send contactUsMsg somwhere
-      if (!contactUsMsg) {
+      if (!newEmail.emailContent) {
         return alert("please type a message");
       }
-
-      alert(`${captchaValue} \n \n Messge: ${contactUsMsg}`);
-      setContactUsMsg("");
+      sendMail({
+        variables: {
+          emailContent: newEmail.emailContent,
+          subject: `Inquirey about ${animal.name}`,
+          recipient: session?.user?.email,
+        },
+      });
+      alert(`${captchaValue} \n \n Messge: ${newEmail.emailContent}`);
+      setNewEmail({ ...newEmail, emailContent: "" });
     } else {
       alert("complete captcha");
       return null;
@@ -305,8 +335,10 @@ const index = () => {
               className="rounded bg-purple-200 outline-none p-2 resize-none placeholder:text-purple-600"
               cols={50}
               rows={5}
-              onChange={(e: any) => setContactUsMsg(e.target.value)}
-              // value={contactUsMsg}
+              onChange={(e: any) =>
+                setNewEmail({ ...newEmail, emailContent: e.target.value })
+              }
+              value={newEmail.emailContent}
               placeholder={`Write your message here 
                \n Don't forget to include your contact information`}
             ></textarea>

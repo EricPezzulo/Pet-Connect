@@ -1,5 +1,4 @@
 import { extendType, objectType, nonNull, stringArg } from "nexus";
-import { userInfo } from "os";
 import { Animal } from "./Animal";
 
 export const User = objectType({
