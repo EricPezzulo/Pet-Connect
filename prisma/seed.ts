@@ -25,6 +25,7 @@ async function main() {
       state: "NY",
       streetAddress: "454 Swanson Dr",
       zipCode: "10594",
+      contactEmail: "eric.pezzulo@gmail.com"
     },
   });
 

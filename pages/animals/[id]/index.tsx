@@ -11,6 +11,7 @@ import { SuitHeart } from "styled-icons/bootstrap";
 import { HeartDislike } from "styled-icons/ionicons-outline";
 import { useSession } from "next-auth/react";
 import ReCAPTCHA from "react-google-recaptcha";
+import Layout from "../../../components/Layout";
 
 const FETCH_ANIMAL = gql`
   query FetchAnimal($animalId: String!) {
@@ -26,6 +27,7 @@ const FETCH_ANIMAL = gql`
       state
       zipCode
       streetAddress
+      contactEmail
       favoritedBy {
         name
         email
@@ -171,7 +173,7 @@ const index = () => {
         variables: {
           emailContent: newEmail.emailContent,
           subject: `Inquirey about ${animal.name}`,
-          recipient: session?.user?.email,
+          recipient: animal.contactEmail,
         },
       });
       alert(`${captchaValue} \n \n Messge: ${newEmail.emailContent}`);
@@ -185,8 +187,9 @@ const index = () => {
   if (loading) return <p>loading</p>;
   if (error) return <p>oh no ... {error.message}</p>;
   return (
-    <div className="items-center flex flex-col min-h-screen">
-      <div className="container flex flex-col flex-2 pb-4">
+    <div className="flex flex-col min-h-screen">
+      <Layout>
+        <div className="flex items-center flex-col flex-2 pb-4">
         <Head>
           <title>{`${animal.name}`}</title>
           <meta
@@ -198,9 +201,8 @@ const index = () => {
             rel="stylesheet"
           />
         </Head>
-        <h2 className="text-3xl self-center py-5">PetConnect</h2>
-        <Header />
-        <div className="flex mt-10 min-h-fit max-w-5xl  w-full">
+
+        <div className="flex mt-10 min-h-fit container w-full">
           <div className="flex relative">
             <Image
               src={animal.imageUrl}
@@ -266,100 +268,85 @@ const index = () => {
         </div>
       </div>
 
-      {/* {animal.favoritedBy.length > 0 && (
-        <div className="flex items-center ">
-          <h3 className="text-2xl">Favorited By:</h3>
-          <Image
-            src={animal.favoritedBy[0].image}
-            alt={`${animal.favoritedBy[0].name}'s avatar`}
-            width={60}
-            height={60}
-            className="object-cover rounded-full"
-          />
-        </div>
-      )} */}
-
-      <div className="flex flex-2 items-center  justify-center w-full bg-purple-100 py-5">
-        <div className="2xl:container flex max-w-5xl">
-          <div className="flex h-auto 2xl:w-full justify-center 2xl:pr-5 2xl:justify-between">
-            <div>
-              <p className="text-2xl self-start font-light mt-4">
-                Where is {animal.name}?
-              </p>
-              <div className="flex -ml-2 items-center self-start">
-                <div className="text-lg flex font-light pr-2">
-                  <div className="text-blue-500 w-8">
-                    <Location />
+        <div className="flex flex-2 items-center  justify-center w-full bg-purple-100 py-5">
+          <div className="2xl:container flex max-w-5xl">
+            <div className="flex h-auto 2xl:w-full justify-center 2xl:pr-5 2xl:justify-between">
+              <div>
+                <p className="text-2xl self-start font-light mt-4">
+                  Where is {animal.name}?
+                </p>
+                <div className="flex -ml-2 items-center self-start">
+                  <div className="text-lg flex font-light pr-2">
+                    <div className="text-blue-500 w-8">
+                      <Location />
+                    </div>
+                    {animal.streetAddress}, {animal.city}, {animal.state},{" "}
+                    {animal.zipCode}
                   </div>
-                  {animal.streetAddress}, {animal.city}, {animal.state},{" "}
-                  {animal.zipCode}
                 </div>
               </div>
-            </div>
-            {lng && lat && (
-              <Map
-                className="rounded self-start"
-                style="mapbox://styles/mapbox/streets-v11"
-                center={[lng, lat]}
-                containerStyle={{
-                  height: "400px",
-                  width: "600px",
-                }}
-                zoom={[15]}
-              >
-                <Layer
-                  type="symbol"
-                  id="marker"
-                  layout={{ "icon-image": "marker-15" }}
+              {lng && lat && (
+                <Map
+                  className="rounded self-start"
+                  style="mapbox://styles/mapbox/streets-v11"
+                  center={[lng, lat]}
+                  containerStyle={{
+                    height: "400px",
+                    width: "600px",
+                  }}
+                  zoom={[15]}
                 >
-                  <Feature coordinates={[lng, lat]} />
-                </Layer>
-                <Marker coordinates={[lng, lat]} anchor="bottom">
-                  <div className="w-12 text-red-500">
-                    <LocationPin />
-                    <p className="flex w-16">{`${animal.name}'s location`}</p>
-                  </div>
-                </Marker>
-              </Map>
-            )}
+                  <Layer
+                    type="symbol"
+                    id="marker"
+                    layout={{ "icon-image": "marker-15" }}
+                  >
+                    <Feature coordinates={[lng, lat]} />
+                  </Layer>
+                  <Marker coordinates={[lng, lat]} anchor="bottom">
+                    <div className="w-12 text-red-500">
+                      <LocationPin />
+                      <p className="flex w-16">{`${animal.name}'s location`}</p>
+                    </div>
+                  </Marker>
+                </Map>
+              )}
+            </div>
           </div>
         </div>
-      </div>
-      <div className="flex w-full flex-1 flex-col bg-purple-400 items-center">
-        <h3 className="text-white font-;light text-3xl py-5">
-          Contact Us about {animal.name}
-        </h3>
-        <div className="flex flex-col w-full justify-center">
-          <div className="flex justify-center">
-            <textarea
-              className="rounded bg-purple-200 outline-none p-2 resize-none placeholder:text-purple-600"
-              cols={50}
-              rows={5}
-              onChange={(e: any) =>
-                setNewEmail({ ...newEmail, emailContent: e.target.value })
-              }
-              value={newEmail.emailContent}
-              placeholder={`Write your message here 
+        <div className="flex w-full flex-1 flex-col bg-purple-400 items-center">
+          <h3 className="text-white font-;light text-3xl py-5">
+            Contact Us about {animal.name}
+          </h3>
+          <div className="flex flex-col w-full justify-center">
+            <div className="flex justify-center">
+              <textarea
+                className="rounded bg-purple-200 outline-none p-2 resize-none placeholder:text-purple-600"
+                cols={50}
+                rows={5}
+                onChange={(e: any) =>
+                  setNewEmail({ ...newEmail, emailContent: e.target.value })
+                }
+                value={newEmail.emailContent}
+                placeholder={`Write your message here 
                \n Don't forget to include your contact information`}
-            ></textarea>
-          </div>
-          <div className="flex items-center justify-center py-4">
-            <ReCAPTCHA
-              sitekey="6LfVC4MeAAAAAPiHQZwX4e8tD39IAOLVdeantXd9"
-              onChange={captchaChange}
-            />
-            <button
-              onClick={submitMessage}
-              className="rounded-md text-white bg-purple-700 px-2 py-1"
-            >
-              Sumbit
-            </button>
+              ></textarea>
+            </div>
+            <div className="flex items-center justify-center py-4">
+              <ReCAPTCHA
+                sitekey="6LfVC4MeAAAAAPiHQZwX4e8tD39IAOLVdeantXd9"
+                onChange={captchaChange}
+              />
+              <button
+                onClick={submitMessage}
+                className="rounded-md text-white bg-purple-700 px-2 py-1"
+              >
+                Sumbit
+              </button>
+            </div>
           </div>
         </div>
-      </div>
-      <footer className="flex items-center justify-center w-full border-t-2 border-purple-800 h-14 bg-purple-600">
-        <p className="text-lg font-medium text-white">PetConnect &reg;</p>
-      </footer>
+         </Layout>
     </div>
   );
 };

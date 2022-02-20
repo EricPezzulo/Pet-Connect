@@ -30,6 +30,7 @@ export const Animal = objectType({
       t.string("streetAddress"),
       t.string("state"),
       t.string("zipCode"),
+      t.string("contactEmail")
       t.list.field("favoritedBy", {
         type: User,
         async resolve(parent: any, _args: any, context: any) {
@@ -117,6 +118,7 @@ export const CreateNewAnimalListing = extendType({
         state: nonNull(stringArg()),
         zipCode: nonNull(stringArg()),
         streetAddress: nonNull(stringArg()),
+        contactEmail: nonNull(stringArg())
       },
       async resolve(_root: any, args: any, context: any) {
         const newAnimal = {
@@ -138,6 +140,7 @@ export const CreateNewAnimalListing = extendType({
           state: args.state,
           zipCode: args.zipCode,
           streetAddress: args.streetAddress,
+          contactEmail: args.contactEmail
         };
         return await context.prisma.animal.create({ data: newAnimal });
       },

@@ -9,6 +9,7 @@ type Animal {
   childFriendly: Boolean
   city: String
   color: String
+  contactEmail: String
   description: String
   dob: String
   dogFriendly: Boolean
@@ -34,7 +35,7 @@ type Email {
 
 type Mutation {
   addToFavorites(email: String, id: String): Animal
-  createNewAnimalListing(additionalInfo: String, breed: String!, catFriendly: Boolean!, childFriendly: Boolean!, city: String!, color: String!, description: String!, dob: String!, dogFriendly: Boolean!, gender: String!, imageUrl: String!, name: String!, species: String!, state: String!, streetAddress: String!, vaccinationsUptoDate: Boolean!, weight: String!, zipCode: String!): Animal
+  createNewAnimalListing(additionalInfo: String, breed: String!, catFriendly: Boolean!, childFriendly: Boolean!, city: String!, color: String!, contactEmail: String!, description: String!, dob: String!, dogFriendly: Boolean!, gender: String!, imageUrl: String!, name: String!, species: String!, state: String!, streetAddress: String!, vaccinationsUptoDate: Boolean!, weight: String!, zipCode: String!): Animal
   deleteAnimal(id: String!): Animal!
   deleteFromFavorites(email: String, id: String): Animal
   sendEmail(emailContent: String!, recipient: String!, subject: String!): Email

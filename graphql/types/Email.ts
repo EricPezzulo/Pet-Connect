@@ -1,5 +1,5 @@
 import { extendType, nonNull, objectType, stringArg } from "nexus";
-import SendMail from "../../pages/api/mail";
+import SendMail from '../../utils/mail'
 
 export const Email = objectType({
   name: "Email",
@@ -27,10 +27,7 @@ export const SendEmail = extendType({
           emailContent: args.emailContent,
           subject: args.subject,
         };
-        // await context.prisma.email.create({ data: newEmail });
-        // await SendMail(args.recipient, args.subject, args.emailContent);
         await SendMail(newEmail);
-
         return newEmail;
       },
     });

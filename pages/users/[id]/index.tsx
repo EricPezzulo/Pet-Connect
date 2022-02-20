@@ -8,6 +8,7 @@ import Head from "next/head";
 import { ArrowRight } from "styled-icons/bootstrap";
 import { useState } from "react";
 import AnimalCard from "../../../components/AnimalCard";
+import Layout from "../../../components/Layout";
 
 const FETCH_USER = gql`
   query FetchUser($userId: String!) {
@@ -63,13 +64,13 @@ const index = () => {
   let user = data.fetchUser[0];
 
   return (
-    <div className="container mx-auto mt-10">
+    <div className="flex w-full min-h-screen  flex-col justify-between">
+      <Layout>
       <Head>
         <title>{`${user.name}'s Profile`}</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
-      <h1 className="text-3xl font-medium">Pet Connect</h1>
-      <Header />
+      <div className="h-footer">
       <Image
         src={user.image}
         alt={`${user.name}'s avatar`}
@@ -111,6 +112,8 @@ const index = () => {
           </ul>
         )}
       </div>
+     </div>
+      </Layout>
     </div>
   );
 };

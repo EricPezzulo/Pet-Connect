@@ -1,3 +1,27 @@
+// interface Animal {
+//   name: string,
+//   species: string,
+//   dob: string,
+//   color: string,
+//   breed: string,
+//   gender: string,
+//   weight: string,
+//   childFriendly: boolean,
+//   dogFriendly: boolean,
+//   catFriendly: boolean,
+//   vaccinationsUptoDate: boolean,
+//   description:
+//     string,
+//   additionalInfo?: string,
+//   imageUrl:
+//     string,
+//     streetAddress: string,
+//   city: string,
+//   state: string,
+//   zipCode: string,
+//   contactEmail: string,
+// }
+
 export const animals = [
   {
     name: "Ronald McNair",
@@ -20,6 +44,7 @@ export const animals = [
     city: "Stamford",
     state: "CT",
     zipCode: "06901",
+    contactEmail: "eric.pezzulo@gmail.com"
   },
   {
     name: "Daisey",
@@ -42,6 +67,7 @@ export const animals = [
     city: "Washington",
     state: "DC",
     zipCode: "20016",
+    contactEmail: "eric.pezzulo@gmail.com"
   },
   {
     name: "Rose",
@@ -65,6 +91,7 @@ export const animals = [
     city: "Little Rock",
     state: "AR",
     zipCode: "72212",
+    contactEmail: "eric.pezzulo@gmail.com"
   },
   {
     name: "Winnie",
@@ -87,5 +114,6 @@ export const animals = [
     city: "Las Vegas",
     state: "NV",
     zipCode: "89119",
+    contactEmail: "eric.pezzulo@gmail.com"
   },
 ];
