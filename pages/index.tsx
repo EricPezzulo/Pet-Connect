@@ -1,9 +1,8 @@
 import { gql, useQuery } from "@apollo/client";
 import type { NextPage } from "next";
 import Head from "next/head";
-import Header from "../components/Header";
 import AnimalCard from "../components/AnimalCard";
-import Layout from "../components/Layout";
+import TestLayout from "../components/Layout";
 
 const FETCH_ALL_ANIMALS = gql`
   query {
@@ -40,8 +39,8 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Layout>
-        <div className='container flex flex-col mx-auto my-10'>
+      <TestLayout>
+        <div className="container flex flex-col mx-auto my-10">
           <ul className="flex flex-wrap justify-center grid-cols-1 md:grid md:grid-cols-2 lg:grid-cols-3 gap-5">
             {animals &&
               animals.map((animal: any, key: any) => (
@@ -63,9 +62,9 @@ const Home: NextPage = () => {
                 </li>
               ))}
           </ul>
-        </div></Layout>
+        </div>
+      </TestLayout>
     </div>
-
   );
 };
 

@@ -8,7 +8,7 @@ const Header = () => {
   const { data: session } = useSession();
   const router = useRouter();
   return (
-    <div className="flex sticky top-0 z-50 shadow px-3 bg-purple-100 w-full justify-between items-center h-16">
+    <header className="flex sticky top-0 z-50 shadow px-3 bg-purple-100 w-full justify-between items-center h-16">
       <div className="bg-purple-300 rounded-full p-1 hover:cursor-pointer">
         <div className="w-7" onClick={() => router.push("/")}>
           <Home />
@@ -47,7 +47,7 @@ const Header = () => {
           </div>
         )}
       </div>
-    </div>
+    </header>
   );
 };
 

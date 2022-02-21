@@ -8,7 +8,7 @@ import Head from "next/head";
 import { ArrowRight } from "styled-icons/bootstrap";
 import { useState } from "react";
 import AnimalCard from "../../../components/AnimalCard";
-import Layout from "../../../components/Layout";
+import TestLayout from "../../../components/Layout";
 
 const FETCH_USER = gql`
   query FetchUser($userId: String!) {
@@ -64,37 +64,34 @@ const index = () => {
   let user = data.fetchUser[0];
 
   return (
-    <div className="flex w-full min-h-screen  flex-col justify-between">
-      <Layout>
+    <TestLayout>
       <Head>
         <title>{`${user.name}'s Profile`}</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
-      <div className="h-footer">
-      <Image
-        src={user.image}
-        alt={`${user.name}'s avatar`}
-        width={150}
-        height={150}
-        className="rounded-full"
-      />
-      <p className="text-xl font-light"> {user.name} </p>
-      <div>
-        <h3 className="text-2xl">Favorited Animals</h3>
-        <button
-          onClick={() => setShowFavorites((showFavorites) => !showFavorites)}
-          className="bg-blue-500 text-white text-thin px-2 py-1 rounded"
-        >
-          Show My Favorites
-        </button>
-        {showFavorites && (
-          <ul className=" flex flex-wrap justify-center md:grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+      <div className="w-full flex flex-col self-center bg-blue-200">
+        <div className="w-full flex justify-center items-center bg-pink-300">
+          <div>
+            <Image
+              src={user.image}
+              alt={`${user.name}'s avatar`}
+              width={150}
+              height={150}
+              className="rounded-full"
+            />
+          </div>
+          <p className="text-xl font-light"> {user.name} </p>
+        </div>
+        <div className="flex flex-col h-auto">
+          <h3 className="text-2xl">Favorited Animals</h3>
+
+          <ul className="container self-center flex flex-wrap justify-center items-center py-5 h-full md:grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
             {user &&
               user.favoriteAnimals.map((pet: any, key: any) => (
                 <li
                   id="animal-card"
+                  className="flex flex-col max-w-md my-2 shadow bg-white rounded h-auto"
                   key={key}
-                  className="flex flex-col max-w-md m-2 shadow bg-white rounded h-auto"
                 >
                   <AnimalCard
                     weight={pet.weight}
@@ -110,11 +107,9 @@ const index = () => {
                 </li>
               ))}
           </ul>
-        )}
+        </div>
       </div>
-     </div>
-      </Layout>
-    </div>
+    </TestLayout>
   );
 };
 
