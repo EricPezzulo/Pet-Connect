@@ -2,7 +2,6 @@ import { gql, useMutation, useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
 import Head from "next/head";
 import Image from "next/image";
-import Header from "../../../components/Header";
 import { useEffect, useState } from "react";
 import ReactMapboxGl, { Feature, Layer, Marker } from "react-mapbox-gl";
 import { LocationPin } from "@styled-icons/entypo/LocationPin";
@@ -70,6 +69,7 @@ const FETCH_USER = gql`
         color
         species
         id
+        contactEmail
       }
     }
   }
@@ -160,7 +160,7 @@ const index = () => {
   const [captchaValue, setCaptchaValue] = useState("");
   const captchaChange = (value: any) => {
     setCaptchaValue(value);
-    console.log(value);
+    // console.log(value);
   };
 
   const submitMessage = (e: any) => {
@@ -183,13 +183,11 @@ const index = () => {
       return null;
     }
   };
-
   if (loading) return <p>loading</p>;
   if (error) return <p>oh no ... {error.message}</p>;
   return (
-    <div className="flex flex-col min-h-screen">
-      <Layout>
-        <div className="flex items-center flex-col flex-2 pb-4">
+    <Layout>
+      <div className="flex items-center justify-center flex-col flex-2 pb-4">
         <Head>
           <title>{`${animal.name}`}</title>
           <meta
@@ -202,7 +200,7 @@ const index = () => {
           />
         </Head>
 
-        <div className="flex mt-10 min-h-fit container w-full">
+        <div className="sm:flex sm:my-10 min-h-fit container w-full">
           <div className="flex relative">
             <Image
               src={animal.imageUrl}
@@ -211,9 +209,6 @@ const index = () => {
               height={500}
               className="object-cover"
             />
-            {/* <div className="absolute top-2 right-2 w-10 h-10 p-2 bg-gray-200 flex rounded-full opacity-40 text-gray-400 hover:opacity-100 duration-150 hover:cursor-pointer items-center justify-center">
-              <SuitHeart />
-            </div> */}
 
             {!favoriteAnimals?.includes(animal.id) ? (
               <button
@@ -238,61 +233,59 @@ const index = () => {
           </div>
           <div className="flex flex-col p-4 text-left items-start justify-center">
             <p className="text-2xl font-light">
-              <span className="text-blue-500 text-2xl font-medium">Name: </span>
+              <span className="text-gray-700 text-2xl font-medium">Name: </span>
               {animal.name}
             </p>
             <p className="text-2xl font-light">
-              <span className="text-blue-500 font-medium text-2xl">
+              <span className="text-gray-700 font-medium text-2xl">
                 Breed:{" "}
               </span>
               {animal.breed}
             </p>
-            <p className="text-2xl font-light">
-              <span className="text-blue-500 font-medium text-2xl">ID: </span>
-              {animal.id}
-            </p>
+
             <p
               className={
                 animal.gender === "Male"
-                  ? `text-2xl font-medium text-blue-500`
-                  : `text-pink-500 text-2xl`
+                  ? `text-2xl font-medium text-blue-600`
+                  : `text-pink-600 text-2xl`
               }
             >
-              <span className="text-red-700 font-medium text-2xl">
+              <span className="text-gray-700 font-medium text-2xl">
                 Gender:{" "}
               </span>
               {animal.gender}
             </p>
-            <p className=" text-2xl font-light w-96">{animal.description}</p>
+            <p className="font-light">{animal.description}</p>
           </div>
         </div>
       </div>
 
-        <div className="flex flex-2 items-center  justify-center w-full bg-purple-100 py-5">
-          <div className="2xl:container flex max-w-5xl">
-            <div className="flex h-auto 2xl:w-full justify-center 2xl:pr-5 2xl:justify-between">
-              <div>
-                <p className="text-2xl self-start font-light mt-4">
-                  Where is {animal.name}?
-                </p>
-                <div className="flex -ml-2 items-center self-start">
-                  <div className="text-lg flex font-light pr-2">
-                    <div className="text-blue-500 w-8">
-                      <Location />
-                    </div>
-                    {animal.streetAddress}, {animal.city}, {animal.state},{" "}
-                    {animal.zipCode}
-                  </div>
-                </div>
-              </div>
-              {lng && lat && (
+      <div className="flex flex-col sm:flex sm:flex-row flex-2 w-full items-center justify-center bg-purple-100 py-5">
+        <div className="flex flex-col sm:container justify-center items-center">
+          <p className="text-3xl font-light pt-3">Where is {animal.name}?</p>
+
+          <div className="flex flex-col md:flex-row items-center justify-center md:justify-between  lg:justify-around w-full mb-5">
+            <div>
+              <p className="text-lg flex font-light pr-2 md: text:xl lg:text-2xl items-center">
+                {animal.name} is located at:{" "}
+              </p>
+              <p className="text-lg flex font-light pr-2 md: text:xl lg:text-2xl items-center">
+                <span className="text-blue-500 w-8">
+                  <Location />
+                </span>
+                {animal.streetAddress}, {animal.city}, {animal.state},
+                {animal.zipCode}
+              </p>
+            </div>
+            {lng && lat && (
+              <div className="flex flex-col h-full items-center justify-center">
                 <Map
-                  className="rounded self-start"
+                  className="rounded sm:m-2"
                   style="mapbox://styles/mapbox/streets-v11"
                   center={[lng, lat]}
                   containerStyle={{
-                    height: "400px",
-                    width: "600px",
+                    height: "18rem",
+                    width: "23.438rem",
                   }}
                   zoom={[15]}
                 >
@@ -310,44 +303,42 @@ const index = () => {
                     </div>
                   </Marker>
                 </Map>
-              )}
-            </div>
+              </div>
+            )}
           </div>
         </div>
-        <div className="flex w-full flex-1 flex-col bg-purple-400 items-center">
-          <h3 className="text-white font-;light text-3xl py-5">
-            Contact Us about {animal.name}
-          </h3>
-          <div className="flex flex-col w-full justify-center">
-            <div className="flex justify-center">
-              <textarea
-                className="rounded bg-purple-200 outline-none p-2 resize-none placeholder:text-purple-600"
-                cols={50}
-                rows={5}
-                onChange={(e: any) =>
-                  setNewEmail({ ...newEmail, emailContent: e.target.value })
-                }
-                value={newEmail.emailContent}
-                placeholder={`Write your message here 
-               \n Don't forget to include your contact information`}
-              ></textarea>
-            </div>
-            <div className="flex items-center justify-center py-4">
-              <ReCAPTCHA
-                sitekey="6LfVC4MeAAAAAPiHQZwX4e8tD39IAOLVdeantXd9"
-                onChange={captchaChange}
-              />
-              <button
-                onClick={submitMessage}
-                className="rounded-md text-white bg-purple-700 px-2 py-1"
-              >
-                Sumbit
-              </button>
-            </div>
+      </div>
+
+      <div className="flex w-full flex-1 flex-col bg-purple-400 items-center">
+        <h3 className="text-white font-;light text-3xl py-5">
+          Contact Us about {animal.name}
+        </h3>
+        <div className="flex flex-col w-full container justify-center">
+          <div className="flex justify-center">
+            <textarea
+              className="flex rounded w-full h-28 mx-4 md:max-w-xl bg-purple-200 outline-none p-2 resize-none placeholder:text-purple-600"
+              onChange={(e: any) =>
+                setNewEmail({ ...newEmail, emailContent: e.target.value })
+              }
+              value={newEmail.emailContent}
+              placeholder="Please include your contact information here."
+            ></textarea>
+          </div>
+          <div className="flex flex-col items-center justify-center py-4">
+            <ReCAPTCHA
+              sitekey="6LfVC4MeAAAAAPiHQZwX4e8tD39IAOLVdeantXd9"
+              onChange={captchaChange}
+            />
+            <button
+              onClick={submitMessage}
+              className="rounded-md mt-4 text-white bg-purple-700 px-2 py-1"
+            >
+              Sumbit
+            </button>
           </div>
         </div>
-         </Layout>
-    </div>
+      </div>
+    </Layout>
   );
 };
 

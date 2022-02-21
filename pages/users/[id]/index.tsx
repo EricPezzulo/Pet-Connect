@@ -69,23 +69,23 @@ const index = () => {
         <title>{`${user.name}'s Profile`}</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
-      <div className="w-full flex flex-col self-center bg-blue-200">
-        <div className="w-full flex justify-center items-center bg-pink-300">
-          <div>
-            <Image
-              src={user.image}
-              alt={`${user.name}'s avatar`}
-              width={150}
-              height={150}
-              className="rounded-full"
-            />
+      <div className="w-full flex flex-col self-center">
+        <div className="container flex flex-col mx-auto my-10">
+          <div className="w-full flex flex-col my-5">
+            <div>
+              <Image
+                src={user.image}
+                alt={`${user.name}'s avatar`}
+                width={150}
+                height={150}
+                className="rounded-full"
+              />
+            </div>
+            <p className="text-xl font-light"> {user.name} </p>
           </div>
-          <p className="text-xl font-light"> {user.name} </p>
-        </div>
-        <div className="flex flex-col h-auto">
           <h3 className="text-2xl">Favorited Animals</h3>
 
-          <ul className="container self-center flex flex-wrap justify-center items-center py-5 h-full md:grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+          <ul className="flex flex-wrap justify-center items-center grid-cols-1 md:grid md:grid-cols-2 lg:grid-cols-3 gap-5">
             {user &&
               user.favoriteAnimals.map((pet: any, key: any) => (
                 <li
