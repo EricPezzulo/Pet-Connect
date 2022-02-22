@@ -261,7 +261,7 @@ const index = () => {
       </div>
 
       <div className="flex flex-col sm:flex sm:flex-row flex-2 w-full items-center justify-center bg-purple-100 py-5">
-        <div className="flex flex-col sm:container justify-center items-center">
+        <div className="flex flex-col sm:container justify-between items-center">
           <p className="text-3xl font-light pt-3">Where is {animal.name}?</p>
 
           <div className="flex flex-col md:flex-row items-center justify-center md:justify-between  lg:justify-around w-full mb-5">
@@ -278,15 +278,11 @@ const index = () => {
               </p>
             </div>
             {lng && lat && (
-              <div className="flex flex-col h-full items-center justify-center">
+              <div className="flex flex-col items-center justify-center ">
                 <Map
-                  className="rounded sm:m-2"
+                  className="flex w-90 h-52 sm:w-96 sm:h-64 sm:m-2"
                   style="mapbox://styles/mapbox/streets-v11"
                   center={[lng, lat]}
-                  containerStyle={{
-                    height: "18rem",
-                    width: "23.438rem",
-                  }}
                   zoom={[15]}
                 >
                   <Layer

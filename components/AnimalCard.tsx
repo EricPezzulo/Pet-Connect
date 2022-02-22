@@ -118,6 +118,13 @@ const AnimalCard = ({
           className="object-cover"
         />
 
+        {/* <div className="flex w-full h-full">
+          <img
+            src={image}
+            alt={`${name}'s avatar picture`}
+            className="w-full object-contain"
+          />{" "}
+        </div> */}
         <div className="group flex h-full relative rounded-b-md">
           <div className="flex flex-col">
             <p className="text-2xl font-medium pt-4 pl-4">{name}</p>

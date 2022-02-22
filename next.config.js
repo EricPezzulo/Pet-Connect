@@ -10,6 +10,8 @@ const nextConfig = {
       "th-thumbnailer.cdn-si-edu.com",
       "www.akc.org",
       "lh3.googleusercontent.com",
+      "static.onecms.io",
+      "images.unsplash.com",
     ],
   },
 };
