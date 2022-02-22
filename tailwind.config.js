@@ -10,6 +10,7 @@ module.exports = {
       },
       height: {
         footer: "calc(100vh - 7.5rem)",
+        102: "34rem",
       },
     },
   },

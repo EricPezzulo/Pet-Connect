@@ -12,6 +12,7 @@ const nextConfig = {
       "lh3.googleusercontent.com",
       "static.onecms.io",
       "images.unsplash.com",
+      "www.mypetsies.com",
     ],
   },
 };

@@ -1,12 +1,8 @@
 import { useRouter } from "next/router";
 import { gql, useMutation, useQuery } from "@apollo/client";
 import Image from "next/image";
-import Header from "../../../components/Header";
 import { useSession } from "next-auth/react";
-import { HeartDislike } from "styled-icons/ionicons-outline";
 import Head from "next/head";
-import { ArrowRight } from "styled-icons/bootstrap";
-import { useState } from "react";
 import AnimalCard from "../../../components/AnimalCard";
 import TestLayout from "../../../components/Layout";
 
@@ -31,34 +27,15 @@ const FETCH_USER = gql`
     }
   }
 `;
-const DEL_FROM_FAVS = gql`
-  mutation DeleteFromFavorites($email: String!, $id: String!) {
-    deleteFromFavorites(email: $email, id: $id) {
-      name
-    }
-  }
-`;
 
 const index = () => {
   const router = useRouter();
-  const { data: session } = useSession();
-  const [showFavorites, setShowFavorites] = useState(false);
 
   let userId = router.query.id;
   const { data, loading, error } = useQuery(FETCH_USER, {
     variables: { userId },
   });
-  let userEmail = session?.user?.email;
-  const [deleteFavorites] = useMutation(DEL_FROM_FAVS);
-  const deleteFromFavs = (pet: any) => {
-    deleteFavorites({
-      variables: {
-        email: userEmail,
-        id: pet.id,
-      },
-      refetchQueries: [{ query: FETCH_USER, variables: { userId: userId } }],
-    });
-  };
+
   if (loading) return <p>loading</p>;
   if (error) return <p>error</p>;
   let user = data.fetchUser[0];
@@ -89,7 +66,6 @@ const index = () => {
             {user &&
               user.favoriteAnimals.map((pet: any, key: any) => (
                 <li
-                  id="animal-card"
                   className="flex flex-col max-w-md my-2 shadow bg-white rounded h-auto"
                   key={key}
                 >

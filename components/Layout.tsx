@@ -3,6 +3,7 @@ import Image from "next/image";
 import React from "react";
 import { SearchAlt } from "@styled-icons/boxicons-regular/SearchAlt";
 import { useRouter } from "next/router";
+import SearchBar from "./SearchBar";
 
 export const Layout = ({ children }: any) => {
   return (
@@ -22,16 +23,14 @@ export const Header = () => {
   const { data: session }: any = useSession();
   const router = useRouter();
   return (
-    <header className="flex sticky top-0 z-50 shadow px-3 bg-gray-200 w-full justify-between items-center h-16">
+    <header className="flex sticky top-0 z-50 shadow-md px-3 bg-gray-200 w-full justify-between items-center h-16">
       <p
-        className="text-2xl font-light cursor-pointer"
+        className="text-2xl  cursor-pointer text-purple-900"
         onClick={() => router.push("/")}
       >
         PetConnect
       </p>
-      <div className="w-8 hover:cursor-pointer active:text-violet-400">
-        <SearchAlt />
-      </div>
+
       <div className="flex items-center">
         {!session ? (
           <div>
