@@ -117,20 +117,20 @@ const CreatePetListing = () => {
           <p>{newPet.name} has been added!</p>
         </div>
       )}
-      <form className="flex flex-col bg-white border border-purple-300 rounded-md shadow p-5 max-w-2xl">
-        <div className="flex justify-center">
-          <div className="flex flex-col ">
+      <form className="flex flex-col w-full sm:w-min sm:bg-white sm:border sm:border-purple-300 rounded-md sm:shadow px-5 sm:pb-5 mb-5 max-w-2xl">
+        <div className="sm:flex justify-center">
+          <div className="flex flex-col">
             <div className="flex flex-col py-1">
               <label
                 htmlFor="name"
-                className="flex w-min relative top-3 left-5 px-2 bg-white text-gray-500 "
+                className="flex w-min relative top-3 left-5 px-2 bg-zinc-50 sm:bg-white text-gray-500 "
               >
                 Name:
               </label>
               <input
                 type="text"
                 placeholder="Ronald"
-                className="rounded-md px-2 py-2 border-purple-300 border font-light outline-none mx-1"
+                className="rounded-md px-2 py-2 border-purple-300 border font-light outline-none mx-1 bg-zinc-50 sm:bg-white"
                 value={newPet.name}
                 onChange={(e) => setNewPet({ ...newPet, name: e.target.value })}
               />
@@ -138,14 +138,14 @@ const CreatePetListing = () => {
             <div className="flex flex-col py-1">
               <label
                 htmlFor="dob"
-                className="flex w-min relative top-3 left-5 px-2 text-gray-500 bg-white"
+                className="flex w-min relative top-3 left-5 px-2 text-gray-500 bg-zinc-50 sm:bg-white"
               >
                 DOB:
               </label>
               <input
                 type="text"
                 placeholder="08/12/2022"
-                className="rounded-md px-2 py-2 bg-white border-purple-300 border font-light outline-none mx-1"
+                className="rounded-md px-2 py-2 bg-zinc-50 sm:bg-white border-purple-300 border font-light outline-none mx-1"
                 value={newPet.dob}
                 onChange={(e) => setNewPet({ ...newPet, dob: e.target.value })}
               />
@@ -153,14 +153,14 @@ const CreatePetListing = () => {
             <div className="flex flex-col py-1">
               <label
                 htmlFor="gender"
-                className="flex w-min relative top-3 left-5 px-2 text-gray-500 bg-white"
+                className="flex w-min relative top-3 left-5 px-2 text-gray-500 bg-zinc-50 sm:bg-white"
               >
                 Gender:
               </label>
               <input
                 type="text"
                 placeholder="Male"
-                className="rounded-md px-2 py-2 bg-white border-purple-300 border font-light outline-none mx-1"
+                className="rounded-md px-2 py-2 bg-zinc-50 sm:bg-white border-purple-300 border font-light outline-none mx-1"
                 value={newPet.gender}
                 onChange={(e) =>
                   setNewPet({ ...newPet, gender: e.target.value })
@@ -170,14 +170,14 @@ const CreatePetListing = () => {
             <div className="flex flex-col py-1">
               <label
                 htmlFor="streetaddr"
-                className="w-32 relative top-3 left-5 px-2 text-gray-500 bg-white"
+                className="w-32 relative top-3 left-5 px-2 text-gray-500 bg-zinc-50 sm:bg-white"
               >
                 Street Address:
               </label>
               <input
                 type="text"
                 placeholder="1234 Rockyway Road"
-                className="rounded-md px-2 py-2 bg-white border-purple-300 border font-light outline-none mx-1"
+                className="rounded-md px-2 py-2 bg-zinc-50 sm:bg-white border-purple-300 border font-light outline-none mx-1"
                 value={newPet.streetAddress}
                 onChange={(e) =>
                   setNewPet({ ...newPet, streetAddress: e.target.value })
@@ -187,14 +187,14 @@ const CreatePetListing = () => {
             <div className="flex flex-col py-1">
               <label
                 htmlFor="state"
-                className="flex w-min relative top-3 left-5 px-2 text-gray-500 bg-white"
+                className="flex w-min relative top-3 left-5 px-2 text-gray-500 bg-zinc-50 sm:bg-white"
               >
                 State:
               </label>
               <input
                 type="text"
                 placeholder="FL"
-                className="rounded-md px-2 py-2 bg-white border-purple-300 border font-light outline-none mx-1"
+                className="rounded-md px-2 py-2 bg-zinc-50 sm:bg-white border-purple-300 border font-light outline-none mx-1"
                 value={newPet.state}
                 onChange={(e) =>
                   setNewPet({ ...newPet, state: e.target.value })
@@ -204,14 +204,14 @@ const CreatePetListing = () => {
             <div className="flex flex-col py-1">
               <label
                 htmlFor="breed"
-                className="flex w-min relative top-3 left-5 px-2 text-gray-500 bg-white"
+                className="flex w-min relative top-3 left-5 px-2 text-gray-500 bg-zinc-50 sm:bg-white"
               >
                 Breed:
               </label>
               <input
                 type="text"
                 placeholder="Laborador"
-                className="rounded-md px-2 py-2 bg-pwhite border-purple-300 border font-light outline-none mx-1"
+                className="rounded-md px-2 py-2 bg-pwhite border-purple-300 border font-light bg-zinc-50 sm:bg-white outline-none mx-1"
                 value={newPet.breed}
                 onChange={(e) =>
                   setNewPet({ ...newPet, breed: e.target.value })
@@ -223,14 +223,14 @@ const CreatePetListing = () => {
             <div className="flex flex-col py-1">
               <label
                 htmlFor="color"
-                className="flex w-min relative top-3 left-5 px-2 text-gray-500 bg-white"
+                className="flex w-min relative top-3 left-5 px-2 text-gray-500 bg-zinc-50 sm:bg-white"
               >
                 Color:
               </label>
               <input
                 type="text"
                 placeholder="Golden"
-                className="rounded-md px-2 py-2 bgwhite border-purple-300 border font-light outline-none mx-1"
+                className="rounded-md px-2 py-2 bgwhite border-purple-300 border  bg-zinc-50 sm:bg-white font-light outline-none mx-1"
                 value={newPet.color}
                 onChange={(e) =>
                   setNewPet({ ...newPet, color: e.target.value })
@@ -240,14 +240,14 @@ const CreatePetListing = () => {
             <div className="flex flex-col py-1">
               <label
                 htmlFor="weight"
-                className="flex w-min relative top-3 left-5 px-2 text-gray-500 bg-white"
+                className="flex w-min relative top-3 left-5 px-2 text-gray-500 bg-zinc-50 sm:bg-white"
               >
                 Weight:
               </label>
               <input
                 type="text"
                 placeholder="45 (lbs)"
-                className="rounded-md px-2 py-2 bg-white border-purple-300 border font-light outline-none mx-1"
+                className="rounded-md px-2 py-2 sm:bg-white border-purple-300 border font-light bg-zinc-50 outline-none mx-1"
                 value={newPet.weight}
                 onChange={(e) =>
                   setNewPet({ ...newPet, weight: e.target.value })
@@ -258,14 +258,14 @@ const CreatePetListing = () => {
             <div className="flex flex-col py-1">
               <label
                 htmlFor="species"
-                className="flex w-min relative top-3 left-5 px-2 text-gray-500 bg-white"
+                className="flex w-min relative top-3 left-5 px-2 text-gray-500 bg-zinc-50 sm:bg-white"
               >
                 Species:
               </label>
               <input
                 type="text"
                 placeholder="Dog"
-                className="rounded-md px-2 py-2 bg-white border-purple-300 border font-light outline-none mx-1"
+                className="rounded-md px-2 py-2 bg-zinc-50 sm:bg-white border-purple-300 border font-light outline-none mx-1"
                 value={newPet.species}
                 onChange={(e) =>
                   setNewPet({ ...newPet, species: e.target.value })
@@ -275,14 +275,14 @@ const CreatePetListing = () => {
             <div className="flex flex-col py-1">
               <label
                 htmlFor="city"
-                className="flex w-min relative top-3 left-5 px-2 text-gray-500 bg-white"
+                className="flex w-min relative top-3 left-5 px-2 text-gray-500 bg-zinc-50 sm:bg-white"
               >
                 City:
               </label>
               <input
                 type="text"
                 placeholder="London"
-                className="rounded-md px-2 py-2 bg-white border-purple-300 border font-light outline-none mx-1"
+                className="rounded-md px-2 py-2 bg-zinc-50 sm:bg-white border-purple-300 border font-light outline-none mx-1"
                 value={newPet.city}
                 onChange={(e) => setNewPet({ ...newPet, city: e.target.value })}
               />
@@ -290,14 +290,14 @@ const CreatePetListing = () => {
             <div className="flex flex-col py-1">
               <label
                 htmlFor="zipcode"
-                className="flex w-24 justify-center relative top-3 left-5 px-2 text-gray-500 bg-white"
+                className="flex w-24 justify-center relative top-3 left-5 px-2 text-gray-500 bg-zinc-50 sm:bg-white"
               >
                 Zip Code:
               </label>
               <input
                 type="text"
                 placeholder="12345"
-                className="rounded-md px-2 py-2 bg-white border-purple-300 border font-light outline-none mx-1"
+                className="rounded-md px-2 py-2 bg-zinc-50 sm:bg-white border-purple-300 border font-light outline-none mx-1"
                 value={newPet.zipCode}
                 onChange={(e) =>
                   setNewPet({ ...newPet, zipCode: e.target.value })
@@ -308,18 +308,18 @@ const CreatePetListing = () => {
         </div>
         <hr className="border-purple-300 mt-4" />
 
-        <div className="flex justify-center ">
+        <div className="flex flex-col sm:flex-row justify-center ">
           <div className="flex flex-col py-1">
             <label
               htmlFor="contactEmail"
-              className="flex w-32 justify-center relative top-3 left-5 px-2 text-gray-500 bg-white"
+              className="flex w-32 justify-center relative top-3 left-5 px-2 text-gray-500 bg-zinc-50 sm:bg-white"
             >
               Contact Email:
             </label>
             <input
               type="text"
               placeholder="jdoe@email.com"
-              className="rounded-md px-2 py-2 bg-white border-purple-300 border font-light outline-none mx-1"
+              className="rounded-md px-2 py-2 bg-zinc-50 sm:bg-white border-purple-300 border font-light outline-none mx-1"
               value={newPet.contactEmail}
               onChange={(e) =>
                 setNewPet({ ...newPet, contactEmail: e.target.value })
@@ -329,14 +329,14 @@ const CreatePetListing = () => {
           <div className="flex flex-col py-1">
             <label
               htmlFor="additionalInfo"
-              className="flex w-36 justify-center relative top-3 left-5 px-2 text-gray-500 bg-white"
+              className="flex w-36 justify-center relative top-3 left-5 px-2 text-gray-500 bg-zinc-50 sm:bg-white"
             >
               Additional Info:
             </label>
             <input
               type="text"
               placeholder="allergies, medical conditons, etc."
-              className="rounded-md px-2 py-2 bg-white border-purple-300 border font-light outline-none mx-1"
+              className="rounded-md px-2 py-2 bg-zinc-50 sm:bg-white border-purple-300 border font-light outline-none mx-1"
               value={newPet.additionalInfo}
               onChange={(e) =>
                 setNewPet({ ...newPet, additionalInfo: e.target.value })
@@ -349,7 +349,7 @@ const CreatePetListing = () => {
           <p className="font-light text-gray-500 pb-3 pl-5">
             *Default is FALSE
           </p>
-          <div className="flex justify-around">
+          <div className="flex flex-col  sm:flex-row justify-around">
             <label className="text-gray-500">
               Child Friendly{" "}
               <input
@@ -407,7 +407,7 @@ const CreatePetListing = () => {
           <div className="flex flex-col py-1">
             <label
               htmlFor="name"
-              className="flex w-min relative top-3 left-5 px-2 text-gray-500 bg-white"
+              className="flex w-min relative top-3 left-5 px-2 text-gray-500 bg-zinc-50 sm:bg-white"
             >
               Description:
             </label>
@@ -417,7 +417,7 @@ const CreatePetListing = () => {
               onChange={(e) =>
                 setNewPet({ ...newPet, description: e.target.value })
               }
-              className="flex w-full h-20 rounded-md px-2 py-2 bg-white border-purple-300 border font-light outline-none mx-1 p-2 resize-none"
+              className="flex w-full h-20 rounded-md px-2 py-2 bg-zinc-50 sm:bg-white border-purple-300 border font-light outline-none mx-1 p-2 resize-none"
               placeholder="Please provide a description of your pet here."
             ></textarea>
           </div>
@@ -425,14 +425,14 @@ const CreatePetListing = () => {
         <div>
           <label
             htmlFor="imageUrl"
-            className="flex w-24 justify-center relative top-3 left-5 px-2 text-gray-500 bg-white"
+            className="flex w-24 justify-center relative top-3 left-5 px-2 text-gray-500 bg-zinc-50 sm:bg-white"
           >
             Image Url:
           </label>
           <input
             type="text"
             placeholder="Image URL"
-            className="rounded-md w-full  px-2 py-2 bg-white border-purple-300 border font-light outline-none mx-1"
+            className="rounded-md w-full  px-2 py-2 bg-zinc-50 sm:bg-white border-purple-300 border font-light outline-none mx-1"
             value={newPet.imageUrl}
             onChange={(e) => setNewPet({ ...newPet, imageUrl: e.target.value })}
           />
