@@ -6,6 +6,7 @@ const ExpandableMenu = () => {
     const { data: session }: any = useSession();
 
   return (
+    
     <div className='flex bg-gray-100 drop-shadow md:border-x border-b md:border-purple-200 h-auto w-full md:w-48 md:rounded-b-lg'>
         <ul className='flex flex-col w-full'>
             <li 

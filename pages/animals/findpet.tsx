@@ -21,7 +21,7 @@ const findpet = () => {
           <h1 className="text-3xl text-putple-800 my-10 text-purple-800">
             Find A Pet!
           </h1>
-          <div className="flex">
+          <div className="flex flex-col md:flex-row items-center justify-center">
             <div className="flex flex-1 flex-col">
               <p className="text-xl mb-2">Filter By:</p>{" "}
               <div className="flex flex-col w-90 shadow bg-zinc-50 p-3 rounded-md border border-purple-200">

@@ -201,7 +201,7 @@ const index = () => {
         </Head>
 
         <div className="flex flex-col lg:flex-row lg:items-center sm:my-10 min-h-fit container w-full">
-            <div className='flex relative justify-center  max-h-128 bg-red-200'>
+            <div className='flex relative justify-center max-h-128'>
               {/*
               <Image
                 src={animal.imageUrl}
@@ -210,7 +210,7 @@ const index = () => {
                 height={500}
                 className="object-cover"
               /> */}
-              <img  className='object-cover'src={animal.imageUrl} alt={`${animal.name}'s avatar`}/>
+              <img  className='flex w-full object-cover'src={animal.imageUrl} alt={`${animal.name}'s avatar`}/>
             
 
             {!favoriteAnimals?.includes(animal.id) ? (
