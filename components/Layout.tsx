@@ -3,7 +3,10 @@ import Image from "next/image";
 import React from "react";
 import { SearchAlt } from "@styled-icons/boxicons-regular/SearchAlt";
 import { useRouter } from "next/router";
+import {useState} from 'react'
 import SearchBar from "./SearchBar";
+import ExpandableMenu from "./ExpandableMenu";
+import ClickAwayListener from "react-click-away-listener";
 
 export const Layout = ({ children }: any) => {
   return (
@@ -22,8 +25,9 @@ export const Layout = ({ children }: any) => {
 export const Header = () => {
   const { data: session }: any = useSession();
   const router = useRouter();
+  const [openMenu, setOpenMenu] = useState(false)
   return (
-    <header className="flex sticky top-0 z-50 shadow-md px-3 bg-gray-200 w-full justify-between items-center h-16">
+    <header className="flex sticky top-0 z-50 shadow-md px-3 bg-gray-200 w-full justify-between items-center h-16 border-b border-gray-300">
       <p
         className="text-2xl  cursor-pointer text-purple-900"
         onClick={() => router.push("/")}
@@ -35,14 +39,14 @@ export const Header = () => {
         {!session ? (
           <div>
             <button
-              className=" bg-purple-600 rounded px-2 py-1 text-white"
+              className="flex items-center justify-center py-1 hover:bg-purple-600 duration-150 rounded-lg px-3 text-purple-500 text-xl font-semibold border-2 border-purple-400 hover:border-purple-600 hover:text-white"
               onClick={() => signIn()}
             >
-              Sign In
+              <p>Login</p>
             </button>
           </div>
         ) : (
-          <div className="flex items-center">
+          <div className="flex flex-col items-center">
             <div className="flex items-center">
               <Image
                 src={`${session?.user.image}`}
@@ -50,9 +54,16 @@ export const Header = () => {
                 width={42}
                 height={42}
                 className="rounded-full hover:cursor-pointer"
-                onClick={() => router.push(`/users/${session.id}`)}
+                onClick={()=> setOpenMenu((openMenu)=> !openMenu)}
               />
             </div>
+            {openMenu && ( 
+              <div className='flex justify-end items-end absolute w-full  top-16 right-0 z-50 md:pr-2'>
+                <ClickAwayListener onClickAway={(openMenu)=> setOpenMenu(!openMenu)}>
+                 <ExpandableMenu />
+                </ClickAwayListener>
+              </div>
+              )}
           </div>
         )}
       </div>

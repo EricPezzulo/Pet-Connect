@@ -8,6 +8,9 @@ import { HeartDislike } from "styled-icons/ionicons-outline";
 
 import { useMutation, useQuery } from "@apollo/client";
 import { gql } from "apollo-server-micro";
+import { useState } from "react";
+import { Animal } from "../graphql/types";
+import { atom, useRecoilState } from "recoil";
 interface AnimalProps {
   image: string;
   breed: string;
@@ -56,6 +59,14 @@ const DEL_FROM_FAVS = gql`
   }
 `;
 
+export const followedMsgState= atom({
+  key:'followedMsgState',
+  default:false
+})
+export const unfollowedMsgState= atom({
+  key:'unfollowedMsgState',
+  default:false
+})
 const AnimalCard = ({
   image,
   breed,
@@ -78,9 +89,9 @@ const AnimalCard = ({
       },
       refetchQueries: [{ query: FETCH_USER, variables: { userId: userId } }],
     });
-    alert(`You UNFAVORITED ${name}!`);
   };
   const addToFavs = (e: any) => {
+    
     if (!session) {
       return alert("you need to be logged in to use this feature");
     }
@@ -91,7 +102,6 @@ const AnimalCard = ({
       },
       refetchQueries: [{ query: FETCH_USER, variables: { userId: userId } }],
     });
-    alert(`You just favorited ${name} :)`);
   };
   let userEmail = session?.user?.email;
   const [mutateFavorites] = useMutation(ADD_TO_FAVS);
@@ -105,18 +115,27 @@ const AnimalCard = ({
   const favoriteAnimals = data?.fetchUser[0].favoriteAnimals.map(
     (fav: any) => fav.id
   );
+  // const [unfollowedMsg, setUnfollowedMsg]=useRecoilState(unfollowedMsgState)
+  // const [followedMsg, setFollowedMsg]=useRecoilState(followedMsgState)
 
   return (
     <div className="block rounded-b-md">
+  
       <div className="max-w-md">
-        <Image
+        {/* <Image
           src={image}
           alt={`${name}'s avatar picture`}
           layout="responsive"
           width={450}
           height={350}
           className="object-cover"
-        />
+        /> */}
+
+        {/* TEST */}
+        <div>
+          <img  className='flex w-full h-96 object-cover'src={image} alt={`${name}'s avatar picture`}/>
+        </div>        
+        {/* End TEST */}
 
         {/* <div className="flex w-full h-full">
           <img
@@ -127,7 +146,7 @@ const AnimalCard = ({
         </div> */}
         <div className="group flex h-full relative rounded-b-md">
           <div className="flex flex-col">
-            <p className="text-2xl font-medium pt-4 pl-4">{name}</p>
+            <p className="text-2xl font-medium pt-4 pl-4">{name[0].toUpperCase()+name.substring(1)}</p>
 
             <div className="flex p-4 border-b border-gray-100">
               <em className="line-clamp-3">"{description}"</em>
@@ -139,11 +158,11 @@ const AnimalCard = ({
               </div>
               <div className="flex">
                 <p className="font-semibold w-16">Color:</p>
-                <p className="font-normal pl-3">{color}</p>
+                <p className="font-normal pl-3">{color[0].toUpperCase()+color.substring(1)}</p>
               </div>
               <div className="flex">
                 <p className="font-semibold w-16 ">Breed:</p>
-                <p className="font-normal pl-3  truncate w-52">{breed}</p>
+                <p className="font-normal pl-3  truncate w-52">{breed[0].toUpperCase()+breed.substring(1)}</p>
               </div>
               <div className="flex">
                 <p className="font-semibold w-16">DOB:</p>
@@ -157,7 +176,7 @@ const AnimalCard = ({
               type="button"
               className="opacity-30 group-hover:opacity-100 hover:shadow absolute top-2 right-2 bg-gray-200 hover:bg-gray-300 rounded-full p-2 hover:cursor-pointer duration-200 ease-in-out"
               onClick={addToFavs}
-              title={`Add ${name} to Favorites`}
+              title={`Add ${name[0].toUpperCase()+name.substring(1)} to Favorites`}
             >
               {" "}
               <SuitHeart className="h-7 w-7 text-gray-500 hover:text-pink-500 duration-200" />
@@ -167,7 +186,7 @@ const AnimalCard = ({
               type="button"
               className="opacity-30 group-hover:opacity-100 hover:shadow absolute top-2 right-2 bg-gray-200 hover:bg-gray-300 rounded-full p-2 hover:cursor-pointer duration-200 ease-in-out"
               onClick={() => deleteFromFavs(id)}
-              title={`Remove ${name} from Favorites`}
+              title={`Remove ${name[0].toUpperCase()+name.substring(1)} from Favorites`}
             >
               <HeartDislike className="h-7 w-7 text-gray-500 hover:text-pink-500 duration-200" />
             </button>
@@ -176,7 +195,7 @@ const AnimalCard = ({
           <button
             type="button"
             onClick={() => router.push(`/animals/${id}`)}
-            className="opacity-0 group-hover:opacity-100 hover:shadow absolute bottom-2 right-2 bg-gray-200 hover:bg-gray-300 rounded-full p-1 hover:cursor-pointer duration-200 ease-in-out"
+            className=" opacity-50 sm:opacity-0 group-hover:opacity-100 hover:shadow absolute bottom-2 right-2 bg-gray-200 hover:bg-gray-300 rounded-full p-1 hover:cursor-pointer duration-200 ease-in-out"
           >
             <ArrowRight className="h-8 w-8 text-gray-500 hover:text-white duration-200" />
           </button>

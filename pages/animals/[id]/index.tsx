@@ -200,15 +200,18 @@ const index = () => {
           />
         </Head>
 
-        <div className="sm:flex sm:my-10 min-h-fit container w-full">
-          <div className="flex relative">
-            <Image
-              src={animal.imageUrl}
-              alt={`${animal.name}'s avatar`}
-              width={600}
-              height={500}
-              className="object-cover"
-            />
+        <div className="flex flex-col lg:flex-row lg:items-center sm:my-10 min-h-fit container w-full">
+            <div className='flex relative justify-center  max-h-128 bg-red-200'>
+              {/*
+              <Image
+                src={animal.imageUrl}
+                alt={`${animal.name}'s avatar`}
+                width={600}
+                height={500}
+                className="object-cover"
+              /> */}
+              <img  className='object-cover'src={animal.imageUrl} alt={`${animal.name}'s avatar`}/>
+            
 
             {!favoriteAnimals?.includes(animal.id) ? (
               <button
@@ -229,9 +232,9 @@ const index = () => {
               >
                 <HeartDislike className="h-7 w-7 text-gray-500 hover:text-pink-500 duration-200" />
               </button>
-            )}
-          </div>
-          <div className="flex flex-col p-4 text-left items-start justify-center">
+            )}</div>
+        
+          <div className="flex flex-col lg:w-1/2 p-4 text-left items-start justify-center">
             <p className="text-2xl font-light">
               <span className="text-gray-700 text-2xl font-medium">Name: </span>
               {animal.name}
@@ -255,7 +258,7 @@ const index = () => {
               </span>
               {animal.gender}
             </p>
-            <p className="font-light">{animal.description}</p>
+            <p className="font-light text-lg mt-4">{animal.description}</p>
           </div>
         </div>
       </div>
@@ -273,7 +276,7 @@ const index = () => {
                 <span className="text-blue-500 w-8">
                   <Location />
                 </span>
-                {animal.streetAddress}, {animal.city}, {animal.state},
+                {animal.streetAddress}, {`${animal.city[0].toUpperCase()}${animal.city.substring(1)}`}, {animal.state.toUpperCase()}, {" "}
                 {animal.zipCode}
               </p>
             </div>
@@ -306,7 +309,7 @@ const index = () => {
       </div>
 
       <div className="flex w-full flex-1 flex-col bg-purple-400 items-center">
-        <h3 className="text-white font-;light text-3xl py-5">
+        <h3 className="text-white text-center font-;light text-3xl py-5">
           Contact Us about {animal.name}
         </h3>
         <div className="flex flex-col w-full container justify-center">

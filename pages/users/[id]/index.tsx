@@ -6,7 +6,7 @@ import Head from "next/head";
 import AnimalCard from "../../../components/AnimalCard";
 import TestLayout from "../../../components/Layout";
 
-const FETCH_USER = gql`
+export const FETCH_USER = gql`
   query FetchUser($userId: String!) {
     fetchUser(id: $userId) {
       name
@@ -62,7 +62,7 @@ const index = () => {
           </div>
           <h3 className="text-2xl">Favorited Animals</h3>
 
-          <ul className="flex flex-wrap justify-center items-center grid-cols-1 md:grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+          <ul className="flex flex-wrap justify-center  grid-cols-1 md:grid md:grid-cols-2 lg:grid-cols-3 gap-5">
             {user &&
               user.favoriteAnimals.map((pet: any, key: any) => (
                 <li
