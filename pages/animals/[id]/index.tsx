@@ -201,8 +201,8 @@ const index = () => {
         </Head>
 
         <div className="flex flex-col lg:flex-row lg:items-center sm:my-10 min-h-fit container w-full">
-            <div className='flex relative justify-center max-h-128'>
-              {/*
+          <div className="flex relative justify-center max-h-128">
+            {/*
               <Image
                 src={animal.imageUrl}
                 alt={`${animal.name}'s avatar`}
@@ -210,8 +210,11 @@ const index = () => {
                 height={500}
                 className="object-cover"
               /> */}
-              <img  className='flex w-full object-cover'src={animal.imageUrl} alt={`${animal.name}'s avatar`}/>
-            
+            <img
+              className="flex w-full object-cover"
+              src={animal.imageUrl}
+              alt={`${animal.name}'s avatar`}
+            />
 
             {!favoriteAnimals?.includes(animal.id) ? (
               <button
@@ -232,18 +235,19 @@ const index = () => {
               >
                 <HeartDislike className="h-7 w-7 text-gray-500 hover:text-pink-500 duration-200" />
               </button>
-            )}</div>
-        
+            )}
+          </div>
+
           <div className="flex flex-col lg:w-1/2 p-4 text-left items-start justify-center">
             <p className="text-2xl font-light">
               <span className="text-gray-700 text-2xl font-medium">Name: </span>
-              {animal.name}
+              {animal.name[0].toUpperCase() + animal.name.substring(1)}
             </p>
             <p className="text-2xl font-light">
               <span className="text-gray-700 font-medium text-2xl">
                 Breed:{" "}
               </span>
-              {animal.breed}
+              {animal.breed[0].toUpperCase() + animal.breed.substring(1)}
             </p>
 
             <p
@@ -256,7 +260,7 @@ const index = () => {
               <span className="text-gray-700 font-medium text-2xl">
                 Gender:{" "}
               </span>
-              {animal.gender}
+              {animal.gender[0].toUpperCase() + animal.gender.substring(1)}
             </p>
             <p className="font-light text-lg mt-4">{animal.description}</p>
           </div>
@@ -265,19 +269,23 @@ const index = () => {
 
       <div className="flex flex-col sm:flex sm:flex-row flex-2 w-full items-center justify-center bg-purple-100 py-5">
         <div className="flex flex-col sm:container justify-between items-center">
-          <p className="text-3xl font-light pt-3">Where is {animal.name}?</p>
+          <p className="text-3xl font-light pt-3">
+            Where is {animal.name[0].toUpperCase() + animal.name.substring(1)}?
+          </p>
 
           <div className="flex flex-col md:flex-row items-center justify-center md:justify-between  lg:justify-around w-full mb-5">
             <div>
               <p className="text-lg flex font-light pr-2 md: text:xl lg:text-2xl items-center">
-                {animal.name} is located at:{" "}
+                {animal.name[0].toUpperCase() + animal.name.substring(1)} is
+                located at:{" "}
               </p>
               <p className="text-lg flex font-light pr-2 md: text:xl lg:text-2xl items-center">
                 <span className="text-blue-500 w-8">
                   <Location />
                 </span>
-                {animal.streetAddress}, {`${animal.city[0].toUpperCase()}${animal.city.substring(1)}`}, {animal.state.toUpperCase()}, {" "}
-                {animal.zipCode}
+                {animal.streetAddress},{" "}
+                {`${animal.city[0].toUpperCase()}${animal.city.substring(1)}`},{" "}
+                {animal.state.toUpperCase()}, {animal.zipCode}
               </p>
             </div>
             {lng && lat && (
@@ -298,7 +306,9 @@ const index = () => {
                   <Marker coordinates={[lng, lat]} anchor="bottom">
                     <div className="w-12 text-red-500">
                       <LocationPin />
-                      <p className="flex w-16">{`${animal.name}'s location`}</p>
+                      <p className="flex w-16">{`${
+                        animal.name[0].toUpperCase() + animal.name.substring(1)
+                      }'s location`}</p>
                     </div>
                   </Marker>
                 </Map>
@@ -310,7 +320,8 @@ const index = () => {
 
       <div className="flex w-full flex-1 flex-col bg-purple-400 items-center">
         <h3 className="text-white text-center font-;light text-3xl py-5">
-          Contact Us about {animal.name}
+          Contact Us about{" "}
+          {animal.name[0].toUpperCase() + animal.name.substring(1)}
         </h3>
         <div className="flex flex-col w-full container justify-center">
           <div className="flex justify-center">
