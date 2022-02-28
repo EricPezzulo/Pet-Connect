@@ -19,6 +19,11 @@ module.exports = {
       spacing: {
         18: "4.5rem",
       },
+      fontFamily: {
+        "Titillium-Web": ["Saira Condensed", "sans-serif"],
+        Hubballi: ["Hubballi", "cursive"],
+        "Work-Sans": ["Work Sans", " sans-serif"],
+      },
     },
   },
   plugins: [require("@tailwindcss/line-clamp")],

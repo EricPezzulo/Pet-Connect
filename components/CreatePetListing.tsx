@@ -174,7 +174,8 @@ const CreatePetListing = () => {
       const data: any = res.data.message;
       setDogBreeds(
         Object.entries(data).map(
-          (breed) => breed[0].charAt(0).toUpperCase() + breed[0].substring(1)
+          (breed: any) =>
+            breed[0].charAt(0).toUpperCase() + breed[0].substring(1)
         )
       );
     };
@@ -358,7 +359,7 @@ const CreatePetListing = () => {
                       leaveFrom="opacity-100"
                       leaveTo="opacity-0"
                     >
-                      <Listbox.Options className="absolute w-full py-1 mt-2 overflow-auto text-base bg-white rounded-md shadow-lg max-h-60 ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm z-50">
+                      <Listbox.Options className="absolute w-full  py-1 mt-2 overflow-auto text-base bg-white rounded-md shadow-lg max-h-60 ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm z-50">
                         {dogBreeds.map((breed: any, breedIdx: number) => (
                           <Listbox.Option
                             key={breedIdx}
@@ -499,7 +500,7 @@ const CreatePetListing = () => {
             <div className="flex flex-col relative py-1">
               <label
                 htmlFor="species"
-                className="flex w-min relative top-3 left-5 px-2 text-gray-500 bg-zinc-50 z-50 sm:bg-white"
+                className="flex w-min relative top-3 left-5 px-2 text-gray-500 bg-zinc-50 z-40 sm:bg-white"
               >
                 Species:<span className="text-red-500">*</span>
               </label>
