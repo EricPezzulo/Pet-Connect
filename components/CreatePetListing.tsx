@@ -1,11 +1,12 @@
 import { useMutation } from "@apollo/client";
 import { gql } from "apollo-server-micro";
 import { Close } from "@styled-icons/evaicons-solid/Close";
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { FETCH_ALL_ANIMALS } from "../pages";
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, SelectorIcon } from "@heroicons/react/solid";
 import { useSession } from "next-auth/react";
+import axios from "axios";
 
 const CREATE_NEW_PET_LISTING = gql`
   mutation CreateNewAnimalListing(
@@ -83,6 +84,10 @@ const CreatePetListing = () => {
   const [loginErr, setLoginErr] = useState(false);
 
   const [selectedSpecies, setSelectedSpecies] = useState("Dog");
+  const [catBreeds, setCatBreeds] = useState([]);
+  const [dogBreeds, setDogBreeds] = useState([]);
+  const [selectedCatBreed, setSelectedCatBreed] = useState();
+  const [selectedDogBreed, setSelectedDogBreed] = useState("Affenpinscher");
   const { data: session }: any = useSession();
 
   const submitPet = (e: any) => {
@@ -108,25 +113,25 @@ const CreatePetListing = () => {
       return setErrorMsg(true);
     createNewPetListing({
       variables: {
-        name: newPet.name.toLocaleLowerCase(),
+        name: newPet.name,
         dob: newPet.dob,
         weight: newPet.weight,
-        color: newPet.color.toLocaleLowerCase(),
-        gender: newPet.gender.toLocaleLowerCase(),
-        breed: newPet.breed.toLocaleLowerCase(),
-        species: newPet.species.toLocaleLowerCase(),
+        color: newPet.color,
+        gender: newPet.gender,
+        breed: newPet.breed,
+        species: newPet.species,
         childFriendly: newPet.childFriendly,
         dogFriendly: newPet.dogFriendly,
         catFriendly: newPet.catFriendly,
         vaccinationsUptoDate: newPet.vaccinationsUptoDate,
         description: newPet.description,
         imageUrl: newPet.imageUrl,
-        city: newPet.city.toLocaleLowerCase(),
-        state: newPet.state.toLocaleLowerCase(),
-        streetAddress: newPet.streetAddress.toLocaleLowerCase(),
+        city: newPet.city,
+        state: newPet.state,
+        streetAddress: newPet.streetAddress,
         zipCode: newPet.zipCode,
-        contactEmail: newPet.contactEmail.toLocaleLowerCase(),
-        additionalInfo: newPet.additionalInfo.toLocaleLowerCase(),
+        contactEmail: newPet.contactEmail,
+        additionalInfo: newPet.additionalInfo,
       },
       refetchQueries: [{ query: FETCH_ALL_ANIMALS }],
     });
@@ -156,7 +161,26 @@ const CreatePetListing = () => {
         });
     }, 2500);
   };
-
+  useEffect(() => {
+    const fetchCatBreeds = async () => {
+      const res: any = await axios.get(
+        "https://api.thecatapi.com/v1/breeds?attach_breed=0"
+      );
+      setCatBreeds(res.data.map((breeds: any) => breeds.name));
+      setSelectedCatBreed(res.data[0].name);
+    };
+    const fetchDogBreeds = async () => {
+      const res: any = await axios.get("https://dog.ceo/api/breeds/list/all");
+      const data: any = res.data.message;
+      setDogBreeds(
+        Object.entries(data).map(
+          (breed) => breed[0].charAt(0).toUpperCase() + breed[0].substring(1)
+        )
+      );
+    };
+    fetchDogBreeds();
+    fetchCatBreeds();
+  }, []);
   return (
     <>
       {successMsg && (
@@ -306,19 +330,134 @@ const CreatePetListing = () => {
             <div className="flex flex-col py-1">
               <label
                 htmlFor="breed"
-                className="flex w-min relative top-3 left-5 px-2 text-gray-500 bg-zinc-50 sm:bg-white"
+                className="flex w-min relative top-4 left-5 z-50 px-2 text-gray-500 bg-zinc-50 sm:bg-white"
               >
-                Breed:<span className="text-red-500">*</span>
+                Breed:<span className="text-red-500 z-50">*</span>
               </label>
-              <input
-                type="text"
-                placeholder="Laborador"
-                className="rounded-md px-2 py-2 bg-pwhite border-purple-300 border font-light bg-zinc-50 sm:bg-white outline-none mx-1"
-                value={newPet.breed}
-                onChange={(e) =>
-                  setNewPet({ ...newPet, breed: e.target.value })
-                }
-              />
+
+              {selectedSpecies === "Dog" ? (
+                <Listbox
+                  value={selectedDogBreed}
+                  onChange={setSelectedDogBreed}
+                >
+                  <div className="relative mt-1">
+                    <Listbox.Button className="relative py-2 mx-1 pl-3 pr-10 text-left sm:bg-white rounded-lg cursor-pointer border border-purple-300 focus:outline-none sm:text">
+                      <span className="block truncate font-light">
+                        {selectedDogBreed}
+                      </span>
+                      <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+                        <SelectorIcon
+                          className="w-5 h-5 text-gray-400"
+                          aria-hidden="true"
+                        />
+                      </span>
+                    </Listbox.Button>
+                    <Transition
+                      as={Fragment}
+                      leave="transition ease-in duration-100"
+                      leaveFrom="opacity-100"
+                      leaveTo="opacity-0"
+                    >
+                      <Listbox.Options className="absolute w-full py-1 mt-2 overflow-auto text-base bg-white rounded-md shadow-lg max-h-60 ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm z-50">
+                        {dogBreeds.map((breed: any, breedIdx: number) => (
+                          <Listbox.Option
+                            key={breedIdx}
+                            className={({ active }) =>
+                              `cursor-default select-none relative py-2 pl-10 pr-4 ${
+                                active
+                                  ? "text-purple-900 bg-purple-100"
+                                  : "text-gray-900"
+                              }`
+                            }
+                            value={breed}
+                          >
+                            {({ selected }) => (
+                              <>
+                                <span
+                                  className={`block truncate ${
+                                    selected ? "font-medium" : "font-normal"
+                                  }`}
+                                >
+                                  {breed}
+                                </span>
+                                {selected ? (
+                                  <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-purple-600">
+                                    <CheckIcon
+                                      className="w-5 h-5"
+                                      aria-hidden="true"
+                                    />
+                                  </span>
+                                ) : null}
+                              </>
+                            )}
+                          </Listbox.Option>
+                        ))}
+                      </Listbox.Options>
+                    </Transition>
+                  </div>
+                </Listbox>
+              ) : (
+                <Listbox
+                  value={selectedCatBreed}
+                  onChange={setSelectedCatBreed}
+                >
+                  <div className="relative mt-1">
+                    <Listbox.Button className="relative py-2 mx-1 pl-3 pr-10 text-left sm:bg-white rounded-lg cursor-pointer border border-purple-300 focus:outline-none sm:text">
+                      <span className="block truncate font-light">
+                        {selectedCatBreed}
+                      </span>
+                      <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+                        <SelectorIcon
+                          className="w-5 h-5 text-gray-400"
+                          aria-hidden="true"
+                        />
+                      </span>
+                    </Listbox.Button>
+                    <Transition
+                      as={Fragment}
+                      leave="transition ease-in duration-100"
+                      leaveFrom="opacity-100"
+                      leaveTo="opacity-0"
+                    >
+                      <Listbox.Options className="absolute w-full py-1 mt-1 overflow-auto text-base bg-white rounded-md shadow-lg max-h-60 ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm z-50">
+                        {catBreeds.map((breed: string, breedIdx: number) => (
+                          <Listbox.Option
+                            key={breedIdx}
+                            className={({ active }) =>
+                              `cursor-default select-none relative py-2 pl-10 pr-4 ${
+                                active
+                                  ? "text-purple-900 bg-purple-100"
+                                  : "text-gray-900"
+                              }`
+                            }
+                            value={breed}
+                          >
+                            {({ selected }) => (
+                              <>
+                                <span
+                                  className={`block truncate ${
+                                    selected ? "font-medium" : "font-normal"
+                                  }`}
+                                >
+                                  {breed}
+                                </span>
+                                {selected ? (
+                                  <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-purple-600">
+                                    <CheckIcon
+                                      className="w-5 h-5"
+                                      aria-hidden="true"
+                                    />
+                                  </span>
+                                ) : null}
+                              </>
+                            )}
+                          </Listbox.Option>
+                        ))}
+                      </Listbox.Options>
+                    </Transition>
+                  </div>
+                </Listbox>
+              )}
             </div>
           </div>
           <div className="flex flex-col">
@@ -365,7 +504,7 @@ const CreatePetListing = () => {
                 Species:<span className="text-red-500">*</span>
               </label>
               <Listbox value={selectedSpecies} onChange={setSelectedSpecies}>
-                <Listbox.Button className="relative  py-2 mx-1 pl-3 pr-10 text-left sm:bg-white rounded-lg cursor-pointer border border-purple-300 focus:outline-none sm:text">
+                <Listbox.Button className="relative py-2 mx-1 pl-3 pr-10 text-left sm:bg-white rounded-lg cursor-pointer border border-purple-300 focus:outline-none sm:text">
                   <span className="block truncate font-light">
                     {selectedSpecies}
                   </span>

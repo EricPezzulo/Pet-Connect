@@ -160,9 +160,18 @@ const index = () => {
   const [captchaValue, setCaptchaValue] = useState("");
   const captchaChange = (value: any) => {
     setCaptchaValue(value);
-    // console.log(value);
   };
 
+  // let addrFormat =
+  //   address?.split(" ")[0] +
+  //   " " +
+  //   address?.split(" ")[1].charAt(0).toUpperCase() +
+  //   address?.split(" ")[1].substring(1) +
+  //   " " +
+  //   address?.split(" ")[2].charAt(0).toUpperCase() +
+  //   address?.split(" ")[2].substring(1);
+
+  // console.log(addrFormat);
   const submitMessage = (e: any) => {
     e.preventDefault();
     if (captchaValue) {
@@ -241,13 +250,13 @@ const index = () => {
           <div className="flex flex-col lg:w-1/2 p-4 text-left items-start justify-center">
             <p className="text-2xl font-light">
               <span className="text-gray-700 text-2xl font-medium">Name: </span>
-              {animal.name[0].toUpperCase() + animal.name.substring(1)}
+              {animal.name}
             </p>
             <p className="text-2xl font-light">
               <span className="text-gray-700 font-medium text-2xl">
                 Breed:{" "}
               </span>
-              {animal.breed[0].toUpperCase() + animal.breed.substring(1)}
+              {animal.breed}
             </p>
 
             <p
@@ -260,7 +269,7 @@ const index = () => {
               <span className="text-gray-700 font-medium text-2xl">
                 Gender:{" "}
               </span>
-              {animal.gender[0].toUpperCase() + animal.gender.substring(1)}
+              {animal.gender}
             </p>
             <p className="font-light text-lg mt-4">{animal.description}</p>
           </div>
@@ -269,23 +278,19 @@ const index = () => {
 
       <div className="flex flex-col sm:flex sm:flex-row flex-2 w-full items-center justify-center bg-purple-100 py-5">
         <div className="flex flex-col sm:container justify-between items-center">
-          <p className="text-3xl font-light pt-3">
-            Where is {animal.name[0].toUpperCase() + animal.name.substring(1)}?
-          </p>
+          <p className="text-3xl font-light pt-3">Where is {animal.name}?</p>
 
           <div className="flex flex-col md:flex-row items-center justify-center md:justify-between  lg:justify-around w-full mb-5">
             <div>
               <p className="text-lg flex font-light pr-2 md: text:xl lg:text-2xl items-center">
-                {animal.name[0].toUpperCase() + animal.name.substring(1)} is
-                located at:{" "}
+                {animal.name} is located at:{" "}
               </p>
               <p className="text-lg flex font-light pr-2 md: text:xl lg:text-2xl items-center">
                 <span className="text-blue-500 w-8">
                   <Location />
                 </span>
-                {animal.streetAddress},{" "}
-                {`${animal.city[0].toUpperCase()}${animal.city.substring(1)}`},{" "}
-                {animal.state.toUpperCase()}, {animal.zipCode}
+                {animal.streetAddress}, {animal.city}, {animal.state},{" "}
+                {animal.zipCode}
               </p>
             </div>
             {lng && lat && (

@@ -48,19 +48,19 @@ const index = () => {
       </Head>
       <div className="w-full flex flex-col self-center">
         <div className="container flex flex-col mx-auto my-10">
-          <div className="w-full flex flex-col my-5">
-            <div>
-              <Image
+          <div className="w-full flex flex-col my-5 items-center sm:items-start">
+            <div className="flex w-36 h-36 ">
+              <img
                 src={user.image}
                 alt={`${user.name}'s avatar`}
-                width={150}
-                height={150}
                 className="rounded-full"
               />
             </div>
-            <p className="text-xl font-light"> {user.name} </p>
+            <p className="text-3xl"> {user.name} </p>
           </div>
-          <h3 className="text-2xl">Favorited Animals</h3>
+          <h3 className="text-2xl text-center sm:text-left">
+            Favorited Animals
+          </h3>
 
           <ul className="flex flex-wrap justify-center  grid-cols-1 md:grid md:grid-cols-2 lg:grid-cols-3 gap-5">
             {user &&
