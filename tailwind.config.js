@@ -5,6 +5,9 @@ module.exports = {
   ],
   theme: {
     extend: {
+      zIndex: {
+        60: 60,
+      },
       width: {
         34: "8.5rem",
         90: "22rem",

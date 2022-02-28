@@ -100,8 +100,8 @@ const CreatePetListing = () => {
       newPet.weight === "" ||
       newPet.color === "" ||
       newPet.gender === "" ||
-      newPet.breed === "" ||
-      newPet.species === "" ||
+      // newPet.breed === "" ||
+      // newPet.species === "" ||
       newPet.description === "" ||
       newPet.streetAddress === "" ||
       newPet.city === "" ||
@@ -109,32 +109,61 @@ const CreatePetListing = () => {
       newPet.imageUrl === "" ||
       newPet.state === "" ||
       newPet.contactEmail === ""
-    )
+    ) {
       return setErrorMsg(true);
-    createNewPetListing({
-      variables: {
-        name: newPet.name,
-        dob: newPet.dob,
-        weight: newPet.weight,
-        color: newPet.color,
-        gender: newPet.gender,
-        breed: newPet.breed,
-        species: newPet.species,
-        childFriendly: newPet.childFriendly,
-        dogFriendly: newPet.dogFriendly,
-        catFriendly: newPet.catFriendly,
-        vaccinationsUptoDate: newPet.vaccinationsUptoDate,
-        description: newPet.description,
-        imageUrl: newPet.imageUrl,
-        city: newPet.city,
-        state: newPet.state,
-        streetAddress: newPet.streetAddress,
-        zipCode: newPet.zipCode,
-        contactEmail: newPet.contactEmail,
-        additionalInfo: newPet.additionalInfo,
-      },
-      refetchQueries: [{ query: FETCH_ALL_ANIMALS }],
-    });
+    }
+    if (selectedSpecies === "Dog") {
+      createNewPetListing({
+        variables: {
+          name: newPet.name,
+          dob: newPet.dob,
+          weight: newPet.weight,
+          color: newPet.color,
+          gender: newPet.gender,
+          breed: selectedDogBreed[0],
+          species: selectedSpecies,
+          childFriendly: newPet.childFriendly,
+          dogFriendly: newPet.dogFriendly,
+          catFriendly: newPet.catFriendly,
+          vaccinationsUptoDate: newPet.vaccinationsUptoDate,
+          description: newPet.description,
+          imageUrl: newPet.imageUrl,
+          city: newPet.city,
+          state: newPet.state,
+          streetAddress: newPet.streetAddress,
+          zipCode: newPet.zipCode,
+          contactEmail: newPet.contactEmail,
+          additionalInfo: newPet.additionalInfo,
+        },
+        refetchQueries: [{ query: FETCH_ALL_ANIMALS }],
+      });
+    }
+    if (selectedSpecies === "Cat") {
+      createNewPetListing({
+        variables: {
+          name: newPet.name,
+          dob: newPet.dob,
+          weight: newPet.weight,
+          color: newPet.color,
+          gender: newPet.gender,
+          breed: selectedCatBreed,
+          species: selectedSpecies,
+          childFriendly: newPet.childFriendly,
+          dogFriendly: newPet.dogFriendly,
+          catFriendly: newPet.catFriendly,
+          vaccinationsUptoDate: newPet.vaccinationsUptoDate,
+          description: newPet.description,
+          imageUrl: newPet.imageUrl,
+          city: newPet.city,
+          state: newPet.state,
+          streetAddress: newPet.streetAddress,
+          zipCode: newPet.zipCode,
+          contactEmail: newPet.contactEmail,
+          additionalInfo: newPet.additionalInfo,
+        },
+        refetchQueries: [{ query: FETCH_ALL_ANIMALS }],
+      });
+    }
     setSuccessMsg(true);
     setTimeout(() => {
       setSuccessMsg(false),
@@ -170,14 +199,9 @@ const CreatePetListing = () => {
       setSelectedCatBreed(res.data[0].name);
     };
     const fetchDogBreeds = async () => {
-      const res: any = await axios.get("https://dog.ceo/api/breeds/list/all");
-      const data: any = res.data.message;
-      setDogBreeds(
-        Object.entries(data).map(
-          (breed: any) =>
-            breed[0].charAt(0).toUpperCase() + breed[0].substring(1)
-        )
-      );
+      const res = await axios.get("https://dog.ceo/api/breeds/list/all");
+      const data = res.data.message;
+      setDogBreeds(Object.entries(data).map((breed: any) => breed));
     };
     fetchDogBreeds();
     fetchCatBreeds();
@@ -185,7 +209,7 @@ const CreatePetListing = () => {
   return (
     <>
       {successMsg && (
-        <div className="flex w-96 h-44 absolute z-50 justify-center items-center self-center bg-white border-2 border-violet-400 rounded shadow-md">
+        <div className="flex w-96 h-44 absolute z-60 justify-center items-center self-center bg-white border-2 border-violet-400 rounded shadow-md">
           <button
             className="w-8 absolute top-2 right-2 hover:text-red-500 duration-200"
             onClick={() => setSuccessMsg(false)}
@@ -202,7 +226,7 @@ const CreatePetListing = () => {
         </div>
       )}
       {errorMsg && (
-        <div className="flex w-96 h-44 absolute z-50 justify-center items-center self-center bg-white border-2 border-violet-400 rounded shadow-md">
+        <div className="flex w-96 h-44 absolute z-60 justify-center items-center self-center bg-white border-2 border-violet-400 rounded shadow-md">
           <button
             className="w-8 absolute top-2 right-2 bg-red-500 rounded text-white duration-200"
             onClick={() => setErrorMsg(false)}
@@ -221,7 +245,7 @@ const CreatePetListing = () => {
         </div>
       )}
       {loginErr && (
-        <div className="flex w-96 h-56 absolute z-50 justify-center items-center self-center bg-white border-2 border-violet-400 rounded shadow-md">
+        <div className="flex w-96 h-56 absolute z-60 justify-center items-center self-center bg-white border-2 border-violet-400 rounded shadow-md">
           <button
             className="w-8 absolute top-2 right-2 bg-red-500 rounded text-white duration-200"
             onClick={() => setLoginErr(false)}
@@ -343,7 +367,7 @@ const CreatePetListing = () => {
                 >
                   <div className="relative mt-1">
                     <Listbox.Button className="relative py-2 mx-1 pl-3 pr-10 text-left sm:bg-white rounded-lg cursor-pointer border border-purple-300 focus:outline-none sm:text">
-                      <span className="block truncate font-light">
+                      <span className="block truncate capitalize font-light">
                         {selectedDogBreed}
                       </span>
                       <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
@@ -364,7 +388,7 @@ const CreatePetListing = () => {
                           <Listbox.Option
                             key={breedIdx}
                             className={({ active }) =>
-                              `cursor-default select-none relative py-2 pl-10 pr-4 ${
+                              `cursor-default capitalize select-none relative py-2 pl-10 pr-4 ${
                                 active
                                   ? "text-purple-900 bg-purple-100"
                                   : "text-gray-900"
@@ -748,7 +772,7 @@ const CreatePetListing = () => {
         <div>
           <label
             htmlFor="imageUrl"
-            className="flex w-24 justify-center relative top-3 left-5 px-2 text-gray-500 bg-zinc-50 sm:bg-white"
+            className="flex w-28 justify-center relative top-3 left-5 px-2 text-gray-500 bg-zinc-50 sm:bg-white"
           >
             Image Url:<span className="text-red-500">*</span>
           </label>

@@ -11,7 +11,8 @@ import { HeartDislike } from "styled-icons/ionicons-outline";
 import { useSession } from "next-auth/react";
 import ReCAPTCHA from "react-google-recaptcha";
 import Layout from "../../../components/Layout";
-
+import { Check } from "@styled-icons/boxicons-regular/Check";
+import { Close } from "@styled-icons/ionicons-outline/Close";
 const FETCH_ANIMAL = gql`
   query FetchAnimal($animalId: String!) {
     fetchAnimal(id: $animalId) {
@@ -20,6 +21,8 @@ const FETCH_ANIMAL = gql`
       name
       breed
       gender
+      weight
+      color
       description
       imageUrl
       city
@@ -27,11 +30,10 @@ const FETCH_ANIMAL = gql`
       zipCode
       streetAddress
       contactEmail
-      favoritedBy {
-        name
-        email
-        image
-      }
+      childFriendly
+      dogFriendly
+      catFriendly
+      vaccinationsUptoDate
     }
   }
 `;
@@ -162,16 +164,6 @@ const index = () => {
     setCaptchaValue(value);
   };
 
-  // let addrFormat =
-  //   address?.split(" ")[0] +
-  //   " " +
-  //   address?.split(" ")[1].charAt(0).toUpperCase() +
-  //   address?.split(" ")[1].substring(1) +
-  //   " " +
-  //   address?.split(" ")[2].charAt(0).toUpperCase() +
-  //   address?.split(" ")[2].substring(1);
-
-  // console.log(addrFormat);
   const submitMessage = (e: any) => {
     e.preventDefault();
     if (captchaValue) {
@@ -198,7 +190,7 @@ const index = () => {
     <Layout>
       <div className="flex items-center justify-center flex-col flex-2 pb-4">
         <Head>
-          <title>{`${animal.name}`}</title>
+          <title>{`PetConnect - ${animal.name}`}</title>
           <meta
             name="viewport"
             content="initial-scale=1.0, width=device-width"
@@ -211,14 +203,6 @@ const index = () => {
 
         <div className="flex flex-col lg:flex-row lg:items-center sm:my-10 min-h-fit container w-full">
           <div className="flex relative justify-center max-h-128">
-            {/*
-              <Image
-                src={animal.imageUrl}
-                alt={`${animal.name}'s avatar`}
-                width={600}
-                height={500}
-                className="object-cover"
-              /> */}
             <img
               className="flex w-full object-cover"
               src={animal.imageUrl}
@@ -258,20 +242,79 @@ const index = () => {
               </span>
               {animal.breed}
             </p>
-
-            <p
-              className={
-                animal.gender === "Male"
-                  ? `text-2xl font-medium text-blue-600`
-                  : `text-pink-600 text-2xl`
-              }
-            >
+            <p className="text-2xl font-light">
+              <span className="text-gray-700 text-2xl font-medium">
+                Color:{" "}
+              </span>
+              {animal.color}
+            </p>
+            <p className="text-2xl font-light">
+              <span className="text-gray-700 text-2xl font-medium">
+                Weight:{" "}
+              </span>
+              {animal.weight} lbs
+            </p>
+            <p className={`text-2xl font-light`}>
               <span className="text-gray-700 font-medium text-2xl">
                 Gender:{" "}
               </span>
               {animal.gender}
             </p>
-            <p className="font-light text-lg mt-4">{animal.description}</p>
+            <div className="flex items-center">
+              <p className="text-xl text-gray-700">Child Friendly:</p>{" "}
+              {animal.childFriendly ? (
+                <div className="w-8 text-green-400">
+                  <Check />
+                </div>
+              ) : (
+                <div className="w-8 text-red-400">
+                  <Close />
+                </div>
+              )}
+            </div>
+
+            <div className="flex items-center">
+              <p className="text-xl text-gray-700">Dog Friendly:</p>{" "}
+              {animal.dogFriendly ? (
+                <div className="w-8 text-green-400">
+                  <Check />
+                </div>
+              ) : (
+                <div className="w-8 text-red-400">
+                  <Close />
+                </div>
+              )}
+            </div>
+            <div className="flex items-center">
+              <p className="text-xl text-gray-700">Cat Friendly:</p>{" "}
+              {animal.catFriendly ? (
+                <div className="w-8 text-green-400">
+                  <Check />
+                </div>
+              ) : (
+                <div className="w-8 text-red-400">
+                  <Close />
+                </div>
+              )}
+            </div>
+            <div className="flex items-center">
+              <p className="text-xl text-gray-700">Vaccinated:</p>{" "}
+              {animal.vaccinationsUptoDate ? (
+                <div className="w-8 text-green-400">
+                  <Check />
+                </div>
+              ) : (
+                <div className="w-8 text-red-400">
+                  <Close />
+                </div>
+              )}
+            </div>
+            <p
+              className="text-lg font-light font-Work-Sans
+            "
+            >
+              {animal.description}
+            </p>
           </div>
         </div>
       </div>
@@ -346,7 +389,7 @@ const index = () => {
             />
             <button
               onClick={submitMessage}
-              className="rounded-md mt-4 text-white bg-purple-700 px-2 py-1"
+              className="rounded-md mt-4 text-white bg-purple-700  hover:bg-purple-600 duration-100 px-2 py-1"
             >
               Sumbit
             </button>
