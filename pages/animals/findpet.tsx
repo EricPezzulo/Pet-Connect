@@ -66,8 +66,6 @@ const findpet = () => {
   const dogResults: string[] = animalData?.fetchAllAnimals.filter(
     (dog: any) => dog.species === "Dog"
   );
-  console.log(dogResults);
-  // console.log(catResults);
 
   const displayDogResults = dogResults?.map((dog: any, key: any) => {
     return (
@@ -133,6 +131,7 @@ const findpet = () => {
     <Layout>
       <Head>
         <title>Find a pet</title>
+        <meta  name="description" content="Pet search results" />
       </Head>
       <div className="bg-zinc-50 flex-col flex-1 h-full">
         <div className="container flex flex-col mx-auto">
@@ -141,15 +140,15 @@ const findpet = () => {
           </h1>
           <div className="flex flex-col md:flex-row justify-center">
             <div className="flex flex-1 flex-col">
-              <p className="text-xl mb-2">Filter By:</p>{" "}
+              <h2 className="text-xl mb-2">Filter By:</h2>{" "}
               <div className="flex flex-col w-90 shadow bg-zinc-50 p-3 rounded-md border border-purple-200 ">
                 <div className="flex w-min self-center ">
                   <button
                     onClick={() => setSelectedSpecies("Dog")}
                     className={
                       selectedSpecies === "Dog"
-                        ? `flex text-xl items-center bg-purple-500 w-20 rounded-xl px-2 py-1 m-1 text-white`
-                        : `flex text-xl items-center bg-gray-300 w-20 rounded-xl px-2 py-1 m-1 text-white`
+                        ? `flex text-xl items-center bg-purple-600 w-20 rounded-xl px-2 py-1 m-1 text-white`
+                        : `flex text-xl items-center bg-gray-300 w-20 rounded-xl px-2 py-1 m-1`
                     }
                   >
                     <div className="w-10">
@@ -161,8 +160,8 @@ const findpet = () => {
                     onClick={() => setSelectedSpecies("Cat")}
                     className={
                       selectedSpecies === "Cat"
-                        ? `flex text-xl items-center bg-purple-500 w-20 rounded-xl px-2 py-1 m-1 text-white`
-                        : `flex text-xl items-center bg-gray-300 w-20 rounded-xl px-2 py-1 m-1 text-white`
+                        ? `flex text-xl items-center bg-purple-600 w-20 rounded-xl px-2 py-1 m-1 text-white`
+                        : `flex text-xl items-center bg-gray-300 w-20 rounded-xl px-2 py-1 m-1`
                     }
                   >
                     <div className="w-10">

@@ -145,6 +145,7 @@ const AnimalCard = ({
 
           {!favoriteAnimals?.includes(id) ? (
             <button
+            aria-label="Add to favorites"
               type="button"
               className="opacity-30 group-hover:opacity-100 hover:shadow absolute top-2 right-2 bg-gray-200 hover:bg-gray-300 rounded-full p-2 hover:cursor-pointer duration-200 ease-in-out"
               onClick={addToFavs}
@@ -155,6 +156,7 @@ const AnimalCard = ({
             </button>
           ) : (
             <button
+            aria-label='Remove from favorites'
               type="button"
               className="opacity-30 group-hover:opacity-100 hover:shadow absolute top-2 right-2 bg-gray-200 hover:bg-gray-300 rounded-full p-2 hover:cursor-pointer duration-200 ease-in-out"
               onClick={() => deleteFromFavs(id)}
@@ -165,6 +167,7 @@ const AnimalCard = ({
           )}
 
           <button
+          aria-label={`View ${name}`}
             type="button"
             onClick={() => router.push(`/animals/${id}`)}
             className=" opacity-50 sm:opacity-0 group-hover:opacity-100 hover:shadow absolute bottom-2 right-2 bg-gray-200 hover:bg-gray-300 rounded-full p-1 hover:cursor-pointer duration-200 ease-in-out"

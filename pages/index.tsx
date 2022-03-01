@@ -63,29 +63,33 @@ const Home: NextPage = () => {
           />
           <div className="flex sm:relative w-full max-w-6xl h-auto justify-center items-center">
             <div className="flex bg-purple-500 opacity-75 hover:opacity-90 absolute px-3 py-2 rounded-full text-lg text-white bottom-10 sm:bottom-10 sm:left-20 shadow-lg duration-150 border-2 border-purple-700 hover:bg-purple-600 hover:cursor-pointer">
-              <button>Get Started</button>
+              <button aria-label="Get-Started">Get Started</button>
             </div>
           </div>
           <div className="flex group p-4  w-min absolute justify-center items-center top-0 mx-auto ">
             <button
+              aria-label="Image 1"
               onClick={() => {
                 setSliderIndex(0);
               }}
               className="bg-purple-300 opacity-60 hover:bg-purple-500 duration-150 group-hover:opacity-100 w-8 h-2 mx-2 shadow rounded-full"
             ></button>
             <button
+            aria-label='Image 2'
               onClick={() => {
                 setSliderIndex(1);
               }}
               className="bg-purple-300 opacity-60 hover:bg-purple-500 duration-150 group-hover:opacity-100 w-8 h-2 mx-2 shadow rounded-full"
             ></button>
             <button
+            aria-label="Image 3"
               onClick={() => {
                 setSliderIndex(2);
               }}
               className="bg-purple-300 opacity-60 hover:bg-purple-500 duration-150 group-hover:opacity-100 w-8 h-2 mx-2 shadow rounded-full"
             ></button>
             <button
+            aria-label="Image 4"
               onClick={() => {
                 setSliderIndex(3);
               }}
@@ -95,6 +99,7 @@ const Home: NextPage = () => {
         </div>
         <div className="bg-purple-600 w-full md:max-w-2xl md:self-center md:rounded-full md:h-14 md:mt-10 mb-5 h-20 grid grid-cols-2 divide-x-2 divide-purple-800">
           <button
+          aria-label="Find a pet"
             onClick={() => router.push("/animals/findpet")}
             className="flex items-center justify-center w-full text-white text-3xl font-extrabold font-Hubballi"
           >
@@ -105,6 +110,7 @@ const Home: NextPage = () => {
           </button>
 
           <button
+          aria-label='Create new pet listing'
             onClick={() => router.push("/animals/createnewlisting")}
             className="flex items-center justify-center w-full text-white text-3xl font-extrabold font-Hubballi"
           >

@@ -15,6 +15,10 @@ const nextConfig = {
       "www.mypetsies.com",
     ],
   },
+  i18n: {
+    locales: ["en"],
+    defaultLocale: "en",
+  },
 };
 
 module.exports = nextConfig;
