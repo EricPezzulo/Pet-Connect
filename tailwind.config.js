@@ -5,6 +5,9 @@ module.exports = {
   ],
   theme: {
     extend: {
+      scale:{
+        '105': '1.05'
+      },
       zIndex: {
         60: 60,
       },

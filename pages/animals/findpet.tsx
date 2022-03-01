@@ -74,19 +74,28 @@ const findpet = () => {
       <div
         key={key}
         onClick={() => router.push(`/animals/${dog.id}`)}
-        className="group m-2 shadow w-44 rounded-md hover:cursor-pointer"
+        className="group m-2 shadow max-w-md rounded-md hover:cursor-pointer hover:lg:scale-105 lg:hover:relative duration-100 ease-in-out"
       >
-        <div className="flex h-36 w-44">
+        <div className="flex h-80 sm:h-36 lg:h-56 w-full">
           <img
             className="flex w-full object-cover"
             src={dog.imageUrl}
             alt={`${dog.name}'s avatar`}
           />
         </div>
+        <div className='hidden group-hover:lg:block group-hover:lg:absolute bg-purple-400 bottom-16 w-full text-white duration-100 font-Titillium-Web ease-in-out '>
+          <p className='text-center py-1'>Weight: {dog.weight} lbs</p>
+          <p className="text-center py-1">{dog.gender}</p>
+        </div>
+        
+
         <div className="p-2 group-hover:bg-purple-500 duration-150 rounded-b-md group-hover:text-white">
           <p className="text-xl text-center font-Titillium-Web capitalize">
             {dog.name}
           </p>
+           
+          {/*<p className='hidden text-center group-hover:lg:block'>{dog.gender}</p>
+          <p className='hidden text-center group-hover:lg:block'>{dog.dob}</p> */}
           <p className="truncate text-center w-full font-Work-Sans capitalize">
             {dog.breed}
           </p>
@@ -99,9 +108,9 @@ const findpet = () => {
       <div
         key={key}
         onClick={() => router.push(`/animals/${cat.id}`)}
-        className="group m-2 shadow w-44 rounded-md hover:cursor-pointer"
+        className="group m-2 shadow w-56 h-auto rounded-md hover:cursor-pointer"
       >
-        <div className="flex h-36 w-44">
+        <div className="flex h-full w-full sm:h-36 sm:w-44">
           <img
             className="flex w-full object-cover"
             src={cat.imageUrl}
@@ -718,7 +727,6 @@ const findpet = () => {
                           </Listbox.Option>
                         </Listbox.Options>
                       </Transition>
-                      {/* HERE */}
                     </Listbox>
                   ) : (
                     <Listbox
@@ -843,9 +851,9 @@ const findpet = () => {
 
             <div className="flex flex-col flex-grow sm:ml-5">
               <h3 className="text-xl">Results</h3>
-              <div className="py-3 container rounded grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 place-items-center shadow">
+              <div className="p-3 container rounded place-items-center shadow">
                 {selectedSpecies === "Dog" ? (
-                  <> {displayDogResults} </>
+                  <div className='flex flex-col items-center sm:grid sm:grid-2 md:grid-cols-2 lg:grid-cols-3 w-full'> {displayDogResults} </div>
                 ) : (
                   <>{displayCatResults}</>
                 )}
