@@ -82,12 +82,11 @@ const CreatePetListing = () => {
   const [successMsg, setSuccessMsg] = useState(false);
   const [errorMsg, setErrorMsg] = useState(false);
   const [loginErr, setLoginErr] = useState(false);
-
   const [selectedSpecies, setSelectedSpecies] = useState("Dog");
   const [catBreeds, setCatBreeds] = useState([]);
   const [dogBreeds, setDogBreeds] = useState([]);
-  const [selectedCatBreed, setSelectedCatBreed] = useState();
-  const [selectedDogBreed, setSelectedDogBreed] = useState("Affenpinscher");
+  const [selectedCatBreed, setSelectedCatBreed] = useState("");
+  const [selectedDogBreed, setSelectedDogBreed] = useState("");
   const { data: session }: any = useSession();
 
   const submitPet = (e: any) => {
@@ -100,8 +99,8 @@ const CreatePetListing = () => {
       newPet.weight === "" ||
       newPet.color === "" ||
       newPet.gender === "" ||
-      // newPet.breed === "" ||
-      // newPet.species === "" ||
+      newPet.breed === "" ||
+      newPet.species === "" ||
       newPet.description === "" ||
       newPet.streetAddress === "" ||
       newPet.city === "" ||
@@ -201,7 +200,11 @@ const CreatePetListing = () => {
     const fetchDogBreeds = async () => {
       const res = await axios.get("https://dog.ceo/api/breeds/list/all");
       const data = res.data.message;
-      setDogBreeds(Object.entries(data).map((breed: any) => breed));
+      const listOfDogBreeds: any = Object.entries(data).map(
+        (breed: any) => breed[0].charAt(0).toUpperCase() + breed[0].substring(1)
+      );
+      setDogBreeds(listOfDogBreeds);
+      setSelectedDogBreed(Object.entries(data)[0][0])
     };
     fetchDogBreeds();
     fetchCatBreeds();
@@ -511,8 +514,8 @@ const CreatePetListing = () => {
                 Weight:<span className="text-red-500">*</span>
               </label>
               <input
-                type="number"
-                placeholder="45 (lbs)"
+                type="text"
+                placeholder="Small (lbs)"
                 className="rounded-md px-2 py-2 sm:bg-white border-purple-300 border font-light bg-zinc-50 outline-none mx-1"
                 value={newPet.weight}
                 onChange={(e) =>
@@ -761,6 +764,7 @@ const CreatePetListing = () => {
 
             <textarea
               value={newPet.description}
+              maxLength={150}
               onChange={(e) =>
                 setNewPet({ ...newPet, description: e.target.value })
               }

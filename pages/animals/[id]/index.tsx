@@ -251,9 +251,9 @@ const index = () => {
             </p>
             <p className="text-2xl font-light">
               <span className="text-gray-700 text-2xl font-medium">
-                Weight:{" "}
+               Size:{" "}
               </span>
-              {animal.weight} lbs
+              {animal.weight}
             </p>
             <p className={`text-2xl font-light`}>
               <span className="text-gray-700 font-medium text-2xl">
