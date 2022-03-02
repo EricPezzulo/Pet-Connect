@@ -192,9 +192,10 @@ const index = () => {
         <Head>
           <title>{`PetConnect - ${animal.name}`}</title>
           <meta
-            name="viewport"
-            content="initial-scale=1.0, width=device-width"
+            name="description"
+            content={`${animal}`}
           />
+           
           <link
             href="https://api.mapbox.com/mapbox-gl-js/v1.10.1/mapbox-gl.css"
             rel="stylesheet"

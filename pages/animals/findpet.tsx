@@ -8,6 +8,7 @@ import axios from "axios";
 import { useQuery } from "@apollo/client";
 import { gql } from "apollo-server-micro";
 import { useRouter } from "next/router";
+import { CatchingPokemon } from "styled-icons/material-twotone";
 
 const FETCH_ALL_ANIMALS = gql`
   query {
@@ -31,15 +32,16 @@ const findpet = () => {
   const [selectedDogAge, setSelectedDogAge] = useState("");
   const [selectedDogSize, setSelectedDogSize] = useState("");
   const [selectedDogBreed, setSelectedDogBreed] = useState("");
-  const [selectedCatAge, setSelectedCatAge] = useState("Kitten");
+  const [selectedCatAge, setSelectedCatAge] = useState("");
   const [selectedSpecies, setSelectedSpecies] = useState("Dog");
   const [catBreeds, setCatBreeds] = useState([]);
   const [dogBreeds, setDogBreeds] = useState([]);
   const [selectedCatBreed, setSelectedCatBreed] = useState("");
-  const [selectedCatSize, setSelectedCatSize] = useState("Small");
+  const [selectedCatSize, setSelectedCatSize] = useState("");
   const [displayDogFilteredResults, setDisplayDogFilteredResults] = useState(
     []
   );
+  const [displayCatFilteredResults,setDisplayCatFilteredResults]=useState([])
   const router = useRouter();
    let catResults: any = animalData?.fetchAllAnimals.filter(
     (cat: any) => cat.species === "Cat"
@@ -51,6 +53,9 @@ const findpet = () => {
   useEffect(() => {
     filterDogFunc()
   }, [selectedDogAge, selectedDogBreed, selectedDogSize]);
+  useEffect(()=> {
+     filterCatFunc()
+  },[selectedCatAge, selectedCatBreed, selectedCatSize])
   useEffect(() => {
     fetchDogBreeds();
     fetchCatBreeds();
@@ -69,7 +74,7 @@ const findpet = () => {
     }
     if (selectedDogBreed && selectedDogAge && !selectedDogSize) {
       let dogs = dogResults?.filter((dog: any) => {
-        return dog.breed === selectedDogBreed && dog.age === selectedDogAge;
+        return dog.breed === selectedDogBreed && dog.dob === selectedDogAge;
       });
       setDisplayDogFilteredResults(dogs);
     }
@@ -100,6 +105,64 @@ const findpet = () => {
         return dog.weight === selectedDogSize;
       });
       setDisplayDogFilteredResults(dogs);
+    }
+    if (selectedDogBreed && !selectedDogAge && selectedDogSize) {
+      let dogs = dogResults?.filter((dog: any) => {
+        return dog.weight === selectedDogSize && dog.breed === selectedDogBreed
+      });
+      setDisplayDogFilteredResults(dogs);
+    }
+  }
+  const filterCatFunc = () => {
+    if (!selectedCatBreed && !selectedCatAge && !selectedCatSize) {
+      let cat = catResults?.filter((cat: any) => cat.species === "Cat");
+      setDisplayCatFilteredResults(cat);
+    }
+    if (selectedCatBreed && !selectedCatAge && !selectedCatSize) {
+      let cats = catResults?.filter((cat: any) => {
+        return cat.breed === selectedCatBreed;
+      });
+      setDisplayCatFilteredResults(cats);
+    }
+    if (selectedCatBreed && selectedCatAge && !selectedCatSize) {
+      let cats = catResults?.filter((cat: any) => {
+        return cat.breed === selectedCatBreed && cat.dob === selectedCatAge;
+      });
+      setDisplayCatFilteredResults(cats);
+    }
+    if (selectedCatBreed && selectedCatAge && selectedCatSize) {
+      let cats = catResults?.filter((cat: any) => {
+        return (
+          cat.breed === selectedCatBreed &&
+          cat.dob === selectedCatAge &&
+          cat.weight === selectedCatSize
+        );
+      });
+      setDisplayCatFilteredResults(cats);
+    }
+    if (!selectedCatBreed && selectedCatAge && !selectedCatSize) {
+      let cats = catResults?.filter((cat: any) => {
+        return cat.dob === selectedCatAge;
+      });
+      setDisplayCatFilteredResults(cats);
+    }
+    if (!selectedCatBreed && selectedCatAge && selectedCatSize) {
+      let cats = catResults?.filter((cat: any) => {
+        return cat.dob === selectedCatAge && cat.weight === selectedCatSize;
+      });
+      setDisplayCatFilteredResults(cats);
+    }
+    if (!selectedCatBreed && !selectedCatAge && selectedCatSize) {
+      let cats = catResults?.filter((cat: any) => {
+        return cat.weight === selectedCatSize;
+      });
+      setDisplayCatFilteredResults(cats);
+    }
+    if (selectedCatBreed && !selectedCatAge && selectedCatSize) {
+      let cats = catResults?.filter((cat: any) => {
+        return cat.weight === selectedCatSize && cat.breed === selectedCatBreed
+      });
+      setDisplayCatFilteredResults(cats);
     }
   }
   const fetchCatBreeds = async () => {
@@ -133,7 +196,7 @@ const findpet = () => {
             />
           </div>
           <div className="hidden group-hover:lg:block group-hover:lg:absolute bg-purple-400 bottom-16 w-full text-white duration-100 font-Titillium-Web ease-in-out ">
-            <p className="text-center py-1">Weight: {dog.weight} lbs</p>
+            <p className="text-center py-1">Size: {dog.weight}</p>
             <p className="text-center py-1">{dog.gender}</p>
           </div>
 
@@ -149,40 +212,42 @@ const findpet = () => {
       );
     }
   );
- console.log(selectedDogAge)
- console.log(selectedDogBreed)
- console.log(selectedDogSize)
- console.log(displayDogFilteredResults)
-  // const displayCatResults = catResults?.map((cat: any, key: any) => {
-  //   return (
-  //     <div
-  //       key={key}
-  //       onClick={() => router.push(`/animals/${cat.id}`)}
-  //       className="group m-2 shadow max-w-md rounded-md hover:cursor-pointer hover:lg:drop-shadow-xl hover:lg:scale-105 lg:hover:relative duration-100 ease-in-out"
-  //     >
-  //       <div className="flex h-80 sm:h-36 lg:h-56 w-full">
-  //         <img
-  //           className="flex w-full object-cover"
-  //           src={cat.imageUrl}
-  //           alt={`${cat.name}'s avatar`}
-  //         />
-  //       </div>
-  //       <div className="hidden group-hover:lg:block group-hover:lg:absolute bg-purple-400 bottom-16 w-full text-white duration-100 font-Titillium-Web ease-in-out ">
-  //         <p className="text-center py-1">Weight: {cat.weight} lbs</p>
-  //         <p className="text-center py-1">{cat.gender}</p>
-  //       </div>
+ console.log(selectedCatAge)
+ console.log(selectedCatBreed)
+ console.log(selectedCatSize)
+ console.log(displayCatFilteredResults)
+ const displayCatResults = displayCatFilteredResults?.map(
+  (cat: any, key: any) => {
+    return (
+      <div
+        key={key}
+        onClick={() => router.push(`/animals/${cat.id}`)}
+        className="group m-2 shadow max-w-md rounded-b-lg hover:cursor-pointer hover:lg:drop-shadow-xl  hover:lg:scale-105 lg:hover:relative duration-100 ease-in-out"
+      >
+        <div className="flex h-80 sm:h-36 lg:h-56 w-full">
+          <img
+            className="flex w-full object-cover"
+            src={cat.imageUrl}
+            alt={`${cat.name}'s avatar`}
+          />
+        </div>
+        <div className="hidden group-hover:lg:block group-hover:lg:absolute bg-purple-400 bottom-16 w-full text-white duration-100 font-Titillium-Web ease-in-out ">
+          <p className="text-center py-1">Size: {cat.weight}</p>
+          <p className="text-center py-1">{cat.gender}</p>
+        </div>
 
-  //       <div className="p-2 group-hover:bg-purple-500 duration-150 rounded-b-md group-hover:text-white">
-  //         <p className="text-xl text-center font-Titillium-Web capitalize">
-  //           {cat.name}
-  //         </p>
-  //         <p className="truncate text-center w-full font-Work-Sans capitalize">
-  //           {cat.breed}
-  //         </p>
-  //       </div>
-  //     </div>
-  //   );
-  // });
+        <div className="p-2 group-hover:bg-purple-500 duration-150 rounded-b-md group-hover:text-white">
+          <p className="text-xl text-center font-Titillium-Web capitalize">
+            {cat.name}
+          </p>
+          <p className="truncate text-center w-full font-Work-Sans capitalize">
+            {cat.breed}
+          </p>
+        </div>
+      </div>
+    );
+  }
+);
   return (
     <Layout>
       <Head>
@@ -324,65 +389,99 @@ const findpet = () => {
                   </Listbox>
                 ) : (
                   <Listbox
-                    value={selectedCatBreed}
-                    onChange={setSelectedCatBreed}
-                  >
-                    <div className="relative mt-1">
-                      <Listbox.Button className="relative w-full py-2 pl-3 pr-10 text-left bg-white rounded-lg shadow-md cursor-default focus:outline-none focus-visible:ring-2 focus-visible:ring-opacity-75 focus-visible:ring-white focus-visible:ring-offset-orange-300 focus-visible:ring-offset-2 focus-visible:border-indigo-500 sm:text-sm">
-                        <span className="block truncate">
-                          {selectedCatBreed}
-                        </span>
-                        <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
-                          <SelectorIcon
-                            className="w-5 h-5 text-gray-400"
-                            aria-hidden="true"
-                          />
-                        </span>
-                      </Listbox.Button>
-                      <Transition
-                        as={Fragment}
-                        leave="transition ease-in duration-100"
-                        leaveFrom="opacity-100"
-                        leaveTo="opacity-0"
-                      >
-                        <Listbox.Options className="absolute w-full py-1 mt-1 overflow-auto text-base bg-white rounded-md shadow-lg max-h-60 ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm z-50">
-                          {catBreeds.map((breed: string, breedIdx: number) => (
-                            <Listbox.Option
-                              key={breedIdx}
-                              className={({ active }) =>
-                                `cursor-default select-none relative py-2 pl-10 pr-4 ${
-                                  active
-                                    ? "text-purple-900 bg-purple-100"
-                                    : "text-gray-900"
-                                }`
-                              }
-                              value={breed}
-                            >
-                              {({ selected }) => (
-                                <>
-                                  <span
-                                    className={`block truncate ${
-                                      selected ? "font-medium" : "font-normal"
-                                    }`}
-                                  >
-                                    {breed}
+                  value={selectedCatBreed}
+                  onChange={setSelectedCatBreed}
+                >
+                  <div className="relative mt-1">
+                    <Listbox.Button className="relative w-full py-2 pl-3 pr-10 text-left bg-white rounded-lg shadow-md cursor-default focus:outline-none focus-visible:ring-2 focus-visible:ring-opacity-75 focus-visible:ring-white focus-visible:ring-offset-orange-300 focus-visible:ring-offset-2 focus-visible:border-indigo-500 sm:text-sm">
+                      <span className="block truncate">
+                        {selectedCatBreed === "" ? (
+                          <p>All</p>
+                        ) : (
+                          selectedCatBreed
+                        )}
+                      </span>
+                      <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+                        <SelectorIcon
+                          className="w-5 h-5 text-gray-400"
+                          aria-hidden="true"
+                        />
+                      </span>
+                    </Listbox.Button>
+                    <Transition
+                      as={Fragment}
+                      leave="transition ease-in duration-100"
+                      leaveFrom="opacity-100"
+                      leaveTo="opacity-0"
+                    >
+                      <Listbox.Options className="absolute w-full py-1 mt-1 overflow-auto text-base bg-white rounded-md shadow-lg max-h-60 ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm z-50">
+                        <Listbox.Option
+                          className={({ active }) =>
+                            `cursor-default select-none relative py-2 pl-10 pr-4 ${
+                              active
+                                ? "text-purple-900 bg-purple-100"
+                                : "text-gray-900"
+                            }`
+                          }
+                          value=""
+                        >
+                          {({ selected }) => (
+                            <>
+                              <span
+                                className={`block truncate ${
+                                  selected ? "font-medium" : "font-normal"
+                                }`}
+                              >
+                                All
+                              </span>
+                              {selected ? (
+                                <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-purple-600">
+                                  <CheckIcon
+                                    className="w-5 h-5"
+                                    aria-hidden="true"
+                                  />
+                                </span>
+                              ) : null}
+                            </>
+                          )}
+                        </Listbox.Option>
+                        {catBreeds.map((breed: any, breedIdx: number) => (
+                          <Listbox.Option
+                            key={breedIdx}
+                            className={({ active }) =>
+                              `cursor-default select-none relative py-2 pl-10 pr-4 ${
+                                active
+                                  ? "text-purple-900 bg-purple-100"
+                                  : "text-gray-900"
+                              }`
+                            }
+                            value={breed}
+                          >
+                            {({ selected }) => (
+                              <>
+                                <span
+                                  className={`block truncate ${
+                                    selected ? "font-medium" : "font-normal"
+                                  }`}
+                                >
+                                  {breed}
+                                </span>
+                                {selected ? (
+                                  <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-purple-600">
+                                    <CheckIcon
+                                      className="w-5 h-5"
+                                      aria-hidden="true"
+                                    />
                                   </span>
-                                  {selected ? (
-                                    <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-purple-600">
-                                      <CheckIcon
-                                        className="w-5 h-5"
-                                        aria-hidden="true"
-                                      />
-                                    </span>
-                                  ) : null}
-                                </>
-                              )}
-                            </Listbox.Option>
-                          ))}
-                        </Listbox.Options>
-                      </Transition>
-                    </div>
-                  </Listbox>
+                                ) : null}
+                              </>
+                            )}
+                          </Listbox.Option>
+                        ))}
+                      </Listbox.Options>
+                    </Transition>
+                  </div>
+                </Listbox>
                 )}
 
                 <h3 className="text-lg">Age:</h3>
@@ -571,7 +670,11 @@ const findpet = () => {
                       onChange={setSelectedCatAge}
                     >
                       <Listbox.Button className="relative w-full py-2 pl-3 pr-10 text-left bg-white rounded-lg shadow-md cursor-default focus:outline-none focus-visible:ring-2 focus-visible:ring-opacity-75 focus-visible:ring-white focus-visible:ring-offset-orange-300 focus-visible:ring-offset-2 focus-visible:border-indigo-500 sm:text-sm">
-                        <span className="block truncate">{selectedCatAge}</span>
+                        <span className="block truncate">{selectedCatAge === "" ? (
+                            <p>All</p>
+                          ) : (
+                            selectedCatAge
+                          )}</span>
                         <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
                           <SelectorIcon
                             className="w-5 h-5 text-gray-400"
@@ -586,6 +689,36 @@ const findpet = () => {
                         leaveTo="opacity-0"
                       >
                         <Listbox.Options className="absolute w-full py-1 mt-1 overflow-auto text-base bg-white rounded-md shadow-lg max-h-60 ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm z-50">
+                        <Listbox.Option
+                            className={({ active }) =>
+                              `cursor-default select-none relative py-2 pl-10 pr-4 ${
+                                active
+                                  ? "text-purple-900 bg-purple-100"
+                                  : "text-gray-900"
+                              }`
+                            }
+                            value=""
+                          >
+                            {({ selected }) => (
+                              <>
+                                <span
+                                  className={`block truncate ${
+                                    selected ? "font-medium" : "font-normal"
+                                  }`}
+                                >
+                                  All
+                                </span>
+                                {selected ? (
+                                  <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-purple-600">
+                                    <CheckIcon
+                                      className="w-5 h-5"
+                                      aria-hidden="true"
+                                    />
+                                  </span>
+                                ) : null}
+                              </>
+                            )}
+                          </Listbox.Option>
                           <Listbox.Option
                             className={({ active }) =>
                               `cursor-default select-none relative py-2 pl-10 pr-4 ${
@@ -890,13 +1023,14 @@ const findpet = () => {
                       </Transition>
                     </Listbox>
                   ) : (
-                    <Listbox
-                      value={selectedCatSize}
-                      onChange={setSelectedCatSize}
-                    >
+                    <Listbox value="" onChange={setSelectedCatSize}>
                       <Listbox.Button className="relative w-full py-2 pl-3 pr-10 text-left bg-white rounded-lg shadow-md cursor-default focus:outline-none focus-visible:ring-2 focus-visible:ring-opacity-75 focus-visible:ring-white focus-visible:ring-offset-orange-300 focus-visible:ring-offset-2 focus-visible:border-indigo-500 sm:text-sm">
                         <span className="block truncate">
-                          {selectedCatSize}
+                        {selectedCatSize === "" ? (
+                            <p>All</p>
+                          ) : (
+                            selectedCatSize
+                          )}
                         </span>
                         <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
                           <SelectorIcon
@@ -912,7 +1046,36 @@ const findpet = () => {
                         leaveTo="opacity-0"
                       >
                         <Listbox.Options className="absolute w-full py-1 mt-1 overflow-auto text-base bg-white rounded-md shadow-lg max-h-60 ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm z-50">
-                          <Listbox.Option
+                        <Listbox.Option
+                            className={({ active }) =>
+                              `cursor-default select-none relative py-2 pl-10 pr-4 ${
+                                active
+                                  ? "text-purple-900 bg-purple-100"
+                                  : "text-gray-900"
+                              }`
+                            }
+                            value=""
+                          >
+                            {({ selected }) => (
+                              <>
+                                <span
+                                  className={`block truncate ${
+                                    selected ? "font-medium" : "font-normal"
+                                  }`}
+                                >
+                                  All
+                                </span>
+                                {selected ? (
+                                  <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-purple-600">
+                                    <CheckIcon
+                                      className="w-5 h-5"
+                                      aria-hidden="true"
+                                    />
+                                  </span>
+                                ) : null}
+                              </>
+                            )}
+                          </Listbox.Option><Listbox.Option
                             className={({ active }) =>
                               `cursor-default select-none relative py-2 pl-10 pr-4 ${
                                 active
@@ -929,7 +1092,7 @@ const findpet = () => {
                                     selected ? "font-medium" : "font-normal"
                                   }`}
                                 >
-                                  Small (10-15 lbs)
+                                  Small (Upto 20 lbs)
                                 </span>
                                 {selected ? (
                                   <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-purple-600">
@@ -959,7 +1122,7 @@ const findpet = () => {
                                     selected ? "font-medium" : "font-normal"
                                   }`}
                                 >
-                                  Medium (15-20 lbs)
+                                  Medium (20-30 lbs)
                                 </span>
                                 {selected ? (
                                   <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-purple-600">
@@ -989,7 +1152,7 @@ const findpet = () => {
                                     selected ? "font-medium" : "font-normal"
                                   }`}
                                 >
-                                  Large (20-35 lbs)
+                                  Large (35+ lbs)
                                 </span>
                                 {selected ? (
                                   <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-purple-600">
@@ -1016,7 +1179,7 @@ const findpet = () => {
                 <div className="flex flex-col items-center sm:grid sm:grid-2 md:grid-cols-2 lg:grid-cols-3 w-full">
                   {selectedSpecies === "Dog"
                     ? displayDogResults
-                    : <div>Cats</div>}
+                    : displayCatResults}
                 </div>
               </div>
             </div>
