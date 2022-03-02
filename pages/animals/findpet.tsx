@@ -114,9 +114,8 @@ const findpet = () => {
     setDogBreeds(listOfDogBreeds);
   };
 
-  const displayDogResults =
-    displayDogFilteredResults != [] &&
-    displayDogFilteredResults?.map((dog: any, key: any) => {
+  const displayDogResults = displayDogFilteredResults?.map(
+    (dog: any, key: any) => {
       return (
         <div
           key={key}
@@ -145,7 +144,9 @@ const findpet = () => {
           </div>
         </div>
       );
-    });
+    }
+  );
+
   const displayCatResults = catResults?.map((cat: any, key: any) => {
     return (
       <div
@@ -176,7 +177,6 @@ const findpet = () => {
       </div>
     );
   });
-  console.log(displayDogFilteredResults);
   return (
     <Layout>
       <Head>
@@ -382,7 +382,10 @@ const findpet = () => {
                 <h3 className="text-lg">Age:</h3>
                 <div className="relative mt-1">
                   {selectedSpecies === "Dog" ? (
-                    <Listbox value="" onChange={setSelectedDogAge}>
+                    <Listbox
+                      value={selectedDogAge}
+                      onChange={setSelectedDogAge}
+                    >
                       <Listbox.Button className="relative w-full py-2 pl-3 pr-10 text-left bg-white rounded-lg shadow-md cursor-default focus:outline-none focus-visible:ring-2 focus-visible:ring-opacity-75 focus-visible:ring-white focus-visible:ring-offset-orange-300 focus-visible:ring-offset-2 focus-visible:border-indigo-500 sm:text-sm">
                         <span className="block truncate">{selectedDogAge}</span>
                         <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
@@ -938,46 +941,9 @@ const findpet = () => {
               <h3 className="text-xl">Results</h3>
               <div className="p-3 container rounded place-items-center shadow">
                 <div className="flex flex-col items-center sm:grid sm:grid-2 md:grid-cols-2 lg:grid-cols-3 w-full">
-                  {/* {selectedSpecies === "Dog"
+                  {selectedSpecies === "Dog"
                     ? displayDogResults
-                    : displayCatResults} */}
-
-                  {displayDogFilteredResults ? (
-                    displayDogFilteredResults.map((dog: any, key: any) => {
-                      return (
-                        <div
-                          key={key}
-                          onClick={() => router.push(`/animals/${dog.id}`)}
-                          className="group m-2 shadow max-w-md rounded-b-lg hover:cursor-pointer hover:lg:drop-shadow-xl  hover:lg:scale-105 lg:hover:relative duration-100 ease-in-out"
-                        >
-                          <div className="flex h-80 sm:h-36 lg:h-56 w-full">
-                            <img
-                              className="flex w-full object-cover"
-                              src={dog.imageUrl}
-                              alt={`${dog.name}'s avatar`}
-                            />
-                          </div>
-                          <div className="hidden group-hover:lg:block group-hover:lg:absolute bg-purple-400 bottom-16 w-full text-white duration-100 font-Titillium-Web ease-in-out ">
-                            <p className="text-center py-1">
-                              Weight: {dog.weight} lbs
-                            </p>
-                            <p className="text-center py-1">{dog.gender}</p>
-                          </div>
-
-                          <div className="p-2 group-hover:bg-purple-500 duration-150 rounded-b-md group-hover:text-white">
-                            <p className="text-xl text-center font-Titillium-Web capitalize">
-                              {dog.name}
-                            </p>
-                            <p className="truncate text-center w-full font-Work-Sans capitalize">
-                              {dog.breed}
-                            </p>
-                          </div>
-                        </div>
-                      );
-                    })
-                  ) : (
-                    <div>error</div>
-                  )}
+                    : displayCatResults}
                 </div>
               </div>
             </div>
