@@ -51,7 +51,6 @@ const index = () => {
           <div className="w-full flex flex-col my-5 items-center sm:items-start">
             <div className="flex w-36 h-36 rounded-full bg">
               <img
-              onError={()=> "failed"}
                 src={user?.image}
                 alt={`${user.name}'s avatar`}
                 className="rounded-full"

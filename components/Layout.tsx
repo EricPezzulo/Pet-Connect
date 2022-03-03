@@ -1,10 +1,8 @@
 import { signIn, useSession } from "next-auth/react";
 import Image from "next/image";
 import React from "react";
-import { SearchAlt } from "@styled-icons/boxicons-regular/SearchAlt";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import SearchBar from "./SearchBar";
 import ExpandableMenu from "./ExpandableMenu";
 import ClickAwayListener from "react-click-away-listener";
 
