@@ -26,8 +26,8 @@ const ADD_TO_FAVS = gql`
   }
 `;
 const FETCH_USER = gql`
-  query FetchUser($userId: String!) {
-    fetchUser(id: $userId) {
+  query FetchUser($id: String!) {
+    fetchUser(id: $id) {
       name
       id
       image
@@ -67,6 +67,8 @@ const AnimalCard = ({
 }: AnimalProps) => {
   const router = useRouter();
   const { data: session } = useSession();
+  let userId = session?.id
+  let userEmail = session?.user?.email;
   const [deleteFavorites] = useMutation(DEL_FROM_FAVS);
   const deleteFromFavs = async (id: any) => {
     await deleteFavorites({
@@ -74,7 +76,7 @@ const AnimalCard = ({
         email: userEmail,
         id: id,
       },
-      refetchQueries: [{ query: FETCH_USER, variables: { userId: userId } }],
+      refetchQueries: [{ query: FETCH_USER, variables: { id: userId } }],
     });
   };
   const addToFavs = (e: any) => {
@@ -86,23 +88,18 @@ const AnimalCard = ({
         email: userEmail,
         id: id,
       },
-      refetchQueries: [{ query: FETCH_USER, variables: { userId: userId } }],
+      refetchQueries: [{ query: FETCH_USER, variables: { id: userId } }],
     });
   };
-  let userEmail = session?.user?.email;
   const [mutateFavorites] = useMutation(ADD_TO_FAVS);
-  let userId = session?.id;
-
   const { data } = useQuery(FETCH_USER, {
     variables: {
-      userId,
+      id: userId,
     },
   });
   const favoriteAnimals = data?.fetchUser[0].favoriteAnimals.map(
     (fav: any) => fav.id
   );
-  // const [unfollowedMsg, setUnfollowedMsg]=useRecoilState(unfollowedMsgState)
-  // const [followedMsg, setFollowedMsg]=useRecoilState(followedMsgState)
 
   return (
     <div className="block rounded-b-md">

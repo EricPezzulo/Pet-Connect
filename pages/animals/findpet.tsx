@@ -27,15 +27,36 @@ const FETCH_ALL_ANIMALS = gql`
   }
 `;
 
-const findpet = () => {
+export async function getServerSideProps() {
+  const catRes = await axios.get(
+    "https://api.thecatapi.com/v1/breeds?attach_breed=0"
+  );
+  let listOfCatBreeds = catRes.data.map((breeds: any) => breeds.name)
+  const dogRes = await axios.get("https://dog.ceo/api/breeds/list/all");
+  const data = dogRes.data.message;
+  let listOfDogBreeds: any = Object.entries(data).map(
+    (breed: any) => breed[0].charAt(0).toUpperCase() + breed[0].substring(1)
+  );
+  return {
+    props: {
+      listOfCatBreeds, listOfDogBreeds
+    }
+  }
+};
+interface breedProps {
+  listOfCatBreeds: any,
+  listOfDogBreeds:any
+}
+
+const findpet = ({listOfCatBreeds: cats, listOfDogBreeds: dogs}:breedProps) => {
   const { data: animalData } = useQuery(FETCH_ALL_ANIMALS);
   const [selectedDogAge, setSelectedDogAge] = useState("");
   const [selectedDogSize, setSelectedDogSize] = useState("");
   const [selectedDogBreed, setSelectedDogBreed] = useState("");
   const [selectedCatAge, setSelectedCatAge] = useState("");
   const [selectedSpecies, setSelectedSpecies] = useState("Dog");
-  const [catBreeds, setCatBreeds] = useState([]);
-  const [dogBreeds, setDogBreeds] = useState([]);
+  const [catBreeds, setCatBreeds] = useState(cats);
+  const [dogBreeds, setDogBreeds] = useState(dogs);
   const [selectedCatBreed, setSelectedCatBreed] = useState("");
   const [selectedCatSize, setSelectedCatSize] = useState("");
   const [displayDogFilteredResults, setDisplayDogFilteredResults] = useState(
@@ -56,11 +77,11 @@ const findpet = () => {
   useEffect(() => {
     filterCatFunc()
   }, [selectedCatAge, selectedCatBreed, selectedCatSize])
-  useEffect(() => {
-    fetchDogBreeds();
-    fetchCatBreeds();
-    return
-  }, [])
+  // useEffect(() => {
+  //   fetchDogBreeds();
+  //   fetchCatBreeds();
+  //   return
+  // }, [])
   const filterDogFunc = () => {
     if (!selectedDogBreed && !selectedDogAge && !selectedDogSize) {
       let dogs = dogResults?.filter((dog: any) => dog.species === "Dog");
@@ -165,20 +186,6 @@ const findpet = () => {
       setDisplayCatFilteredResults(cats);
     }
   }
-  const fetchCatBreeds = async () => {
-    const res = await axios.get(
-      "https://api.thecatapi.com/v1/breeds?attach_breed=0"
-    );
-    setCatBreeds(res.data.map((breeds: any) => breeds.name));
-  };
-  const fetchDogBreeds = async () => {
-    const res = await axios.get("https://dog.ceo/api/breeds/list/all");
-    const data = res.data.message;
-    let listOfDogBreeds: any = Object.entries(data).map(
-      (breed: any) => breed[0].charAt(0).toUpperCase() + breed[0].substring(1)
-    );
-    setDogBreeds(listOfDogBreeds);
-  };
   const dogBreedFilter = (value: any) => {
     setSelectedDogBreed(value)
   }
@@ -197,77 +204,77 @@ const findpet = () => {
   const catSizeFilter = (value: any) => {
     setSelectedCatSize(value)
   }
-  const displayDogResults =  <div className='shadow w-full h-full p-2 flex flex-col items-center justify-center  sm:grid sm:grid-2 md:grid-cols-2 lg:grid-cols-3'> 
+  const displayDogResults = <div className='shadow rounded-md w-full h-full p-2 flex flex-col items-center justify-center sm:grid sm:grid-2 md:grid-cols-2 lg:grid-cols-3'>
     {displayDogFilteredResults && displayDogFilteredResults?.map(
-    (dog: any, key: any) => {
-      return (
-        <div
-          key={key}
-          onClick={() => router.push(`/animals/${dog.id}`)}
-          className="group m-2 shadow max-w-md rounded-b-lg hover:cursor-pointer hover:lg:drop-shadow-xl hover:lg:scale-105 lg:hover:relative duration-100 ease-in-out"
-        >
-          <div className="flex h-80 sm:h-96 md:h-44 lg:h-56 w-full">
-            <img
-              className="flex w-full object-cover"
-              src={dog.imageUrl}
-              alt={`${dog.name}'s avatar`}
-            />
-          </div>
-          <div className="hidden group-hover:lg:block group-hover:lg:absolute bg-purple-400 bottom-16 w-full text-white duration-100 font-Titillium-Web ease-in-out ">
-            <p className="text-center py-1">Size: {dog.weight}</p>
-            <p className="text-center py-1">{dog.gender}</p>
-          </div>
+      (dog: any, key: any) => {
+        return (
+          <div
+            key={key}
+            onClick={() => router.push(`/animals/${dog.id}`)}
+            className="group m-2 shadow max-w-md rounded-b-lg hover:cursor-pointer hover:lg:drop-shadow-xl hover:lg:scale-105 lg:hover:relative duration-100 ease-in-out"
+          >
+            <div className="flex h-80 sm:h-96 md:h-44 lg:h-56 w-full">
+              <img
+                className="flex w-full object-cover"
+                src={dog.imageUrl}
+                alt={`${dog.name}'s avatar`}
+              />
+            </div>
+            <div className="hidden group-hover:lg:block group-hover:lg:absolute bg-purple-400 bottom-16 w-full text-white duration-100 font-Titillium-Web ease-in-out ">
+              <p className="text-center py-1">Size: {dog.weight}</p>
+              <p className="text-center py-1">{dog.gender}</p>
+            </div>
 
-          <div className="p-2 group-hover:bg-purple-500 group-focus:bg-purple-500 duration-150 rounded-b-md group-hover:text-white">
-            <p className="text-xl text-center font-Titillium-Web capitalize">
-              {dog.name}
-            </p>
-            <p className="truncate text-center w-full font-Work-Sans capitalize">
-              {dog.breed}
-            </p>
+            <div className="p-2 group-hover:bg-purple-500 group-focus:bg-purple-500 duration-150 rounded-b-md group-hover:text-white">
+              <p className="text-xl text-center font-Titillium-Web capitalize">
+                {dog.name}
+              </p>
+              <p className="truncate text-center w-full font-Work-Sans capitalize">
+                {dog.breed}
+              </p>
+            </div>
           </div>
-        </div>
-      );
-    }
-  )} 
-  {(displayDogFilteredResults?.length === 0 ||!displayDogFilteredResults ) && <div className='h-44 w-44'>No results</div>} 
+        );
+      }
+    )}
+    {(displayDogFilteredResults?.length === 0 || !displayDogFilteredResults) && <div className='h-44 w-44'>No results</div>}
   </div>
 
-  const displayCatResults = <div className='shadow w-full h-full p-2 flex flex-col items-center justify-center  sm:grid sm:grid-2 md:grid-cols-2 lg:grid-cols-3'> 
-  {displayCatFilteredResults && displayCatFilteredResults?.map(
-  (cat: any, key: any) => {
-    return (
-      <div
-        key={key}
-        onClick={() => router.push(`/animals/${cat.id}`)}
-        className="group m-2 shadow max-w-md rounded-b-lg hover:cursor-pointer hover:lg:drop-shadow-xl hover:lg:scale-105 lg:hover:relative duration-100 ease-in-out"
-      >
-        <div className="flex h-80 sm:h-96 md:h-44 lg:h-56 w-full">
-          <img
-            className="flex w-full object-cover"
-            src={cat.imageUrl}
-            alt={`${cat.name}'s avatar`}
-          />
-        </div>
-        <div className="hidden group-hover:lg:block group-hover:lg:absolute bg-purple-400 bottom-16 w-full text-white duration-100 font-Titillium-Web ease-in-out ">
-          <p className="text-center py-1">Size: {cat.weight}</p>
-          <p className="text-center py-1">{cat.gender}</p>
-        </div>
+  const displayCatResults = <div className='shadow rounded-md w-full h-full p-2 flex flex-col items-center justify-center  sm:grid sm:grid-2 md:grid-cols-2 lg:grid-cols-3'>
+    {displayCatFilteredResults && displayCatFilteredResults?.map(
+      (cat: any, key: any) => {
+        return (
+          <div
+            key={key}
+            onClick={() => router.push(`/animals/${cat.id}`)}
+            className="group m-2 shadow max-w-md rounded-b-lg hover:cursor-pointer hover:lg:drop-shadow-xl hover:lg:scale-105 lg:hover:relative duration-100 ease-in-out"
+          >
+            <div className="flex h-80 sm:h-96 md:h-44 lg:h-56 w-full">
+              <img
+                className="flex w-full object-cover"
+                src={cat.imageUrl}
+                alt={`${cat.name}'s avatar`}
+              />
+            </div>
+            <div className="hidden group-hover:lg:block group-hover:lg:absolute bg-purple-400 bottom-16 w-full text-white duration-100 font-Titillium-Web ease-in-out ">
+              <p className="text-center py-1">Size: {cat.weight}</p>
+              <p className="text-center py-1">{cat.gender}</p>
+            </div>
 
-        <div className="p-2 group-hover:bg-purple-500 group-focus:bg-purple-500 duration-150 rounded-b-md group-hover:text-white">
-          <p className="text-xl text-center font-Titillium-Web capitalize">
-            {cat.name}
-          </p>
-          <p className="truncate text-center w-full font-Work-Sans capitalize">
-            {cat.breed}
-          </p>
-        </div>
-      </div>
-    );
-  }
-)} 
-{(displayCatFilteredResults?.length === 0 ||!displayCatFilteredResults ) && <div className='h-44 w-44'>No results</div>} 
-</div>
+            <div className="p-2 group-hover:bg-purple-500 group-focus:bg-purple-500 duration-150 rounded-b-md group-hover:text-white">
+              <p className="text-xl text-center font-Titillium-Web capitalize">
+                {cat.name}
+              </p>
+              <p className="truncate text-center w-full font-Work-Sans capitalize">
+                {cat.breed}
+              </p>
+            </div>
+          </div>
+        );
+      }
+    )}
+    {(displayCatFilteredResults?.length === 0 || !displayCatFilteredResults) && <div className='h-44 w-44'>No results</div>}
+  </div>
   return (
     <Layout>
       <Head>
@@ -279,7 +286,7 @@ const findpet = () => {
           <h1 className="text-3xl text-putple-800 my-10 text-purple-800">
             Find A Pet!
           </h1>
-          <div className="flex flex-col md:flex-row justify-center">
+          <div className="flex flex-col md:flex-row">
             <div className="flex flex-1 flex-col">
               <h2 className="text-xl">Filter By:</h2>{" "}
               <div className="flex flex-col w-90 shadow bg-zinc-50 p-3 rounded-md border border-purple-200 ">
@@ -337,10 +344,10 @@ const findpet = () => {
               </div>
             </div>
 
-            <div className="flex flex-col sm:ml-5 sm:my-5">
+            <div className="flex flex-col sm:mb-5 sm:ml-5">
               <h3 className="text-xl">Results</h3>
               <div className="container">
-                <div className="flex flex-col items-center w-full sm:flex sm:justify-center sm:items-center">
+                <div className="flex flex-col items-center w-full sm:flex">
                   {selectedSpecies === "Dog"
                     ? displayDogResults
                     : displayCatResults}
