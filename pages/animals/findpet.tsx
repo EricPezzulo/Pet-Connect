@@ -197,15 +197,16 @@ const findpet = () => {
   const catSizeFilter = (value: any) => {
     setSelectedCatSize(value)
   }
-  const displayDogResults = displayDogFilteredResults?.map(
+  const displayDogResults =  <div className='shadow w-full h-full p-2 flex flex-col items-center justify-center  sm:grid sm:grid-2 md:grid-cols-2 lg:grid-cols-3'> 
+    {displayDogFilteredResults && displayDogFilteredResults?.map(
     (dog: any, key: any) => {
       return (
         <div
           key={key}
           onClick={() => router.push(`/animals/${dog.id}`)}
-          className="group m-2 shadow max-w-md rounded-b-lg hover:cursor-pointer hover:lg:drop-shadow-xl  hover:lg:scale-105 lg:hover:relative duration-100 ease-in-out"
+          className="group m-2 shadow max-w-md rounded-b-lg hover:cursor-pointer hover:lg:drop-shadow-xl hover:lg:scale-105 lg:hover:relative duration-100 ease-in-out"
         >
-          <div className="flex h-80 sm:h-36 lg:h-56 w-full">
+          <div className="flex h-80 sm:h-96 md:h-44 lg:h-56 w-full">
             <img
               className="flex w-full object-cover"
               src={dog.imageUrl}
@@ -217,7 +218,7 @@ const findpet = () => {
             <p className="text-center py-1">{dog.gender}</p>
           </div>
 
-          <div className="p-2 group-hover:bg-purple-500 duration-150 rounded-b-md group-hover:text-white">
+          <div className="p-2 group-hover:bg-purple-500 group-focus:bg-purple-500 duration-150 rounded-b-md group-hover:text-white">
             <p className="text-xl text-center font-Titillium-Web capitalize">
               {dog.name}
             </p>
@@ -228,40 +229,45 @@ const findpet = () => {
         </div>
       );
     }
-  );
+  )} 
+  {(displayDogFilteredResults?.length === 0 ||!displayDogFilteredResults ) && <div className='h-44 w-44'>No results</div>} 
+  </div>
 
-  const displayCatResults = displayCatFilteredResults?.map(
-    (cat: any, key: any) => {
-      return (
-        <div
-          key={key}
-          onClick={() => router.push(`/animals/${cat.id}`)}
-          className="group m-2 shadow max-w-md rounded-b-lg hover:cursor-pointer hover:lg:drop-shadow-xl  hover:lg:scale-105 lg:hover:relative duration-100 ease-in-out"
-        >
-          <div className="flex h-80 sm:h-36 lg:h-56 w-full">
-            <img
-              className="flex w-full object-cover"
-              src={cat.imageUrl}
-              alt={`${cat.name}'s avatar`}
-            />
-          </div>
-          <div className="hidden group-hover:lg:block group-hover:lg:absolute bg-purple-400 bottom-16 w-full text-white duration-100 font-Titillium-Web ease-in-out ">
-            <p className="text-center py-1">Size: {cat.weight}</p>
-            <p className="text-center py-1">{cat.gender}</p>
-          </div>
-
-          <div className="p-2 group-hover:bg-purple-500 duration-150 rounded-b-md group-hover:text-white">
-            <p className="text-xl text-center font-Titillium-Web capitalize">
-              {cat.name}
-            </p>
-            <p className="truncate text-center w-full font-Work-Sans capitalize">
-              {cat.breed}
-            </p>
-          </div>
+  const displayCatResults = <div className='shadow w-full h-full p-2 flex flex-col items-center justify-center  sm:grid sm:grid-2 md:grid-cols-2 lg:grid-cols-3'> 
+  {displayCatFilteredResults && displayCatFilteredResults?.map(
+  (cat: any, key: any) => {
+    return (
+      <div
+        key={key}
+        onClick={() => router.push(`/animals/${cat.id}`)}
+        className="group m-2 shadow max-w-md rounded-b-lg hover:cursor-pointer hover:lg:drop-shadow-xl hover:lg:scale-105 lg:hover:relative duration-100 ease-in-out"
+      >
+        <div className="flex h-80 sm:h-96 md:h-44 lg:h-56 w-full">
+          <img
+            className="flex w-full object-cover"
+            src={cat.imageUrl}
+            alt={`${cat.name}'s avatar`}
+          />
         </div>
-      );
-    }
-  );
+        <div className="hidden group-hover:lg:block group-hover:lg:absolute bg-purple-400 bottom-16 w-full text-white duration-100 font-Titillium-Web ease-in-out ">
+          <p className="text-center py-1">Size: {cat.weight}</p>
+          <p className="text-center py-1">{cat.gender}</p>
+        </div>
+
+        <div className="p-2 group-hover:bg-purple-500 group-focus:bg-purple-500 duration-150 rounded-b-md group-hover:text-white">
+          <p className="text-xl text-center font-Titillium-Web capitalize">
+            {cat.name}
+          </p>
+          <p className="truncate text-center w-full font-Work-Sans capitalize">
+            {cat.breed}
+          </p>
+        </div>
+      </div>
+    );
+  }
+)} 
+{(displayCatFilteredResults?.length === 0 ||!displayCatFilteredResults ) && <div className='h-44 w-44'>No results</div>} 
+</div>
   return (
     <Layout>
       <Head>
@@ -331,10 +337,10 @@ const findpet = () => {
               </div>
             </div>
 
-            <div className="flex flex-col flex-grow sm:ml-5 sm:my-5">
+            <div className="flex flex-col sm:ml-5 sm:my-5">
               <h3 className="text-xl">Results</h3>
-              <div className="p-3 container rounded place-items-center shadow">
-                <div className="flex flex-col items-center sm:grid sm:grid-2 md:grid-cols-2 lg:grid-cols-3 w-full">
+              <div className="container">
+                <div className="flex flex-col items-center w-full sm:flex sm:justify-center sm:items-center">
                   {selectedSpecies === "Dog"
                     ? displayDogResults
                     : displayCatResults}

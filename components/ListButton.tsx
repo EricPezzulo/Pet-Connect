@@ -10,8 +10,8 @@ interface ListProps {
 function ListButton({ type, func, data }: ListProps) {
     return (
         <Listbox value={type} onChange={func}>
-            <div className="relative mt-1">
-                <Listbox.Button className="relative w-full py-2 pl-3 pr-10 text-left bg-white rounded-lg shadow-md cursor-default focus:outline-none focus-visible:ring-2 focus-visible:ring-opacity-75 focus-visible:ring-white focus-visible:ring-offset-orange-300 focus-visible:ring-offset-2 focus-visible:border-indigo-500 sm:text-sm">
+            <div className="relative mt-1 ">
+                <Listbox.Button className="relative w-full py-2 pl-3 pr-10 text-left bg-white rounded-lg shadow-md hover:cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-opacity-75 focus-visible:ring-white focus-visible:ring-offset-orange-300 focus-visible:ring-offset-2 focus-visible:border-indigo-500 sm:text-sm">
                     <span className="block truncate">
                         {type === "" ? (
                             <p>All</p>
