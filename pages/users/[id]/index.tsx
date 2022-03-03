@@ -49,9 +49,10 @@ const index = () => {
       <div className="w-full flex flex-col self-center">
         <div className="container flex flex-col mx-auto my-10">
           <div className="w-full flex flex-col my-5 items-center sm:items-start">
-            <div className="flex w-36 h-36 ">
+            <div className="flex w-36 h-36 rounded-full bg">
               <img
-                src={user.image}
+              onError={()=> "failed"}
+                src={user?.image}
                 alt={`${user.name}'s avatar`}
                 className="rounded-full"
               />

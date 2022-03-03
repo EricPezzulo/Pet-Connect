@@ -113,7 +113,6 @@ const index = () => {
       },
       refetchQueries: [{ query: FETCH_USER, variables: { userId: userId } }],
     });
-    alert(`You UNFAVORITED ${animal.name}!`);
   };
   const addToFavs = (e: any) => {
     if (!session) {
@@ -126,7 +125,6 @@ const index = () => {
       },
       refetchQueries: [{ query: FETCH_USER, variables: { userId: userId } }],
     });
-    alert(`You just favorited ${animal.name} :)`);
   };
   let userEmail = session?.user?.email;
   const [mutateFavorites] = useMutation(ADD_TO_FAVS);
