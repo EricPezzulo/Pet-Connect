@@ -112,7 +112,7 @@ const AnimalCard = ({
           />
         </div>
         <div className="group flex h-full relative rounded-b-md">
-          <div className="flex flex-col">
+          <div className="flex flex-col ease-in-out">
             <p className="text-3xl font-semi-bold pt-4 pl-4 font-Work-Sans">
               {name}
             </p>
