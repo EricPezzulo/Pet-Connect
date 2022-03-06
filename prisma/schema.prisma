@@ -74,8 +74,10 @@ model User {
   image           String?
   accounts        Account[]
   sessions        Session[]
-  favoriteAnimals Animal[] // @relation(references: [id])
-  // animalId        String?
+  favoriteAnimals Animal[] 
+  status          String?
+  location        String?
+  publicEmail     String?
 }
 
 model Email {

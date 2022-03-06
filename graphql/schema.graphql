@@ -39,6 +39,9 @@ type Mutation {
   deleteAnimal(id: String!): Animal!
   deleteFromFavorites(email: String, id: String): Animal
   sendEmail(emailContent: String!, recipient: String!, subject: String!): Email
+  updateEmail(id: String!, publicEmail: String!): User
+  updateLocation(id: String!, location: String!): User
+  updateStatus(id: String!, status: String!): User
 }
 
 type Query {
@@ -55,5 +58,8 @@ type User {
   favoriteAnimals: [Animal]
   id: String
   image: String
+  location: String
   name: String
+  publicEmail: String
+  status: String
 }

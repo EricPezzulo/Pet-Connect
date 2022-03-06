@@ -1,4 +1,4 @@
-import { extendType, objectType, nonNull, stringArg } from "nexus";
+import { extendType, objectType, nonNull, stringArg, arg } from "nexus";
 import { Animal } from "./Animal";
 
 export const User = objectType({
@@ -8,6 +8,9 @@ export const User = objectType({
       t.string("name"),
       t.string("image"),
       t.string("email"),
+      t.string('status'),
+      t.string('location'),
+      t.string('publicEmail'),
       t.list.field("favoriteAnimals", {
         type: Animal,
         async resolve(parent: any, _args: any, context: any) {
@@ -123,7 +126,6 @@ export const DeleteFromFavorites = extendType({
         const animal = await context.prisma.animal.findUnique({
           where: { id: args.id },
         });
-
         await context.prisma.user.update({
           where: {
             email: args.email,
@@ -141,3 +143,83 @@ export const DeleteFromFavorites = extendType({
     });
   },
 });
+
+export const UpdateStatus = extendType({
+  type: "Mutation",
+  definition(t:any) {
+    t.field("updateStatus", {
+      type:"User",
+      args: {
+        id: nonNull(stringArg()),
+        status: nonNull(stringArg())
+      },
+      async resolve(_:any, args: any, context:any ){
+        const user = await context.prisma.user.findUnique({
+          where: {id: args.id}
+        })
+        await context.prisma.user.update({
+          where: {
+            id: args.id
+          },
+          data:{
+            status: args.status
+          }
+        })
+        return user;
+      }
+    })
+  }
+})
+export const UpdateLocation = extendType({
+  type: "Mutation",
+  definition(t:any) {
+    t.field("updateLocation", {
+      type:"User",
+      args: {
+        id: nonNull(stringArg()),
+        location: nonNull(stringArg())
+      },
+      async resolve(_:any, args: any, context:any ){
+        const user = await context.prisma.user.findUnique({
+          where: {id: args.id}
+        })
+        await context.prisma.user.update({
+          where: {
+            id: args.id
+          },
+          data:{
+            location: args.location
+          }
+        })
+        return user;
+      }
+    })
+  }
+})
+
+export const UpdateEmail = extendType({
+  type: "Mutation",
+  definition(t:any) {
+    t.field("updateEmail", {
+      type:"User",
+      args: {
+        id: nonNull(stringArg()),
+        publicEmail: nonNull(stringArg())
+      },
+      async resolve(_:any, args: any, context:any ){
+        const user = await context.prisma.user.findUnique({
+          where: {id: args.id}
+        })
+        await context.prisma.user.update({
+          where: {
+            id: args.id
+          },
+          data:{
+            publicEmail: args.publicEmail
+          }
+        })
+        return user;
+      }
+    })
+  }
+})

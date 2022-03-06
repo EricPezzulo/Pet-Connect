@@ -4,14 +4,21 @@ import Image from "next/image";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
 import AnimalCard from "../../../components/AnimalCard";
-import TestLayout from "../../../components/Layout";
+import Layout from "../../../components/Layout";
+import { useState } from "react";
+import UserBio from "../../../components/UserBio";
+import { LocationPin } from "@styled-icons/entypo/LocationPin";
+import {Email}from "@styled-icons/material/Email"
 
 export const FETCH_USER = gql`
-  query FetchUser($userId: String!) {
-    fetchUser(id: $userId) {
+  query FetchUser($id: String!) {
+    fetchUser(id: $id) {
       name
       id
       image
+      status
+      location
+      publicEmail
       favoriteAnimals {
         name
         imageUrl
@@ -28,27 +35,31 @@ export const FETCH_USER = gql`
   }
 `;
 
+
 const index = () => {
+  const { data: session } = useSession()
   const router = useRouter();
-
-  let userId = router.query.id;
+  let userId = router.query.id;  
+  const [openEditProfileModule, setOpenEditProfileModule]= useState(false)
   const { data, loading, error } = useQuery(FETCH_USER, {
-    variables: { userId },
+    variables: { id: userId },
   });
-
   if (loading) return <p>loading</p>;
   if (error) return <p>error</p>;
   let user = data.fetchUser[0];
 
+
   return (
-    <TestLayout>
+    <>
+      <Layout>
       <Head>
         <title>{`${user.name}'s Profile`}</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
-      <div className="w-full flex flex-col self-center">
-        <div className="container flex flex-col mx-auto my-10">
-          <div className="w-full flex flex-col my-5 items-center sm:items-start">
+     
+      <div className="w-full flex flex-col self-center relative">
+         <div className="container flex flex-col mx-auto my-10">
+           <div className="w-full flex flex-col my-5 items-center sm:items-start">
             <div className="flex w-36 h-36 rounded-full bg">
               <img
                 src={user?.image}
@@ -56,12 +67,26 @@ const index = () => {
                 className="rounded-full"
               />
             </div>
-            <p className="text-3xl"> {user.name} </p>
+            <p className="text-3xl font-light">{user.name}</p>
+           <div className="flex flex-col justify-center">
+             {user.status ? <p className="text-xl font-light">{user.status}</p> : null}
+             {user.location ? <div className="flex items-center"><div className="w-7 text-purple-500"><LocationPin /></div><p className="text-xl font-light">{user.location}</p></div> : <p>No location provided</p>}
+             {user.publicEmail ? <div className="flex items-center"><div className="w-7 text-purple-500"><Email /></div><p className="text-xl font-light">{user.publicEmail}</p></div> : <p>No email provided</p>}
+             {session && (
+              openEditProfileModule ? (<div><button className='bg-purple-400 px-2 py-1 rounded-md' onClick={()=> setOpenEditProfileModule((openEditProfileModule)=> !openEditProfileModule)}>Close</button></div>):(
+            <div>
+            <button className='bg-purple-400 px-2 py-1 rounded-md' type='submit' onClick={()=> setOpenEditProfileModule((openEditProfileModule)=> !openEditProfileModule)}>Edit</button></div>
+            )
+            )}
+              {openEditProfileModule && (
+       <div>
+       <UserBio /></div>
+      )}
+           </div>
           </div>
           <h3 className="text-2xl text-center sm:text-left">
             Favorited Animals
           </h3>
-
           <ul className="flex flex-wrap justify-center  grid-cols-1 md:grid md:grid-cols-2 lg:grid-cols-3 gap-5">
             {user &&
               user.favoriteAnimals.map((pet: any, key: any) => (
@@ -85,7 +110,8 @@ const index = () => {
           </ul>
         </div>
       </div>
-    </TestLayout>
+    </Layout>
+    </>
   );
 };
 
