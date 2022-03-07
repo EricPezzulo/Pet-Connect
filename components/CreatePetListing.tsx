@@ -664,7 +664,7 @@ const CreatePetListing = () => {
                           <Listbox.Option
                             key={breedIdx}
                             className={({ active }) =>
-                              `cursor-default capitalize select-none relative py-2 pl-10 pr-4 ${active
+                              `cursor-default capitalize select-none relative py-2 pl-10 z-60 pr-4 ${active
                                 ? "text-purple-900 bg-purple-100"
                                 : "text-gray-900"
                               }`
@@ -723,7 +723,7 @@ const CreatePetListing = () => {
                           <Listbox.Option
                             key={breedIdx}
                             className={({ active }) =>
-                              `cursor-default select-none relative py-2 pl-10 pr-4 ${active
+                              `cursor-default select-none relative py-2 z-60 pl-10 pr-4 ${active
                                 ? "text-purple-900 bg-purple-100"
                                 : "text-gray-900"
                               }`
