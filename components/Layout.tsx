@@ -57,11 +57,11 @@ export const Header = () => {
             </div>
             {openMenu && (
               <div className="flex justify-end items-end absolute w-full  top-16 right-0 z-50 md:pr-2">
-                <ClickAwayListener
-                  onClickAway={(openMenu) => setOpenMenu(!openMenu)}
-                >
+                {/* <ClickAwayListener */}
+                  {/* onClickAway={(openMenu) => setOpenMenu(!openMenu)} */}
+                {/* > */}
                   <ExpandableMenu />
-                </ClickAwayListener>
+                {/* </ClickAwayListener> */}
               </div>
             )}
           </div>
