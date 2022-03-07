@@ -575,11 +575,7 @@ const CreatePetListing = () => {
               </Listbox.Options>
             </Transition>
           </Listbox>
-              
-
-
 }
-
             </div>
             <div className="flex flex-col py-1">
               <label
@@ -784,7 +780,7 @@ const CreatePetListing = () => {
             <div className="flex flex-col relative py-1">
               <label
                 htmlFor="weight"
-                className="flex w-min z-60 relative top-3 left-5 px-2 text-gray-500 bg-zinc-50 sm:bg-white"
+                className="flex w-min z-50 relative top-3 left-5 px-2 text-gray-500 bg-zinc-50 sm:bg-white"
               >
                 Weight:<span className="text-red-500">*</span>
               </label>
