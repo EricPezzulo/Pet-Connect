@@ -659,7 +659,7 @@ const CreatePetListing = () => {
                       leaveFrom="opacity-100"
                       leaveTo="opacity-0"
                     >
-                      <Listbox.Options className="absolute w-full  py-1 mt-2 overflow-auto text-base bg-white rounded-md shadow-lg max-h-60 ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm z-50">
+                      <Listbox.Options className="absolute w-full z-60 py-1 mt-2 overflow-auto text-base bg-white rounded-md shadow-lg max-h-60 ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm z-50">
                         {dogBreeds.map((breed: any, breedIdx: number) => (
                           <Listbox.Option
                             key={breedIdx}
@@ -701,7 +701,7 @@ const CreatePetListing = () => {
                   onChange={setSelectedCatBreed}
                 >
                   <div className="relative mt-1">
-                    <Listbox.Button className="relative py-2 mx-1 pl-3 pr-10 text-left sm:bg-white rounded-lg cursor-pointer border border-purple-300 focus:outline-none sm:text">
+                    <Listbox.Button className="relative z-60 py-2 mx-1 pl-3 pr-10 text-left sm:bg-white rounded-lg cursor-pointer border border-purple-300 focus:outline-none sm:text">
                       <span className="block truncate font-light">
                         {selectedCatBreed}
                       </span>
