@@ -1,13 +1,11 @@
 {
   "name": "animal-shelter",
-  "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "ts-node": "ts-node --compiler-options '{\\\"module\\\":\\\"commonjs\\\"}'",
-    "predeploy": "npm run build",
-    "deploy" : "gh-pages -d build"
+    "export":"next export"
   },
   "dependencies": {
     "@apollo/client": "^3.5.8",
@@ -41,10 +39,11 @@
     "@tailwindcss/forms": "^0.4.0",
     "@tailwindcss/typography": "^0.5.0",
     "@types/micro-cors": "^0.1.2",
-    "@types/node": "^16.3.2",
+    "@types/node": "^15.14.1",
     "@types/react": "^17.0.14",
     "@types/react-google-recaptcha": "^2.1.4",
     "autoprefixer": "^10.4.1",
+    "eslint": "^8.10.0",
     "gh-pages": "^3.2.3",
     "postcss": "^8.4.5",
     "prisma": "^3.9.2",
@@ -54,7 +53,5 @@
   },
   "prisma": {
     "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
-  },
-  "homepage": "https://ericpezzulo.github.io/Pet-Connect/"
-
+  }
 }
