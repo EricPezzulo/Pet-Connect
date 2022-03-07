@@ -117,7 +117,7 @@ const AnimalCard = ({
               {name}
             </p>
 
-            <div className="flex p-4 border-b border-gray-100">
+            <div className="flex p-4 border-b border-gray-100 h-28 items-center">
               <em className="line-clamp-3">"{description}"</em>
             </div>
             <div className="flex flex-col  px-4 py-2">
@@ -164,7 +164,7 @@ const AnimalCard = ({
           )}
 
           <button
-          aria-label={`View ${name}`}
+            aria-label={`View ${name}`}
             type="button"
             onClick={() => router.push(`/animals/${id}`)}
             className=" opacity-50 sm:opacity-0 group-hover:opacity-100 hover:shadow absolute bottom-2 right-2 bg-gray-200 hover:bg-gray-300 rounded-full p-1 hover:cursor-pointer duration-200 ease-in-out"

@@ -87,20 +87,23 @@ const CreatePetListing = () => {
   const [dogBreeds, setDogBreeds] = useState([]);
   const [selectedCatBreed, setSelectedCatBreed] = useState("");
   const [selectedDogBreed, setSelectedDogBreed] = useState("");
+  const [selectedDogSize, setSelectedDogSize] = useState("Small")
+  const [selectedCatSize, setSelectedCatSize] = useState("Small")
+  const [selectedDogAge, setSelectedDogAge] = useState("Puppy")
+  const [selectedCatAge, setSelectedCatAge] = useState("Kitten")
   const { data: session }: any = useSession();
-
   const submitPet = (e: any) => {
     e.preventDefault();
     setNewPet({ ...newPet, species: selectedSpecies });
     if (!session) return setLoginErr(true);
     if (
       newPet.name === "" ||
-      newPet.dob === "" ||
-      newPet.weight === "" ||
+      // newPet.dob === "" ||
+      // newPet.weight === "" ||
       newPet.color === "" ||
       newPet.gender === "" ||
-      newPet.breed === "" ||
-      newPet.species === "" ||
+      // newPet.breed === "" ||
+      // newPet.species === "" ||
       newPet.description === "" ||
       newPet.streetAddress === "" ||
       newPet.city === "" ||
@@ -115,11 +118,11 @@ const CreatePetListing = () => {
       createNewPetListing({
         variables: {
           name: newPet.name,
-          dob: newPet.dob,
-          weight: newPet.weight,
+          dob: selectedDogAge,
+          weight: selectedDogSize,
           color: newPet.color,
           gender: newPet.gender,
-          breed: selectedDogBreed[0],
+          breed: selectedDogBreed,
           species: selectedSpecies,
           childFriendly: newPet.childFriendly,
           dogFriendly: newPet.dogFriendly,
@@ -141,8 +144,8 @@ const CreatePetListing = () => {
       createNewPetListing({
         variables: {
           name: newPet.name,
-          dob: newPet.dob,
-          weight: newPet.weight,
+          dob: selectedCatAge,
+          weight: selectedCatSize,
           color: newPet.color,
           gender: newPet.gender,
           breed: selectedCatBreed,
@@ -186,7 +189,14 @@ const CreatePetListing = () => {
           zipCode: "",
           contactEmail: "",
           additionalInfo: "",
-        });
+        }),
+        setSelectedCatAge(""),
+        setSelectedDogAge(""),
+        setSelectedDogSize("")
+        setSelectedCatSize("")
+        setSelectedCatBreed("")
+        setSelectedDogBreed("")
+        setSelectedSpecies("")
     }, 2500);
   };
   useEffect(() => {
@@ -289,20 +299,287 @@ const CreatePetListing = () => {
                 onChange={(e) => setNewPet({ ...newPet, name: e.target.value })}
               />
             </div>
-            <div className="flex flex-col py-1">
+            <div className="flex flex-col relative py-1">
               <label
                 htmlFor="dob"
-                className="flex w-min relative top-3 left-5 px-2 text-gray-500 bg-zinc-50 sm:bg-white"
+                className="flex w-min z-60 relative top-3 left-5 px-2 text-gray-500 bg-zinc-50 sm:bg-white"
               >
-                DOB:<span className="text-red-500">*</span>
+                Age:<span className="text-red-500">*</span>
               </label>
-              <input
-                type="text"
-                placeholder="08/12/2022"
-                className="rounded-md px-2 py-2 bg-zinc-50 sm:bg-white border-purple-300 border font-light outline-none mx-1"
-                value={newPet.dob}
-                onChange={(e) => setNewPet({ ...newPet, dob: e.target.value })}
-              />
+            { selectedSpecies === "Dog" ? (
+              <Listbox value={selectedDogAge} onChange={setSelectedDogAge}>
+              <Listbox.Button className="relative py-2 mx-1 pl-3 pr-10 text-left sm:bg-white rounded-lg cursor-pointer border border-purple-300 focus:outline-none sm:text">
+                <span className="block truncate font-light">
+                  {selectedDogAge}
+                </span>
+                <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+                  <SelectorIcon
+                    className="w-5 h-5 text-gray-400"
+                    aria-hidden="true"
+                  />
+                </span>
+              </Listbox.Button>
+              <Transition
+                as={Fragment}
+                leave="transition ease-in duration-100"
+                leaveFrom="opacity-100"
+                leaveTo="opacity-0"
+              >
+                <Listbox.Options className="absolute w-full py-1 mt-18 overflow-auto text-base bg-white rounded-md shadow-lg max-h-60 ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm z-50">
+                  <Listbox.Option
+                    className={({ active }) =>
+                      `cursor-default select-none relative py-2 pl-10 pr-4 ${active
+                        ? "text-purple-900 bg-purple-100"
+                        : "text-gray-900"
+                      }`
+                    }
+                    value="Puppy"
+                  >
+                    {({ selected }) => (
+                      <>
+                        <span
+                          className={`block truncate ${selected ? "font-medium" : "font-normal"
+                            }`}
+                        >
+                          Puppy (Upto 2 years old)
+                        </span>
+                        {selected ? (
+                          <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-purple-600">
+                            <CheckIcon
+                              className="w-5 h-5"
+                              aria-hidden="true"
+                            />
+                          </span>
+                        ) : null}
+                      </>
+                    )}
+                  </Listbox.Option>
+                  <Listbox.Option
+                    className={({ active }) =>
+                      `cursor-default select-none relative py-2 pl-10 pr-4 ${active
+                        ? "text-purple-900 bg-purple-100"
+                        : "text-gray-900"
+                      }`
+                    }
+                    value="Young"
+                  >
+                    {({ selected }) => (
+                      <>
+                        <span
+                          className={`block truncate ${selected ? "font-medium" : "font-normal"
+                            }`}
+                        >
+                         Young (3-5 years old) 
+                        </span>
+                        {selected ? (
+                          <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-purple-600">
+                            <CheckIcon
+                              className="w-5 h-5"
+                              aria-hidden="true"
+                            />
+                          </span>
+                        ) : null}
+                      </>
+                    )}
+                  </Listbox.Option>
+                  <Listbox.Option
+                    className={({ active }) =>
+                      `cursor-default select-none relative py-2 pl-10 pr-4 ${active
+                        ? "text-purple-900 bg-purple-100"
+                        : "text-gray-900"
+                      }`
+                    }
+                    value="Adult"
+                  >
+                    {({ selected }) => (
+                      <>
+                        <span
+                          className={`block truncate ${selected ? "font-medium" : "font-normal"
+                            }`}
+                        >
+                          Adult (5-8 years old)
+                        </span>
+                        {selected ? (
+                          <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-purple-600">
+                            <CheckIcon
+                              className="w-5 h-5"
+                              aria-hidden="true"
+                            />
+                          </span>
+                        ) : null}
+                      </>
+                    )}
+                  </Listbox.Option>
+                  <Listbox.Option
+                    className={({ active }) =>
+                      `cursor-default select-none relative py-2 pl-10 pr-4 ${active
+                        ? "text-purple-900 bg-purple-100"
+                        : "text-gray-900"
+                      }`
+                    }
+                    value="Senior"
+                  >
+                    {({ selected }) => (
+                      <>
+                        <span
+                          className={`block truncate ${selected ? "font-medium" : "font-normal"
+                            }`}
+                        >
+                          Senior (8+ years old)
+                        </span>
+                        {selected ? (
+                          <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-purple-600">
+                            <CheckIcon
+                              className="w-5 h-5"
+                              aria-hidden="true"
+                            />
+                          </span>
+                        ) : null}
+                      </>
+                    )}
+                  </Listbox.Option>
+                </Listbox.Options>
+              </Transition>
+            </Listbox>):
+            <Listbox value={selectedCatAge} onChange={setSelectedCatAge}>
+            <Listbox.Button className="relative py-2 mx-1 pl-3 pr-10 text-left sm:bg-white rounded-lg cursor-pointer border border-purple-300 focus:outline-none sm:text">
+              <span className="block truncate font-light">
+                {selectedCatAge}
+              </span>
+              <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+                <SelectorIcon
+                  className="w-5 h-5 text-gray-400"
+                  aria-hidden="true"
+                />
+              </span>
+            </Listbox.Button>
+            <Transition
+              as={Fragment}
+              leave="transition ease-in duration-100"
+              leaveFrom="opacity-100"
+              leaveTo="opacity-0"
+            >
+              <Listbox.Options className="absolute w-full py-1 mt-18 overflow-auto text-base bg-white rounded-md shadow-lg max-h-60 ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm z-50">
+                <Listbox.Option
+                  className={({ active }) =>
+                    `cursor-default select-none relative py-2 pl-10 pr-4 ${active
+                      ? "text-purple-900 bg-purple-100"
+                      : "text-gray-900"
+                    }`
+                  }
+                  value="Kitten"
+                >
+                  {({ selected }) => (
+                    <>
+                      <span
+                        className={`block truncate ${selected ? "font-medium" : "font-normal"
+                          }`}
+                      >
+                        Kitten (Upto 2 years old)
+                      </span>
+                      {selected ? (
+                        <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-purple-600">
+                          <CheckIcon
+                            className="w-5 h-5"
+                            aria-hidden="true"
+                          />
+                        </span>
+                      ) : null}
+                    </>
+                  )}
+                </Listbox.Option>
+                <Listbox.Option
+                  className={({ active }) =>
+                    `cursor-default select-none relative py-2 pl-10 pr-4 ${active
+                      ? "text-purple-900 bg-purple-100"
+                      : "text-gray-900"
+                    }`
+                  }
+                  value="Young"
+                >
+                  {({ selected }) => (
+                    <>
+                      <span
+                        className={`block truncate ${selected ? "font-medium" : "font-normal"
+                          }`}
+                      >
+                       Young (3-5 years old) 
+                      </span>
+                      {selected ? (
+                        <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-purple-600">
+                          <CheckIcon
+                            className="w-5 h-5"
+                            aria-hidden="true"
+                          />
+                        </span>
+                      ) : null}
+                    </>
+                  )}
+                </Listbox.Option>
+                <Listbox.Option
+                  className={({ active }) =>
+                    `cursor-default select-none relative py-2 pl-10 pr-4 ${active
+                      ? "text-purple-900 bg-purple-100"
+                      : "text-gray-900"
+                    }`
+                  }
+                  value="Adult"
+                >
+                  {({ selected }) => (
+                    <>
+                      <span
+                        className={`block truncate ${selected ? "font-medium" : "font-normal"
+                          }`}
+                      >
+                        Adult (5-8 years old)
+                      </span>
+                      {selected ? (
+                        <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-purple-600">
+                          <CheckIcon
+                            className="w-5 h-5"
+                            aria-hidden="true"
+                          />
+                        </span>
+                      ) : null}
+                    </>
+                  )}
+                </Listbox.Option>
+                <Listbox.Option
+                  className={({ active }) =>
+                    `cursor-default select-none relative py-2 pl-10 pr-4 ${active
+                      ? "text-purple-900 bg-purple-100"
+                      : "text-gray-900"
+                    }`
+                  }
+                  value="Senior"
+                >
+                  {({ selected }) => (
+                    <>
+                      <span
+                        className={`block truncate ${selected ? "font-medium" : "font-normal"
+                          }`}
+                      >
+                        Senior (8+ years old)
+                      </span>
+                      {selected ? (
+                        <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-purple-600">
+                          <CheckIcon
+                            className="w-5 h-5"
+                            aria-hidden="true"
+                          />
+                        </span>
+                      ) : null}
+                    </>
+                  )}
+                </Listbox.Option>
+              </Listbox.Options>
+            </Transition>
+          </Listbox>
+              
+
+
+}
+
             </div>
             <div className="flex flex-col py-1">
               <label
@@ -391,10 +668,9 @@ const CreatePetListing = () => {
                           <Listbox.Option
                             key={breedIdx}
                             className={({ active }) =>
-                              `cursor-default capitalize select-none relative py-2 pl-10 pr-4 ${
-                                active
-                                  ? "text-purple-900 bg-purple-100"
-                                  : "text-gray-900"
+                              `cursor-default capitalize select-none relative py-2 pl-10 pr-4 ${active
+                                ? "text-purple-900 bg-purple-100"
+                                : "text-gray-900"
                               }`
                             }
                             value={breed}
@@ -402,9 +678,8 @@ const CreatePetListing = () => {
                             {({ selected }) => (
                               <>
                                 <span
-                                  className={`block truncate ${
-                                    selected ? "font-medium" : "font-normal"
-                                  }`}
+                                  className={`block truncate ${selected ? "font-medium" : "font-normal"
+                                    }`}
                                 >
                                   {breed}
                                 </span>
@@ -452,10 +727,9 @@ const CreatePetListing = () => {
                           <Listbox.Option
                             key={breedIdx}
                             className={({ active }) =>
-                              `cursor-default select-none relative py-2 pl-10 pr-4 ${
-                                active
-                                  ? "text-purple-900 bg-purple-100"
-                                  : "text-gray-900"
+                              `cursor-default select-none relative py-2 pl-10 pr-4 ${active
+                                ? "text-purple-900 bg-purple-100"
+                                : "text-gray-900"
                               }`
                             }
                             value={breed}
@@ -463,9 +737,8 @@ const CreatePetListing = () => {
                             {({ selected }) => (
                               <>
                                 <span
-                                  className={`block truncate ${
-                                    selected ? "font-medium" : "font-normal"
-                                  }`}
+                                  className={`block truncate ${selected ? "font-medium" : "font-normal"
+                                    }`}
                                 >
                                   {breed}
                                 </span>
@@ -506,27 +779,264 @@ const CreatePetListing = () => {
                 }
               />
             </div>
-            <div className="flex flex-col py-1">
+
+            {/* WEIGHT  START*/}
+            <div className="flex flex-col relative py-1">
               <label
                 htmlFor="weight"
-                className="flex w-min relative top-3 left-5 px-2 text-gray-500 bg-zinc-50 sm:bg-white"
+                className="flex w-min z-60 relative top-3 left-5 px-2 text-gray-500 bg-zinc-50 sm:bg-white"
               >
                 Weight:<span className="text-red-500">*</span>
               </label>
-              <input
-                type="text"
-                placeholder="Small (lbs)"
-                className="rounded-md px-2 py-2 sm:bg-white border-purple-300 border font-light bg-zinc-50 outline-none mx-1"
-                value={newPet.weight}
-                onChange={(e) =>
-                  setNewPet({ ...newPet, weight: e.target.value })
-                }
-              />
-            </div>
+
+              {selectedSpecies === "Dog" ? (
+              <Listbox value={selectedDogSize} onChange={setSelectedDogSize}>
+              <Listbox.Button className="relative py-2 mx-1 pl-3 pr-10 text-left sm:bg-white rounded-lg cursor-pointer border border-purple-300 focus:outline-none sm:text">
+                <span className="block truncate font-light">
+                  {selectedDogSize}
+                </span>
+                <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+                  <SelectorIcon
+                    className="w-5 h-5 text-gray-400"
+                    aria-hidden="true"
+                  />
+                </span>
+              </Listbox.Button>
+              <Transition
+                as={Fragment}
+                leave="transition ease-in duration-100"
+                leaveFrom="opacity-100"
+                leaveTo="opacity-0"
+              >
+                <Listbox.Options className="absolute w-full py-1 mt-18 overflow-auto text-base bg-white rounded-md shadow-lg max-h-60 ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm z-50">
+                  <Listbox.Option
+                    className={({ active }) =>
+                      `cursor-default select-none relative py-2 pl-10 pr-4 ${active
+                        ? "text-purple-900 bg-purple-100"
+                        : "text-gray-900"
+                      }`
+                    }
+                    value="Small"
+                  >
+                    {({ selected }) => (
+                      <>
+                        <span
+                          className={`block truncate ${selected ? "font-medium" : "font-normal"
+                            }`}
+                        >
+                          Small (Upto 25 lbs)
+                        </span>
+                        {selected ? (
+                          <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-purple-600">
+                            <CheckIcon
+                              className="w-5 h-5"
+                              aria-hidden="true"
+                            />
+                          </span>
+                        ) : null}
+                      </>
+                    )}
+                  </Listbox.Option>
+                  <Listbox.Option
+                    className={({ active }) =>
+                      `cursor-default select-none relative py-2 pl-10 pr-4 ${active
+                        ? "text-purple-900 bg-purple-100"
+                        : "text-gray-900"
+                      }`
+                    }
+                    value="Medium"
+                  >
+                    {({ selected }) => (
+                      <>
+                        <span
+                          className={`block truncate ${selected ? "font-medium" : "font-normal"
+                            }`}
+                        >
+                          Medium (25-40 lbs)
+                        </span>
+                        {selected ? (
+                          <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-purple-600">
+                            <CheckIcon
+                              className="w-5 h-5"
+                              aria-hidden="true"
+                            />
+                          </span>
+                        ) : null}
+                      </>
+                    )}
+                  </Listbox.Option>
+                  <Listbox.Option
+                    className={({ active }) =>
+                      `cursor-default select-none relative py-2 pl-10 pr-4 ${active
+                        ? "text-purple-900 bg-purple-100"
+                        : "text-gray-900"
+                      }`
+                    }
+                    value="Large"
+                  >
+                    {({ selected }) => (
+                      <>
+                        <span
+                          className={`block truncate ${selected ? "font-medium" : "font-normal"
+                            }`}
+                        >
+                          Large (40-55 lbs)
+                        </span>
+                        {selected ? (
+                          <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-purple-600">
+                            <CheckIcon
+                              className="w-5 h-5"
+                              aria-hidden="true"
+                            />
+                          </span>
+                        ) : null}
+                      </>
+                    )}
+                  </Listbox.Option>
+                  <Listbox.Option
+                    className={({ active }) =>
+                      `cursor-default select-none relative py-2 pl-10 pr-4 ${active
+                        ? "text-purple-900 bg-purple-100"
+                        : "text-gray-900"
+                      }`
+                    }
+                    value="Extra Large"
+                  >
+                    {({ selected }) => (
+                      <>
+                        <span
+                          className={`block truncate ${selected ? "font-medium" : "font-normal"
+                            }`}
+                        >
+                          Extra Large (55+ lbs)
+                        </span>
+                        {selected ? (
+                          <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-purple-600">
+                            <CheckIcon
+                              className="w-5 h-5"
+                              aria-hidden="true"
+                            />
+                          </span>
+                        ) : null}
+                      </>
+                    )}
+                  </Listbox.Option>
+                </Listbox.Options>
+              </Transition>
+            </Listbox>
+              ):
+              <Listbox value={selectedCatSize} onChange={setSelectedCatSize}>
+              <Listbox.Button className="relative py-2 mx-1 pl-3 pr-10 text-left sm:bg-white rounded-lg cursor-pointer border border-purple-300 focus:outline-none sm:text">
+                <span className="block truncate font-light">
+                  {selectedCatSize}
+                </span>
+                <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+                  <SelectorIcon
+                    className="w-5 h-5 text-gray-400"
+                    aria-hidden="true"
+                  />
+                </span>
+              </Listbox.Button>
+              <Transition
+                as={Fragment}
+                leave="transition ease-in duration-100"
+                leaveFrom="opacity-100"
+                leaveTo="opacity-0"
+              >
+                <Listbox.Options className="absolute w-full py-1 mt-18 overflow-auto text-base bg-white rounded-md shadow-lg max-h-60 ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm z-50">
+                  <Listbox.Option
+                    className={({ active }) =>
+                      `cursor-default select-none relative py-2 pl-10 pr-4 ${active
+                        ? "text-purple-900 bg-purple-100"
+                        : "text-gray-900"
+                      }`
+                    }
+                    value="Small"
+                  >
+                    {({ selected }) => (
+                      <>
+                        <span
+                          className={`block truncate ${selected ? "font-medium" : "font-normal"
+                            }`}
+                        >
+                          Small (Upto 20 lbs)
+                        </span>
+                        {selected ? (
+                          <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-purple-600">
+                            <CheckIcon
+                              className="w-5 h-5"
+                              aria-hidden="true"
+                            />
+                          </span>
+                        ) : null}
+                      </>
+                    )}
+                  </Listbox.Option>
+                  <Listbox.Option
+                    className={({ active }) =>
+                      `cursor-default select-none relative py-2 pl-10 pr-4 ${active
+                        ? "text-purple-900 bg-purple-100"
+                        : "text-gray-900"
+                      }`
+                    }
+                    value="Medium"
+                  >
+                    {({ selected }) => (
+                      <>
+                        <span
+                          className={`block truncate ${selected ? "font-medium" : "font-normal"
+                            }`}
+                        >
+                          Medium (20-35 lbs)
+                        </span>
+                        {selected ? (
+                          <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-purple-600">
+                            <CheckIcon
+                              className="w-5 h-5"
+                              aria-hidden="true"
+                            />
+                          </span>
+                        ) : null}
+                      </>
+                    )}
+                  </Listbox.Option>
+                  <Listbox.Option
+                    className={({ active }) =>
+                      `cursor-default select-none relative py-2 pl-10 pr-4 ${active
+                        ? "text-purple-900 bg-purple-100"
+                        : "text-gray-900"
+                      }`
+                    }
+                    value="Large"
+                  >
+                    {({ selected }) => (
+                      <>
+                        <span
+                          className={`block truncate ${selected ? "font-medium" : "font-normal"
+                            }`}
+                        >
+                          Large (35+ lbs)
+                        </span>
+                        {selected ? (
+                          <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-purple-600">
+                            <CheckIcon
+                              className="w-5 h-5"
+                              aria-hidden="true"
+                            />
+                          </span>
+                        ) : null}
+                      </>
+                    )}
+                  </Listbox.Option>
+                </Listbox.Options>
+              </Transition>
+            </Listbox>}
+            </div> 
+            {/* WEIGHT  END*/}
 
             <div className="flex flex-col relative py-1">
               <label
-                htmlFor="species"
+                htmlFor="weight"
                 className="flex w-min relative top-3 left-5 px-2 text-gray-500 bg-zinc-50 z-40 sm:bg-white"
               >
                 Species:<span className="text-red-500">*</span>
@@ -552,10 +1062,9 @@ const CreatePetListing = () => {
                   <Listbox.Options className="absolute w-full py-1 mt-18 overflow-auto text-base bg-white rounded-md shadow-lg max-h-60 ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm z-50">
                     <Listbox.Option
                       className={({ active }) =>
-                        `cursor-default select-none relative py-2 pl-10 pr-4 ${
-                          active
-                            ? "text-purple-900 bg-purple-100"
-                            : "text-gray-900"
+                        `cursor-default select-none relative py-2 pl-10 pr-4 ${active
+                          ? "text-purple-900 bg-purple-100"
+                          : "text-gray-900"
                         }`
                       }
                       value="Dog"
@@ -563,9 +1072,8 @@ const CreatePetListing = () => {
                       {({ selected }) => (
                         <>
                           <span
-                            className={`block truncate ${
-                              selected ? "font-medium" : "font-normal"
-                            }`}
+                            className={`block truncate ${selected ? "font-medium" : "font-normal"
+                              }`}
                           >
                             Dog
                           </span>
@@ -582,10 +1090,9 @@ const CreatePetListing = () => {
                     </Listbox.Option>
                     <Listbox.Option
                       className={({ active }) =>
-                        `cursor-default select-none relative py-2 pl-10 pr-4 ${
-                          active
-                            ? "text-purple-900 bg-purple-100"
-                            : "text-gray-900"
+                        `cursor-default select-none relative py-2 pl-10 pr-4 ${active
+                          ? "text-purple-900 bg-purple-100"
+                          : "text-gray-900"
                         }`
                       }
                       value="Cat"
@@ -593,9 +1100,8 @@ const CreatePetListing = () => {
                       {({ selected }) => (
                         <>
                           <span
-                            className={`block truncate ${
-                              selected ? "font-medium" : "font-normal"
-                            }`}
+                            className={`block truncate ${selected ? "font-medium" : "font-normal"
+                              }`}
                           >
                             Cat
                           </span>
