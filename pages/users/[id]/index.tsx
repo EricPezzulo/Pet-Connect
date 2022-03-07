@@ -46,8 +46,7 @@ const index = () => {
   });
   if (loading) return <p>loading</p>;
   if (error) return <p>error</p>;
-  let user = data.fetchUser[0];
-
+  let user = data?.fetchUser[0];
 
   return (
     <>
@@ -64,24 +63,24 @@ const index = () => {
               <img
                 src={user?.image}
                 alt={`${user.name}'s avatar`}
-                className="rounded-full"
+                className="rounded-full w-full h-full"
               />
             </div>
             <p className="text-3xl font-light">{user.name}</p>
            <div className="flex flex-col justify-center">
              {user.status ? <p className="text-xl font-light">{user.status}</p> : null}
-             {user.location ? <div className="flex items-center"><div className="w-7 text-purple-500"><LocationPin /></div><p className="text-xl font-light">{user.location}</p></div> : <p>No location provided</p>}
-             {user.publicEmail ? <div className="flex items-center"><div className="w-7 text-purple-500"><Email /></div><p className="text-xl font-light">{user.publicEmail}</p></div> : <p>No email provided</p>}
+             {user.location ? <div className="flex items-center"><div className="w-7 text-purple-600"><LocationPin /></div><p className="text-xl font-light">{user.location}</p></div> : <p>No location provided</p>}
+             {user.publicEmail ? <div className="flex items-center"><div className="w-7 text-purple-600"><Email /></div><p className="text-xl font-light">{user.publicEmail}</p></div> : <p>No email provided</p>}
              {session && (
-              openEditProfileModule ? (<div><button className='bg-purple-400 px-2 py-1 rounded-md' onClick={()=> setOpenEditProfileModule((openEditProfileModule)=> !openEditProfileModule)}>Close</button></div>):(
-            <div>
-            <button className='bg-purple-400 px-2 py-1 rounded-md' type='submit' onClick={()=> setOpenEditProfileModule((openEditProfileModule)=> !openEditProfileModule)}>Edit</button></div>
+              openEditProfileModule ? (<div className="my-2"><button className='bg-purple-600 text-white px-2 py-1 rounded-lg w-16' onClick={()=> setOpenEditProfileModule((openEditProfileModule)=> !openEditProfileModule)}>Close</button></div>):(
+            <div className='my-2'><button className='bg-purple-600 px-2 text-white py-1 rounded-lg w-16' type='submit' onClick={()=> setOpenEditProfileModule((openEditProfileModule)=> !openEditProfileModule)}>Edit</button></div>
             )
             )}
-              {openEditProfileModule && (
-       <div>
-       <UserBio /></div>
-      )}
+            
+            {openEditProfileModule && (
+            <div className="flex">
+              <UserBio />
+            </div>)}
            </div>
           </div>
           <h3 className="text-2xl text-center sm:text-left">

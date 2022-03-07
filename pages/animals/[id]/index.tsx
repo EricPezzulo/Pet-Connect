@@ -171,11 +171,11 @@ const index = () => {
       sendMail({
         variables: {
           emailContent: newEmail.emailContent,
-          subject: `Inquirey about ${animal.name}`,
+          subject: animal.name,
           recipient: animal.contactEmail,
         },
       });
-      alert(`${captchaValue} \n \n Messge: ${newEmail.emailContent}`);
+      // alert(`${captchaValue} \n \n Messge: ${newEmail.emailContent}`);
       setNewEmail({ ...newEmail, emailContent: "" });
     } else {
       alert("complete captcha");

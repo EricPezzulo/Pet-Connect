@@ -1,7 +1,5 @@
-import { Listbox, Transition } from "@headlessui/react";
-import { Fragment, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Layout from "../../components/Layout";
-import { CheckIcon, SelectorIcon } from "@heroicons/react/solid";
 import Head from "next/head";
 import { AnimalCat, AnimalDog } from "styled-icons/fluentui-system-regular";
 import axios from "axios";
@@ -59,7 +57,6 @@ const findpet = ({ listOfCatBreeds: cats, listOfDogBreeds: dogs }: breedProps) =
   const [dogBreeds] = useState(dogs);
   const [selectedCatBreed, setSelectedCatBreed] = useState("");
   const [selectedCatSize, setSelectedCatSize] = useState("");
-
   const [displayDogFilteredResults, setDisplayDogFilteredResults] = useState([]);
   const [displayCatFilteredResults, setDisplayCatFilteredResults] = useState([])
   const router = useRouter();
@@ -217,7 +214,7 @@ const findpet = ({ listOfCatBreeds: cats, listOfDogBreeds: dogs }: breedProps) =
                   </div>
                   <div className="hidden group-hover:lg:block group-hover:lg:absolute bg-purple-400 bottom-16 w-full text-white duration-100 font-Titillium-Web ease-in-out ">
                     <p className="text-center py-1">Size: {dog.weight}</p>
-                    <p className="text-center py-1">{dog.gender}</p>
+                    <p className="text-center py-1">Age: {dog.dob}</p>
                   </div>
 
                   <div className="p-2 group-hover:bg-purple-500 group-focus:bg-purple-500 duration-150 rounded-b-md group-hover:text-white">
@@ -273,9 +270,6 @@ const findpet = ({ listOfCatBreeds: cats, listOfDogBreeds: dogs }: breedProps) =
           )}
         </div>)}
     </>
-  console.log(displayDogFilteredResults)
-  console.log({ selectedDogAge, selectedDogSize, selectedDogBreed })
-
 
   return (
     <Layout>

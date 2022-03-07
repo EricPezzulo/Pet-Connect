@@ -61,11 +61,7 @@ const Home: NextPage = () => {
             alt="Hero"
             className="w-full object-cover h-full"
           />
-          <div className="flex sm:relative w-full max-w-6xl h-auto justify-center items-center">
-            <div className="flex bg-purple-500 opacity-75 hover:opacity-90 absolute px-3 py-2 rounded-full text-lg text-white bottom-10 sm:bottom-10 sm:left-20 shadow-lg duration-150 border-2 border-purple-700 hover:bg-purple-600 hover:cursor-pointer">
-              <button aria-label="Get-Started">Get Started</button>
-            </div>
-          </div>
+          
           <div className="flex group p-4  w-min absolute justify-center items-center top-0 mx-auto ">
             <button
               aria-label="Image 1"

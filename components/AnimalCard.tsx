@@ -102,7 +102,7 @@ const AnimalCard = ({
   );
 
   return (
-    <div className="block rounded-b-md">
+    <div className="block rounded-b-md hover:bg-purple-600 hover:text-white duration-150 ease-in-out">
       <div className="max-w-md">
         <div>
           <img

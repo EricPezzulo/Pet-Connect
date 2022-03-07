@@ -71,16 +71,21 @@ const UserBio = () => {
    
     const handleClick = (e:any) => {
         e.preventDefault()
-        updateEmail(e)
-        updateStatus(e)
-        updateLocation(e)
+        if(status){
+          updateStatus(e)
+        }
+        if(publicEmail){
+          updateEmail(e)
+        }
+        if(location){
+          updateLocation(e)
+        }
     }
     return (
-        <div>
             <form className='flex flex-col items-center justify-center p-5'>
-            <div>
+            <div className="">
                 <p className="">Status: </p>
-                <input type="text" onChange={(e) => setStatus(e.target.value)} placeholder={data?.fetchUser[0].status} className="border border-purple-200 outline-none px-2 py-1" />
+                <input type="text" onChange={(e) => setStatus(e.target.value)} placeholder={data?.fetchUser[0].status} className="border border-purple-200 outline-none px-2 py-1 w-full" />
             </div>
             <div>
                 <p className=''>Location:</p>
@@ -92,7 +97,6 @@ const UserBio = () => {
             </div>
             <button type='submit' className='bg-purple-600 rounded-md px-2 py-1 text-white my-2 self-center' onClick={handleClick}>Update</button>
             </form>
-        </div>
     )
 }
 
