@@ -122,8 +122,8 @@ const AnimalCard = ({
             </div>
             <div className="flex flex-col  px-4 py-2">
               <div className="flex">
-                <p className="font-semibold w-16">Weight:</p>
-                <p className="font-normal pl-3">{weight} lbs</p>
+                <p className="font-semibold w-16">Size:</p>
+                <p className="font-normal pl-3">{weight}</p>
               </div>
               <div className="flex">
                 <p className="font-semibold w-16">Color:</p>
@@ -134,7 +134,7 @@ const AnimalCard = ({
                 <p className="font-normal pl-3  truncate w-52">{breed}</p>
               </div>
               <div className="flex">
-                <p className="font-semibold w-16">DOB:</p>
+                <p className="font-semibold w-16">Age:</p>
                 <p className="font-normal pl-3">{dob}</p>
               </div>
             </div>
