@@ -1,7 +1,6 @@
 import { gql, useMutation, useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
 import Head from "next/head";
-import Image from "next/image";
 import { useEffect, useState } from "react";
 import ReactMapboxGl, { Feature, Layer, Marker } from "react-mapbox-gl";
 import { LocationPin } from "@styled-icons/entypo/LocationPin";
@@ -102,7 +101,6 @@ const index = () => {
   let animalId = router.query.id;
   const [lat, setLat] = useState(41.114538);
   const [lng, setLng] = useState(-73.428362);
-
   const [deleteFavorites] = useMutation(DEL_FROM_FAVS);
   const [sendMail] = useMutation(SEND_EMAIL);
   const deleteFromFavs = async (id: any) => {

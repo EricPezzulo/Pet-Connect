@@ -5,7 +5,7 @@
     "build": "next build",
     "start": "next start",
     "ts-node": "ts-node --compiler-options '{\\\"module\\\":\\\"commonjs\\\"}'",
-    "export":"next export"
+    "export": "next export"
   },
   "dependencies": {
     "@apollo/client": "^3.5.8",
@@ -27,7 +27,6 @@
     "nexus": "^1.2.0",
     "nodemailer": "^6.7.2",
     "react": "17.0.2",
-    "react-click-away-listener": "^2.1.0",
     "react-dom": "17.0.2",
     "react-google-recaptcha": "^2.1.0",
     "react-map-gl-geocoder": "^2.2.0",

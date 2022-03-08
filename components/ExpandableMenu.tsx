@@ -6,7 +6,7 @@ const ExpandableMenu = () => {
   const { data: session }: any = useSession();
 
   return (
-    <div className="flex bg-gray-100 drop-shadow md:border-x border-b md:border-purple-200 h-auto w-full md:w-48 md:rounded-b-lg">
+    <div className="flex bg-gray-100 drop-shadow md:border-x border-b md:border-purple-200 h-auto w-full md:w-48 md:absolute md:right-0 md:rounded-bl-lg">
       <div className="flex flex-col w-full font-Work-Sans">
         <button
           type='button'

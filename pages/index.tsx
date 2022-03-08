@@ -118,10 +118,10 @@ const Home: NextPage = () => {
         </div>
 
         <div className="container flex flex-col mx-auto">
-          <h2 className="text-4xl font-Titillium-Web text-center text-purple-800 mb-2">
+          <h2 className="text-4xl font-Titillium-Web text-center text-purple-800">
             Featured Pets
           </h2>
-          <ul className="flex flex-wrap justify-center grid-cols-1 md:grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 my-5">
+          <ul className="flex flex-wrap justify-center grid-cols-1 md:grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 my-3">
             {animals &&
               animals.map((animal: any, key: any) => (
                 <li

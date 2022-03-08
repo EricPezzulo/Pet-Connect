@@ -1,10 +1,9 @@
 import { signIn, useSession } from "next-auth/react";
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import ExpandableMenu from "./ExpandableMenu";
-import ClickAwayListener from "react-click-away-listener";
 
 export const Layout = ({ children }: any) => {
   return (
@@ -20,10 +19,28 @@ export const Layout = ({ children }: any) => {
   );
 };
 
+let useClickAway = (handler: any) => {
+  let domNode = useRef<HTMLDivElement>(null)
+  useEffect(() => {
+    let maybeHandler = (e: any) => {
+      if (!domNode?.current?.contains(e.target)) {
+        handler()
+      }
+    }
+    document.addEventListener("mousedown", maybeHandler)
+    return () => {
+      document.removeEventListener("mousedown", maybeHandler)
+    }
+  })
+  return domNode
+}
+
 export const Header = () => {
   const { data: session }: any = useSession();
   const router = useRouter();
   const [openMenu, setOpenMenu] = useState(false);
+  let domNode = useClickAway(() => { setOpenMenu(false) })
+
   return (
     <header className="flex sticky top-0 z-50 shadow-md px-3 bg-gray-200 w-full justify-between items-center h-16 border-b border-gray-300">
       <p
@@ -45,23 +62,22 @@ export const Header = () => {
           </div>
         ) : (
           <div className="flex flex-col items-center">
-            <div className="flex items-center">
+            <button 
+              className="flex items-center"
+              type='button'
+              onClick={() => setOpenMenu((openMenu) => !openMenu)}>
               <Image
                 src={`${session?.user.image}`}
                 alt={`${session?.user.name}`}
                 width={42}
                 height={42}
                 className="rounded-full hover:cursor-pointer"
-                onClick={() => setOpenMenu((openMenu) => !openMenu)}
+
               />
-            </div>
+            </button>
             {openMenu && (
-              <div className="flex justify-end items-end absolute w-full  top-16 right-0 z-50 md:pr-2">
-                {/* <ClickAwayListener */}
-                  {/* onClickAway={(openMenu) => setOpenMenu(!openMenu)} */}
-                {/* > */}
-                  <ExpandableMenu />
-                {/* </ClickAwayListener> */}
+              <div ref={domNode} className="absolute w-full top-16 right-0 z-50">
+                <ExpandableMenu />
               </div>
             )}
           </div>
