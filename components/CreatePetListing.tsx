@@ -214,6 +214,7 @@ const CreatePetListing = () => {
         (breed: any) => breed[0].charAt(0).toUpperCase() + breed[0].substring(1)
       );
       setDogBreeds(listOfDogBreeds);
+      console.log(listOfDogBreeds)
       setSelectedDogBreed(Object.entries(data)[0][0])
     };
     fetchDogBreeds();
