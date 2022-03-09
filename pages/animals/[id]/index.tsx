@@ -187,11 +187,6 @@ const index = () => {
           <Head>
             <title>PetConnect - Loading</title>
             <meta name="description" content="Loading" />
-
-            <link
-              href="https://api.mapbox.com/mapbox-gl-js/v1.10.1/mapbox-gl.css"
-              rel="stylesheet"
-            />
           </Head>
 
           <div className="flex flex-col lg:flex-row lg:items-center sm:my-10 min-h-fit container w-full">
@@ -216,10 +211,6 @@ const index = () => {
             <div className="flex justify-center">
               <textarea
                 className="flex rounded w-full h-28 mx-4 md:max-w-xl bg-purple-200 outline-none p-2 resize-none placeholder:text-purple-600"
-                onChange={(e: any) =>
-                  setNewEmail({ ...newEmail, emailContent: e.target.value })
-                }
-                value={newEmail.emailContent}
                 placeholder="Please include your contact information here."
               ></textarea>
             </div>
