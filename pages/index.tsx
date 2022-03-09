@@ -8,6 +8,7 @@ import { SearchAlt } from "@styled-icons/boxicons-regular/SearchAlt";
 import { TextBulletListAdd } from "@styled-icons/fluentui-system-regular/TextBulletListAdd";
 import { useRouter } from "next/router";
 import { heros } from "../data/imageHeros";
+import ImageSlider from "../components/ImageSlider";
 export const FETCH_ALL_ANIMALS = gql`
   query {
     fetchAllAnimals {
@@ -28,12 +29,6 @@ export const FETCH_ALL_ANIMALS = gql`
 const Home: NextPage = () => {
   const router = useRouter();
   const { data, loading, error } = useQuery(FETCH_ALL_ANIMALS);
-  const [sliderIndex, setSliderIndex] = useState(3);
-  const [sliderImage, setSliderImage] = useState("");
-
-  useEffect(() => {
-    setSliderImage(heros[sliderIndex]);
-  });
 
   if (loading)
     return (
@@ -48,44 +43,8 @@ const Home: NextPage = () => {
           </style>
         </Head>
         <Layout>
-          <div className="flex relative justify-center items-center flex-col w-full  h-96 sm:h-102  shadow">
-            <img
-              src={sliderImage}
-              alt="Hero"
-              className="w-full object-cover h-full"
-            />
+          <ImageSlider />
 
-            <div className="flex group p-4  w-min absolute justify-center items-center top-0 mx-auto ">
-              <button
-                aria-label="Image 1"
-                onClick={() => {
-                  setSliderIndex(0);
-                }}
-                className="bg-purple-300 opacity-60 hover:bg-purple-500 duration-150 group-hover:opacity-100 w-8 h-2 mx-2 shadow rounded-full"
-              ></button>
-              <button
-                aria-label="Image 2"
-                onClick={() => {
-                  setSliderIndex(1);
-                }}
-                className="bg-purple-300 opacity-60 hover:bg-purple-500 duration-150 group-hover:opacity-100 w-8 h-2 mx-2 shadow rounded-full"
-              ></button>
-              <button
-                aria-label="Image 3"
-                onClick={() => {
-                  setSliderIndex(2);
-                }}
-                className="bg-purple-300 opacity-60 hover:bg-purple-500 duration-150 group-hover:opacity-100 w-8 h-2 mx-2 shadow rounded-full"
-              ></button>
-              <button
-                aria-label="Image 4"
-                onClick={() => {
-                  setSliderIndex(3);
-                }}
-                className="bg-purple-300 opacity-60 hover:bg-purple-500 duration-150 group-hover:opacity-100 w-8 h-2 mx-2 shadow rounded-full"
-              ></button>
-            </div>
-          </div>
           <div className="bg-purple-600 w-full md:max-w-2xl md:self-center md:rounded-full md:h-14 md:mt-10 mb-5 h-20 grid grid-cols-2 divide-x-2 divide-purple-800">
             <button
               aria-label="Find a pet"
@@ -115,13 +74,13 @@ const Home: NextPage = () => {
               Featured Pets
             </h2>
             <ul className="flex flex-wrap justify-center grid-cols-1 md:grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 my-3">
-              <li className="flex flex-col animate-pulse max-w-md my-2 shadow bg-gray-200 h-44 w-44 rounded"></li>
-              <li className="flex flex-col animate-pulse max-w-md my-2 shadow bg-gray-200 h-44 w-44 rounded"></li>
-              <li className="flex flex-col animate-pulse max-w-md my-2 shadow bg-gray-200 h-44 w-44 rounded"></li>
-              <li className="flex flex-col animate-pulse max-w-md my-2 shadow bg-gray-200 h-44 w-44 rounded"></li>
-              <li className="flex flex-col animate-pulse max-w-md my-2 shadow bg-gray-200 h-44 w-44 rounded"></li>
-              <li className="flex flex-col animate-pulse max-w-md my-2 shadow bg-gray-200 h-44 w-44  rounded"></li>
-              <li className="flex flex-col animate-pulse max-w-md my-2 shadow bg-gray-200 h-44 w-44 rounded"></li>
+              <li className="flex flex-col animate-pulse max-w-md my-2 shadow bg-gray-200 h-44 rounded"></li>
+              <li className="flex flex-col animate-pulse max-w-md my-2 shadow bg-gray-200 h-44 rounded"></li>
+              <li className="flex flex-col animate-pulse max-w-md my-2 shadow bg-gray-200 h-44 rounded"></li>
+              <li className="flex flex-col animate-pulse max-w-md my-2 shadow bg-gray-200 h-44 rounded"></li>
+              <li className="flex flex-col animate-pulse max-w-md my-2 shadow bg-gray-200 h-44 rounded"></li>
+              <li className="flex flex-col animate-pulse max-w-md my-2 shadow bg-gray-200 h-44 rounded"></li>
+              <li className="flex flex-col animate-pulse max-w-md my-2 shadow bg-gray-200 h-44 rounded"></li>
             </ul>
           </div>
         </Layout>
@@ -133,6 +92,7 @@ const Home: NextPage = () => {
         <p>ooops there is a problem</p> <p>{error.message}</p>
       </div>
     );
+
   const animals = data?.fetchAllAnimals;
   let randomizedAnimals = [...animals];
   randomizedAnimals.sort(() => Math.random() - 0.5);
@@ -149,44 +109,7 @@ const Home: NextPage = () => {
         </style>
       </Head>
       <Layout>
-        <div className="flex relative justify-center items-center flex-col w-full  h-96 sm:h-102  shadow">
-          <img
-            src={sliderImage}
-            alt="Hero"
-            className="w-full object-cover h-full"
-          />
-
-          <div className="flex group p-4  w-min absolute justify-center items-center top-0 mx-auto ">
-            <button
-              aria-label="Image 1"
-              onClick={() => {
-                setSliderIndex(0);
-              }}
-              className="bg-purple-300 opacity-60 hover:bg-purple-500 duration-150 group-hover:opacity-100 w-8 h-2 mx-2 shadow rounded-full"
-            ></button>
-            <button
-              aria-label="Image 2"
-              onClick={() => {
-                setSliderIndex(1);
-              }}
-              className="bg-purple-300 opacity-60 hover:bg-purple-500 duration-150 group-hover:opacity-100 w-8 h-2 mx-2 shadow rounded-full"
-            ></button>
-            <button
-              aria-label="Image 3"
-              onClick={() => {
-                setSliderIndex(2);
-              }}
-              className="bg-purple-300 opacity-60 hover:bg-purple-500 duration-150 group-hover:opacity-100 w-8 h-2 mx-2 shadow rounded-full"
-            ></button>
-            <button
-              aria-label="Image 4"
-              onClick={() => {
-                setSliderIndex(3);
-              }}
-              className="bg-purple-300 opacity-60 hover:bg-purple-500 duration-150 group-hover:opacity-100 w-8 h-2 mx-2 shadow rounded-full"
-            ></button>
-          </div>
-        </div>
+        <ImageSlider />
         <div className="bg-purple-600 w-full md:max-w-2xl md:self-center md:rounded-full md:h-14 md:mt-10 mb-5 h-20 grid grid-cols-2 divide-x-2 divide-purple-800">
           <button
             aria-label="Find a pet"

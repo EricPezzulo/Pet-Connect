@@ -677,7 +677,7 @@ const CreatePetListing = () => {
                       leaveFrom="opacity-100"
                       leaveTo="opacity-0"
                     >
-                      <Listbox.Options className="absolute w-full z-60 py-1 mt-2 overflow-auto text-base bg-white rounded-md shadow-lg max-h-60 ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm z-50">
+                      <Listbox.Options className="absolute w-full z-60 py-1 mt-2 overflow-auto text-base bg-white rounded-md shadow-lg max-h-60 ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
                         {dogBreeds.map((breed: any, breedIdx: number) => (
                           <Listbox.Option
                             key={breedIdx}
