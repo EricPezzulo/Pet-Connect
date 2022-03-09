@@ -5,8 +5,8 @@ module.exports = {
   ],
   theme: {
     extend: {
-      scale:{
-        '105': '1.05'
+      scale: {
+        105: "1.05",
       },
       zIndex: {
         60: 60,
@@ -14,6 +14,7 @@ module.exports = {
       width: {
         34: "8.5rem",
         90: "22rem",
+        136: "40rem",
       },
       height: {
         footer: "calc(100vh - 7.5rem)",

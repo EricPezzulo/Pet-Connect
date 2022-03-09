@@ -180,18 +180,62 @@ const index = () => {
       return null;
     }
   };
-  if (loading) return <p>loading</p>;
+  if (loading)
+    return (
+      <Layout>
+        <div className="flex items-center justify-center flex-col flex-2 pb-4">
+          <Head>
+            <title>PetConnect - Loading</title>
+            <meta name="description" content="Loading" />
+
+            <link
+              href="https://api.mapbox.com/mapbox-gl-js/v1.10.1/mapbox-gl.css"
+              rel="stylesheet"
+            />
+          </Head>
+
+          <div className="flex flex-col lg:flex-row lg:items-center sm:my-10 min-h-fit container w-full">
+            <div className="flex relative justify-center max-h-128">
+              <div className="flex rounded object-cover bg-gray-200 h-96 w-136 animate-pulse"></div>
+              <div className="flex flex-col lg:w-1/2 p-4 text-left items-start justify-center"></div>
+            </div>
+          </div>
+        </div>
+
+        <div className="flex flex-col sm:flex sm:flex-row flex-2 w-full items-center justify-center bg-purple-100 h-64 py-5">
+          <div className="flex flex-col sm:container justify-between items-center">
+            <div className="flex flex-col md:flex-row items-center justify-center md:justify-between  lg:justify-around w-full mb-5"></div>
+          </div>
+        </div>
+
+        <div className="flex w-full flex-1 flex-col bg-purple-400 items-center">
+          <h3 className="text-white text-center font-;light text-3xl py-5">
+            Contact Us about{" "}
+          </h3>
+          <div className="flex flex-col w-full container justify-center">
+            <div className="flex justify-center">
+              <textarea
+                className="flex rounded w-full h-28 mx-4 md:max-w-xl bg-purple-200 outline-none p-2 resize-none placeholder:text-purple-600"
+                onChange={(e: any) =>
+                  setNewEmail({ ...newEmail, emailContent: e.target.value })
+                }
+                value={newEmail.emailContent}
+                placeholder="Please include your contact information here."
+              ></textarea>
+            </div>
+            <div className="flex flex-col items-center justify-center py-4"></div>
+          </div>
+        </div>
+      </Layout>
+    );
   if (error) return <p>oh no ... {error.message}</p>;
   return (
     <Layout>
       <div className="flex items-center justify-center flex-col flex-2 pb-4">
         <Head>
           <title>{`PetConnect - ${animal.name}`}</title>
-          <meta
-            name="description"
-            content={`${animal}`}
-          />
-           
+          <meta name="description" content={`${animal}`} />
+
           <link
             href="https://api.mapbox.com/mapbox-gl-js/v1.10.1/mapbox-gl.css"
             rel="stylesheet"
@@ -246,9 +290,7 @@ const index = () => {
               {animal.color}
             </p>
             <p className="text-2xl font-light">
-              <span className="text-gray-700 text-2xl font-medium">
-               Size:{" "}
-              </span>
+              <span className="text-gray-700 text-2xl font-medium">Size: </span>
               {animal.weight}
             </p>
             <p className={`text-2xl font-light`}>

@@ -20,26 +20,28 @@ export const Layout = ({ children }: any) => {
 };
 
 let useClickAway = (handler: any) => {
-  let domNode = useRef<HTMLDivElement>(null)
+  let domNode = useRef<HTMLDivElement>(null);
   useEffect(() => {
     let maybeHandler = (e: any) => {
       if (!domNode?.current?.contains(e.target)) {
-        handler()
+        handler();
       }
-    }
-    document.addEventListener("mousedown", maybeHandler)
+    };
+    document.addEventListener("mousedown", maybeHandler);
     return () => {
-      document.removeEventListener("mousedown", maybeHandler)
-    }
-  })
-  return domNode
-}
+      document.removeEventListener("mousedown", maybeHandler);
+    };
+  });
+  return domNode;
+};
 
 export const Header = () => {
   const { data: session }: any = useSession();
   const router = useRouter();
   const [openMenu, setOpenMenu] = useState(false);
-  let domNode = useClickAway(() => { setOpenMenu(false) })
+  let domNode = useClickAway(() => {
+    setOpenMenu(false);
+  });
 
   return (
     <header className="flex sticky top-0 z-50 shadow-md px-3 bg-gray-200 w-full justify-between items-center h-16 border-b border-gray-300">
@@ -49,7 +51,6 @@ export const Header = () => {
       >
         PetConnect
       </p>
-
       <div className="flex items-center">
         {!session ? (
           <div>
@@ -62,21 +63,24 @@ export const Header = () => {
           </div>
         ) : (
           <div className="flex flex-col items-center">
-            <button 
+            <button
               className="flex items-center"
-              type='button'
-              onClick={() => setOpenMenu((openMenu) => !openMenu)}>
+              type="button"
+              onClick={() => setOpenMenu((openMenu) => !openMenu)}
+            >
               <Image
                 src={`${session?.user.image}`}
                 alt={`${session?.user.name}`}
                 width={42}
                 height={42}
                 className="rounded-full hover:cursor-pointer"
-
               />
             </button>
             {openMenu && (
-              <div ref={domNode} className="absolute w-full top-16 right-0 z-50">
+              <div
+                ref={domNode}
+                className="absolute w-full top-16 right-0 z-50"
+              >
                 <ExpandableMenu />
               </div>
             )}
@@ -86,7 +90,6 @@ export const Header = () => {
     </header>
   );
 };
-
 export const Footer = () => {
   return (
     <footer className="flex items-center justify-center w-full border-t-2 border-purple-800 h-14 bg-purple-600">
