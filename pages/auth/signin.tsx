@@ -9,7 +9,7 @@ const signin = () => {
           <hr className="mt-2 mb-10" />
           <div className="flex items-center justify-center h-full">
             <button
-              className="flex items-center shadow px-2 py-1 rounded-md hover:bg-purple-100 duration-100"
+              className="flex items-center shadow px-4 py-2 rounded-md hover:bg-purple-100 duration-100"
               onClick={() =>
                 signIn("google", {
                   callbackUrl: "https://pet-connect.vercel.app/",
