@@ -233,8 +233,8 @@ const index = () => {
           />
         </Head>
 
-        <div className="flex flex-col lg:flex-row lg:items-center sm:my-10 min-h-fit container w-full">
-          <div className="flex relative justify-center max-h-128">
+        <div className="flex flex-col lg:flex-row lg:items-center lg: justify-center sm:my-10 min-h-fit container w-full">
+          <div className="flex relative justify-center max-h-128 max-w-2xl">
             <img
               className="flex w-full object-cover"
               src={animal.imageUrl}
@@ -263,11 +263,8 @@ const index = () => {
             )}
           </div>
 
-          <div className="flex flex-col lg:w-1/2 p-4 text-left items-start justify-center">
-            <p className="text-2xl font-light">
-              <span className="text-gray-700 text-2xl font-medium">Name: </span>
-              {animal.name}
-            </p>
+          <div className="flex flex-col lg:w-1/2 p-4 text-left items-start justify-center max-w-md">
+            <p className="text-3xl font-base text-gray-700">{animal.name}</p>
             <p className="text-2xl font-light">
               <span className="text-gray-700 font-medium text-2xl">
                 Breed:{" "}
@@ -340,7 +337,7 @@ const index = () => {
               )}
             </div>
             <p
-              className="text-lg font-light font-Work-Sans
+              className="text-lg font-light font-Work-Sans max-w-md
             "
             >
               {animal.description}
