@@ -4,6 +4,7 @@ import React, { useEffect, useRef } from "react";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import ExpandableMenu from "./ExpandableMenu";
+import { useSpring, animated } from 'react-spring'
 
 export const Layout = ({ children }: any) => {
   return (
@@ -66,7 +67,7 @@ export const Header = () => {
             <button
               className="flex items-center"
               type="button"
-              onClick={() => setOpenMenu((openMenu) => !openMenu)}
+              onClick={() => setOpenMenu(!openMenu)}
             >
               <Image
                 src={`${session?.user.image}`}

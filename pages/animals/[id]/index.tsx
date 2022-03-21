@@ -233,7 +233,7 @@ const index = () => {
           />
         </Head>
 
-        <div className="flex flex-col lg:flex-row lg:items-center lg: justify-center sm:my-10 min-h-fit container w-full">
+        <div className="flex flex-col items-center justify-center lg:flex-row lg:items-center lg: justify-center sm:my-10 min-h-fit container w-full">
           <div className="flex relative justify-center max-h-128 max-w-2xl">
             <img
               className="flex w-full object-cover"
@@ -264,80 +264,87 @@ const index = () => {
           </div>
 
           <div className="flex flex-col lg:w-1/2 p-4 text-left items-start justify-center max-w-md">
-            <p className="text-3xl font-base text-gray-700">{animal.name}</p>
-            <p className="text-2xl font-light">
-              <span className="text-gray-700 font-medium text-2xl">
+            <p className="text-3xl font-base text-center text-gray-700 flex self-center sm:self-start">{animal.name}</p>
+            <p className="text-xl sm:text-2xl font-light">
+              <span className="text-gray-700 font-medium text-xl sm:text-2xl">
                 Breed:{" "}
               </span>
               {animal.breed}
             </p>
-            <p className="text-2xl font-light">
-              <span className="text-gray-700 text-2xl font-medium">
+            <p className="text-xl sm:text-2xl font-light">
+              <span className="text-gray-700 text-xl sm:text-2xl font-medium">
                 Color:{" "}
               </span>
               {animal.color}
             </p>
-            <p className="text-2xl font-light">
-              <span className="text-gray-700 text-2xl font-medium">Size: </span>
+            <p className="text-xl sm:text-2xl font-light">
+              <span className="text-gray-700 text-xl sm:text-2xl font-medium">Size: </span>
               {animal.weight}
             </p>
-            <p className={`text-2xl font-light`}>
-              <span className="text-gray-700 font-medium text-2xl">
+            <p className={`text-xl sm:text-2xl font-light`}>
+              <span className="text-gray-700 font-medium text-xl sm:text-2xl">
                 Gender:{" "}
               </span>
               {animal.gender}
             </p>
-            <div className="flex items-center">
-              <p className="text-xl text-gray-700">Child Friendly:</p>{" "}
-              {animal.childFriendly ? (
-                <div className="w-8 text-green-400">
-                  <Check />
+            <div className="flex w-full items-center justify-center">
+              <div className='py-2' >
+                <div className="flex items-center">
+                  <p className="text-xl text-gray-700">Child Friendly:</p>{" "}
+                  {animal.childFriendly ? (
+                    <div className="w-8 text-green-400">
+                      <Check />
+                    </div>
+                  ) : (
+                    <div className="w-8 text-red-400">
+                      <Close />
+                    </div>
+                  )}
                 </div>
-              ) : (
-                <div className="w-8 text-red-400">
-                  <Close />
-                </div>
-              )}
-            </div>
 
-            <div className="flex items-center">
-              <p className="text-xl text-gray-700">Dog Friendly:</p>{" "}
-              {animal.dogFriendly ? (
-                <div className="w-8 text-green-400">
-                  <Check />
+                <div className="flex items-center">
+                  <p className="text-xl text-gray-700">Dog Friendly:</p>{" "}
+                  {animal.dogFriendly ? (
+                    <div className="w-8 text-green-400">
+                      <Check />
+                    </div>
+                  ) : (
+                    <div className="w-8 text-red-400">
+                      <Close />
+                    </div>
+                  )}
                 </div>
-              ) : (
-                <div className="w-8 text-red-400">
-                  <Close />
-                </div>
-              )}
+              </div>
+
+                <div>
+              <div className="flex items-center">
+                <p className="text-xl text-gray-700">Cat Friendly:</p>{" "}
+                {animal.catFriendly ? (
+                  <div className="w-8 text-green-400">
+                    <Check />
+                  </div>
+                ) : (
+                  <div className="w-8 text-red-400">
+                    <Close />
+                  </div>
+                )}
+              </div>
+              <div className="flex items-center">
+                <p className="text-xl text-gray-700">Vaccinated:</p>{" "}
+                {animal.vaccinationsUptoDate ? (
+                  <div className="w-8 text-green-400">
+                    <Check />
+                  </div>
+                ) : (
+                  <div className="w-8 text-red-400">
+                    <Close />
+                  </div>
+                )}
+              </div>
             </div>
-            <div className="flex items-center">
-              <p className="text-xl text-gray-700">Cat Friendly:</p>{" "}
-              {animal.catFriendly ? (
-                <div className="w-8 text-green-400">
-                  <Check />
-                </div>
-              ) : (
-                <div className="w-8 text-red-400">
-                  <Close />
-                </div>
-              )}
-            </div>
-            <div className="flex items-center">
-              <p className="text-xl text-gray-700">Vaccinated:</p>{" "}
-              {animal.vaccinationsUptoDate ? (
-                <div className="w-8 text-green-400">
-                  <Check />
-                </div>
-              ) : (
-                <div className="w-8 text-red-400">
-                  <Close />
-                </div>
-              )}
             </div>
             <p
-              className="text-lg font-light font-Work-Sans max-w-md
+              className="text-lg font-light font-Work-Sans max-w-md text-gray-700
             "
             >
               {animal.description}
@@ -381,9 +388,8 @@ const index = () => {
                   <Marker coordinates={[lng, lat]} anchor="bottom">
                     <div className="w-12 text-red-500">
                       <LocationPin />
-                      <p className="flex w-16">{`${
-                        animal.name[0].toUpperCase() + animal.name.substring(1)
-                      }'s location`}</p>
+                      <p className="flex w-16">{`${animal.name[0].toUpperCase() + animal.name.substring(1)
+                        }'s location`}</p>
                     </div>
                   </Marker>
                 </Map>

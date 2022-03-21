@@ -6,6 +6,8 @@ import { useSession } from "next-auth/react";
 import { HeartDislike } from "styled-icons/ionicons-outline";
 import { useMutation, useQuery } from "@apollo/client";
 import { gql } from "apollo-server-micro";
+import { useState } from "react";
+import { Close } from "styled-icons/ionicons-solid";
 interface AnimalProps {
   image: string;
   breed: string;
@@ -81,7 +83,7 @@ const AnimalCard = ({
   };
   const addToFavs = (e: any) => {
     if (!session) {
-      return alert("you need to be logged in to use this feature");
+     return  alert("You need to be signed in to use this feature")
     }
     mutateFavorites({
       variables: {
@@ -102,6 +104,7 @@ const AnimalCard = ({
   );
 
   return (
+    
     <div className="block rounded-b-md hover:bg-purple-600 hover:text-white duration-150 ease-in-out">
       <div className="max-w-md">
         <div>

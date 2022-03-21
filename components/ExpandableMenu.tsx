@@ -1,12 +1,14 @@
 import { signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
+import { useSpring,animated } from "react-spring";
 
 const ExpandableMenu = () => {
   const router = useRouter();
   const { data: session }: any = useSession();
+  const fade = useSpring({ from: { opacity:0 }, opacity:1 })
 
   return (
-    <div className="flex bg-gray-100 drop-shadow md:border-x border-b md:border-purple-200 h-auto w-full md:w-48 md:absolute md:right-0 md:rounded-bl-lg">
+    <animated.div style={fade} className="flex bg-gray-100 drop-shadow md:border-x border-b md:border-purple-200 h-auto w-full md:w-48 md:absolute md:right-0 md:rounded-bl-lg">
       <div className="flex flex-col w-full font-Work-Sans">
         <button
           type='button'
@@ -31,7 +33,7 @@ const ExpandableMenu = () => {
           Sign Out
         </button>
       </div>
-    </div>
+    </animated.div>
   );
 };
 

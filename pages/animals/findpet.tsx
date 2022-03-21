@@ -7,6 +7,7 @@ import { useQuery } from "@apollo/client";
 import { gql } from "apollo-server-micro";
 import { useRouter } from "next/router";
 import ListButton from "../../components/ListButton";
+import { useSpring, animated } from "react-spring";
 
 const FETCH_ALL_ANIMALS = gql`
   query {
@@ -289,7 +290,7 @@ const findpet = ({
         )}
       </>
     );
-
+ 
   return (
     <Layout>
       <Head>
