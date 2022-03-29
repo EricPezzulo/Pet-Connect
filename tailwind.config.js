@@ -31,6 +31,9 @@ module.exports = {
         Hubballi: ["Hubballi", "cursive"],
         "Work-Sans": ["Work Sans", " sans-serif"],
       },
+      colors:{
+        'trans-gray': "#E64a4a4a"
+      }
     },
   },
   plugins: [require("@tailwindcss/line-clamp")],

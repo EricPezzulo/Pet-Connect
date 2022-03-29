@@ -8,8 +8,10 @@ import { SearchAlt } from "@styled-icons/boxicons-regular/SearchAlt";
 import { TextBulletListAdd } from "@styled-icons/fluentui-system-regular/TextBulletListAdd";
 import { useRouter } from "next/router";
 import { heros } from "../data/imageHeros";
-import { Close } from "styled-icons/ionicons-solid";
+import {popupState} from '../components/AnimalCard'
 import { useSession } from "next-auth/react";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { Close } from "styled-icons/ionicons-solid";
 export const FETCH_ALL_ANIMALS = gql`
   query {
     fetchAllAnimals {
@@ -34,7 +36,7 @@ const Home: NextPage = () => {
   const [sliderIndex, setSliderIndex] = useState(3);
   const [sliderImage, setSliderImage] = useState("");
   // const [notSignedIn, setNotSignedIn] = useState(false)
-
+  const [popup,setPopup] = useRecoilState(popupState)
   useEffect(() => {
     setSliderImage(heros[sliderIndex]);
   });
@@ -137,6 +139,7 @@ const Home: NextPage = () => {
       </div>
     );
   const animals = data?.fetchAllAnimals;
+  console.log(popup)
   return (
     <div className="flex flex-col min-h-screen bg-zinc-50">
       <Head>
@@ -148,10 +151,23 @@ const Home: NextPage = () => {
           url('https://fonts.googleapis.com/css2?family=Hubballi&family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&family=Work+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
         </style>
       </Head>
-      <Layout>
-        
-        <div className="flex relative justify-center items-center flex-col w-full  h-96 sm:h-102  shadow">
-          <img
+      {popup &&
+          <div className="fixed flex items-center justify-center w-full z-50 bg-gray-400 bg-opacity-75 h-full">
+              <div className="bg-white fixed top-1/2 flex flex-col shadow-xl w-80 h-auto p-3 rounded">
+                <button className='flex flex-1 self-end' onClick={()=> setPopup(false)}>
+                  <div className="w-8 text-red-500 hover:bg-red-200 duration-300 rounded-md ease-in-out"><Close/></div>
+                </button>
+                <p className='self-center text-center flex flex-1 my-5'>You must be signed in to use this feature</p>
+                <button className='flex flex-1 self-center mb-1' onClick={()=> setPopup(false)}>
+                  <div className="flex items-center justify-center w-14 h-8 text-center bg-gray-100 border rounded">Okay</div>
+                </button>
+              </div>
+          </div> 
+          }
+          <Layout>
+         
+        <div className="flex relative justify-center items-center flex-col w-full h-96 sm:h-102 shadow">
+         <img
             src={sliderImage}
             alt="Hero"
             className="w-full object-cover h-full"

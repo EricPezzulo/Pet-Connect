@@ -6,8 +6,8 @@ import { useSession } from "next-auth/react";
 import { HeartDislike } from "styled-icons/ionicons-outline";
 import { useMutation, useQuery } from "@apollo/client";
 import { gql } from "apollo-server-micro";
-import { useState } from "react";
-import { Close } from "styled-icons/ionicons-solid";
+import { atom, useRecoilState } from "recoil";
+
 interface AnimalProps {
   image: string;
   breed: string;
@@ -55,6 +55,10 @@ const DEL_FROM_FAVS = gql`
     }
   }
 `;
+export const popupState = atom({
+    key:'popupState',
+    default: false,
+  })
 
 const AnimalCard = ({
   image,
@@ -69,6 +73,7 @@ const AnimalCard = ({
 }: AnimalProps) => {
   const router = useRouter();
   const { data: session } = useSession();
+  const [popUpState, setPopUpState]= useRecoilState(popupState)
   let userId = session?.id
   let userEmail = session?.user?.email;
   const [deleteFavorites] = useMutation(DEL_FROM_FAVS);
@@ -83,7 +88,7 @@ const AnimalCard = ({
   };
   const addToFavs = (e: any) => {
     if (!session) {
-     return  alert("You need to be signed in to use this feature")
+       return setPopUpState(true)
     }
     mutateFavorites({
       variables: {
@@ -104,9 +109,9 @@ const AnimalCard = ({
   );
 
   return (
-    
-    <div className="block rounded-b-md hover:bg-purple-600 hover:text-white duration-150 ease-in-out">
-      <div className="max-w-md">
+   
+    <div className="block max-w-md rounded-b-md hover:bg-purple-600 hover:text-white duration-150 ease-in-out">
+      <div>
         <div>
           <img
             className="flex w-full h-96 object-cover"

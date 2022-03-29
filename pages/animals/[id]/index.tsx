@@ -12,6 +12,8 @@ import ReCAPTCHA from "react-google-recaptcha";
 import Layout from "../../../components/Layout";
 import { Check } from "@styled-icons/boxicons-regular/Check";
 import { Close } from "@styled-icons/ionicons-outline/Close";
+import { useRecoilState } from "recoil";
+import { popupState } from "../../../components/AnimalCard";
 const FETCH_ANIMAL = gql`
   query FetchAnimal($animalId: String!) {
     fetchAnimal(id: $animalId) {
@@ -101,6 +103,7 @@ const index = () => {
   let animalId = router.query.id;
   const [lat, setLat] = useState(41.114538);
   const [lng, setLng] = useState(-73.428362);
+  const [popup,setPopup] = useRecoilState(popupState)
   const [deleteFavorites] = useMutation(DEL_FROM_FAVS);
   const [sendMail] = useMutation(SEND_EMAIL);
   const deleteFromFavs = async (id: any) => {
@@ -114,7 +117,7 @@ const index = () => {
   };
   const addToFavs = (e: any) => {
     if (!session) {
-      return alert("you need to be loggin in to use this feature");
+      return setPopup(true)
     }
     mutateFavorites({
       variables: {
@@ -221,7 +224,23 @@ const index = () => {
     );
   if (error) return <p>oh no ... {error.message}</p>;
   return (
-    <Layout>
+    <div className="flex flex-col min-h-screen bg-zinc-50">
+
+    {popup &&
+          <div className="fixed flex items-center justify-center w-full z-50 bg-gray-400 bg-opacity-75 h-full">
+              <div className="bg-white fixed top-1/2 flex flex-col shadow-xl w-80 h-auto p-3 rounded">
+                <button className='flex flex-1 self-end' onClick={()=> setPopup(false)}>
+                  <div className="w-8 text-red-500 hover:bg-red-200 duration-300 rounded-md ease-in-out"><Close/></div>
+                </button>
+                <p className='self-center text-center flex flex-1 my-5'>You must be signed in to use this feature</p>
+                <button className='flex flex-1 self-center mb-1' onClick={()=> setPopup(false)}>
+                  <div className="flex items-center justify-center w-14 h-8 text-center bg-gray-100 border rounded">Okay</div>
+                </button>
+              </div>
+          </div> 
+          }
+        <Layout>
+       
       <div className="flex items-center justify-center flex-col flex-2 pb-4">
         <Head>
           <title>{`PetConnect - ${animal.name}`}</title>
@@ -430,6 +449,7 @@ const index = () => {
         </div>
       </div>
     </Layout>
+    </div>
   );
 };
 
